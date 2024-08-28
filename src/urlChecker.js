@@ -65,7 +65,6 @@ const URLChecker = () => {
       <button
         onClick={handleRedirect}
         style={{ cursor: "pointer", height: "27px", marginLeft: "10px" }}
-        disabled={loading}
       >
        Redirect URL
       </button>
