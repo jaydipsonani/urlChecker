@@ -32,6 +32,7 @@ const URLChecker = () => {
     if (isValid && url.trim()) {
       // Redirect to the URL in a new tab
       window.open(url, "_blank");
+      setUrl("");
     } else {
       setError("URL is not valid or reachable");
     }
