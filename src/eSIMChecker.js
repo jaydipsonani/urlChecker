@@ -175,6 +175,7 @@ import { useEffect, useState } from "react";
 const InstallESimPage = () => {
   const [deviceName, setDeviceName] = useState("Unknown Device");
   const [esimSupported, setEsimSupported] = useState(false);
+  const [web, setWeb] = useState("")
 
   useEffect(() => {
     const { name, esimSupport } = detectDeviceInfo();
@@ -199,6 +200,9 @@ const InstallESimPage = () => {
     else if (/Android/i.test(userAgent)) {
       deviceInfo = { name: "Android Device", esimSupport: true }; // Adjust based on actual support
     }
+    else {
+      setWeb("hello world");
+    }
 
     return deviceInfo;
   };
@@ -220,6 +224,7 @@ const InstallESimPage = () => {
       ) : (
         <p>Your device does not support eSIM installation.</p>
       )}
+      <h1>{web}</h1>
     </div>
   );
 };
