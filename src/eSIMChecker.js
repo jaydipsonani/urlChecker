@@ -170,86 +170,47 @@
 // export default InstallESimPage;
 
 
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+
+// Function to check if a device is eSIM supported
+const isESIMSupported = (userAgent) => {
+  // List of known eSIM supported devices
+  const eSIMSupportedDevices = [
+    /iPhone.*(X|11|12|13|14)/, // Example for iPhone X and newer
+    /Pixel.*(3|4|5|6|7)/,      // Example for Google Pixel 3 and newer
+    // Add other devices as needed
+  ];
+
+  return eSIMSupportedDevices.some((regex) => regex.test(userAgent));
+};
 
 const InstallESimPage = () => {
-  const [deviceName, setDeviceName] = useState("Unknown Device");
-  const [esimSupported, setEsimSupported] = useState(false);
-  const [web, setWeb] = useState("");
+  const [eSIMSupported, setESIMSupported] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const { name, esimSupport } = detectDeviceInfo();
-    console.log("Detected Device:", name);
-    console.log("eSIM Supported:", esimSupport);
-    setDeviceName(name);
-    setEsimSupported(esimSupport);
+    try {
+      const userAgent = navigator.userAgent;
+      setESIMSupported(isESIMSupported(userAgent));
+    } catch (e) {
+      setError('Error detecting device.');
+    }
   }, []);
-
-  const detectDeviceInfo = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    console.log("User Agent:", userAgent); // Debugging line
-
-    let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
-
-    // Check if it's an iOS device
-    if (/iPhone|iPad|iPod/i.test(userAgent)) {
-      // Define supported iOS devices if needed
-      const supportedIosDevices = [
-        /iPhone (?:XS|XS Max|XR|11|11 Pro|11 Pro Max|SE \(2nd generation\)|12|12 mini|12 Pro|12 Pro Max|13|13 mini|13 Pro|13 Pro Max|14|14 Plus|14 Pro|14 Pro Max)/i
-      ];
-
-      if (supportedIosDevices.some((regex) => regex.test(userAgent))) {
-        deviceInfo = { name: "Supported iOS Device", esimSupport: true };
-      } else {
-        deviceInfo = { name: "iOS Device", esimSupport: false };
-      }
-    }
-
-    // Check if it's an Android device
-    else if (/Android/i.test(userAgent)) {
-      // Define supported Android devices if needed
-      const supportedAndroidDevices = [
-        /Pixel (?:3|3 XL|4|4 XL|5|6|6 Pro)/i,
-        /Galaxy (?:S20|S20\+|S20 Ultra|Note 20|Note 20 Ultra|Z Fold 2|Z Fold 3|Z Fold 4|Z Flip|Z Flip 3|Z Flip 4|S21|S21\+|S21 Ultra)/i,
-        /Motorola Razr (?:2019|5G)/i,
-        /Huawei (?:P40|P40 Pro|Mate 40 Pro)/i
-      ];
-
-      if (supportedAndroidDevices.some((regex) => regex.test(userAgent))) {
-        deviceInfo = { name: "Supported Android Device", esimSupport: true };
-      } else {
-        deviceInfo = { name: "Android Device", esimSupport: false };
-      }
-    } else {
-      setWeb("hello world"); // This will display if neither iOS nor Android is matched
-    }
-
-    return deviceInfo;
-  };
-
-  const redirectToEsimSetup = () => {
-    const smdpAddress = "consumer.e-sim.global";
-    const activationCode = "TN2024032517501135006332";
-    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
-
-    window.location.href = url;
-  };
 
   return (
     <div>
-      <h1>eSIM Installation</h1>
-      <p>Device: {deviceName}</p> {/* Display the detected device name */}
-      {esimSupported ? (
-        <button onClick={redirectToEsimSetup}>Install eSIM</button>
+      {error && <p>{error}</p>}
+      {eSIMSupported ? (
+        <p>Your device supports eSIM.</p>
       ) : (
-        <p>Your device does not support eSIM installation.</p>
+        <p>Your device does not support eSIM or could not be detected.</p>
       )}
-      <h1>{web}</h1>
     </div>
   );
 };
 
 export default InstallESimPage;
+
 
 
 
