@@ -38,7 +38,6 @@ const URLChecker = () => {
     }
   };
 
-
   const smdpAddress = "consumer.e-sim.global";
   const activationToken = "TN2024032517501135006332";
 
@@ -71,11 +70,10 @@ const URLChecker = () => {
       return;
     }
     console.log("URL: ", url);
-  //  Open URL
+    //  Open URL
     // window.location.href = url;
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
- 
 
   return (
     <div>
@@ -100,7 +98,12 @@ const URLChecker = () => {
         Redirect URL
       </button>
 
-      <button onClick={installESimProfile}>click</button>
+      <button
+        style={{ cursor: "pointer", height: "27px", marginLeft: "10px" }}
+        onClick={installESimProfile}
+      >
+        click
+      </button>
 
       {error && <div style={{ marginTop: "10px", color: "red" }}>{error}</div>}
 
