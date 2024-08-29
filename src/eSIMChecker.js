@@ -175,7 +175,7 @@ import { useEffect, useState } from "react";
 const InstallESimPage = () => {
   const [deviceName, setDeviceName] = useState("Unknown Device");
   const [esimSupported, setEsimSupported] = useState(false);
-  const [web, setWeb] = useState("")
+  const [web, setWeb] = useState("");
 
   useEffect(() => {
     const { name, esimSupport } = detectDeviceInfo();
@@ -191,16 +191,20 @@ const InstallESimPage = () => {
 
     let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
 
-    // Simplified check for iOS devices
+    // Check if it's an iOS device
     if (/iPhone|iPad|iPod/i.test(userAgent)) {
       deviceInfo = { name: "iOS Device", esimSupport: true }; // Adjust based on actual support
     }
 
-    // Simplified check for Android devices
+    // Check if it's an Android device
     else if (/Android/i.test(userAgent)) {
-      deviceInfo = { name: "Android Device", esimSupport: true }; // Adjust based on actual support
-    }
-    else {
+      // Use a more specific check for Google Pixel devices
+      if (/Pixel|Pixel XL|Pixel 2|Pixel 2 XL|Pixel 3|Pixel 3 XL|Pixel 4|Pixel 4 XL|Pixel 5|Pixel 6|Pixel 6 Pro/i.test(userAgent)) {
+        deviceInfo = { name: "Google Pixel Device", esimSupport: true }; // Adjust based on actual support
+      } else {
+        deviceInfo = { name: "Android Device", esimSupport: true }; // Adjust based on actual support
+      }
+    } else {
       setWeb("hello world");
     }
 
@@ -230,6 +234,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
