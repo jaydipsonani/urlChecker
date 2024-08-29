@@ -192,12 +192,12 @@ const InstallESimPage = () => {
     let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
 
     // Check if it's an iOS device
-    if (/iPhone|iPad|iPod/i.test(userAgent)) {
+    if (/iPhone|iPad|iPod/i.match(userAgent)) {
       deviceInfo = { name: "iOS Device", esimSupport: true }; // Adjust based on actual support
     }
 
     // Check if it's an Android device
-    else if (/Android/i.test(userAgent)) {
+    else if (/Android/i.match(userAgent)) {
       // Use a more specific check for Google Pixel devices
       if (/Pixel|Pixel XL|Pixel 2|Pixel 2 XL|Pixel 3|Pixel 3 XL|Pixel 4|Pixel 4 XL|Pixel 5|Pixel 6|Pixel 6 Pro/i.test(userAgent)) {
         deviceInfo = { name: "Google Pixel Device", esimSupport: true }; // Adjust based on actual support
