@@ -44,7 +44,7 @@
 
 //     // Check if it's an Android device
 //     if (/Android/i.test(userAgent)) {
-//       // Android devices are more complex; generally, assume  dnewerevices (from 2018 onwards) support eSIM.
+//       // Android devices are more complex; generally, assume newer devices (from 2018 onwards) support eSIM.
 //       // You could add more specific checks based on device models, if known.
 //       // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
 
@@ -89,7 +89,6 @@
 // const InstallESimPage = () => {
 //   const [deviceName, setDeviceName] = useState("Unknown Device");
 //   const [esimSupported, setEsimSupported] = useState(false);
-//   const [web, setWeb] = useState("")
 
 //   useEffect(() => {
 //     const { name, esimSupport } = detectDeviceInfo();
@@ -105,17 +104,42 @@
 
 //     let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
 
-//     // Simplified check for iOS devices
+//     // Check if it's an iOS device
 //     if (/iPhone|iPad|iPod/i.test(userAgent)) {
-//       deviceInfo = { name: "iOS Device", esimSupport: true }; // Adjust based on actual support
+//       const supportedIosDevices = [
+//         "iPhone XS", "iPhone XS Max", "iPhone XR", "iPhone 11",
+//         "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE (2nd generation)",
+//         "iPhone 12", "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max",
+//         "iPhone 13", "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max",
+//         "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"
+//       ];
+
+//       // Check for eSIM support in iOS devices
+//       const isSupportedIosDevice = supportedIosDevices.some(device => userAgent.includes(device));
+//       deviceInfo = isSupportedIosDevice
+//         ? { name: "iOS Device", esimSupport: true }
+//         : { name: "iOS Device", esimSupport: false };
 //     }
 
-//     // Simplified check for Android devices
+//     // Check if it's an Android device
 //     else if (/Android/i.test(userAgent)) {
-//       deviceInfo = { name: "Android Device", esimSupport: true }; // Adjust based on actual support
-//     }
-//     else {
-//       setWeb("hello world");
+//       const supportedAndroidDevices = [
+//         "Pixel 3", "Pixel 3 XL", "Pixel 4", "Pixel 4 XL", "Pixel 5",
+//         "Pixel 6", "Pixel 6 Pro", "Pixel 7", "Pixel 7 Pro",
+//         "Galaxy S20", "Galaxy S20+", "Galaxy S20 Ultra",
+//         "Galaxy Note 20", "Galaxy Note 20 Ultra",
+//         "Galaxy Z Fold 2", "Galaxy Z Fold 3", "Galaxy Z Fold 4",
+//         "Galaxy Z Flip", "Galaxy Z Flip 3", "Galaxy Z Flip 4",
+//         "Galaxy S21", "Galaxy S21+", "Galaxy S21 Ultra",
+//         "Motorola Razr (2019)", "Motorola Razr 5G",
+//         "Huawei P40", "Huawei P40 Pro", "Huawei Mate 40 Pro"
+//       ];
+
+//       // Check for eSIM support in Android devices
+//       const isSupportedAndroidDevice = supportedAndroidDevices.some(device => userAgent.toLowerCase().includes(device.toLowerCase()));
+//       deviceInfo = isSupportedAndroidDevice
+//         ? { name: "Android Device", esimSupport: true }
+//         : { name: "Android Device", esimSupport: false };
 //     }
 
 //     return deviceInfo;
@@ -138,7 +162,6 @@
 //       ) : (
 //         <p>Your device does not support eSIM installation.</p>
 //       )}
-//       <h1>{web}</h1>
 //     </div>
 //   );
 // };
