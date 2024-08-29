@@ -83,18 +83,21 @@
 // export default InstallESimPage;
 
 
-
 import { useEffect, useState } from "react";
 
 const InstallESimPage = () => {
   const [deviceName, setDeviceName] = useState("Unknown Device");
+  const [esimSupported, setEsimSupported] = useState(false);
 
   useEffect(() => {
-    detectDeviceName();
+    const { name, esimSupport } = detectDeviceInfo();
+    setDeviceName(name);
+    setEsimSupported(esimSupport);
   }, []);
 
-  const detectDeviceName = () => {
+  const detectDeviceInfo = () => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
 
     // Check if it's an iOS device
     if (/iPhone|iPad|iPod/i.test(userAgent)) {
@@ -107,35 +110,61 @@ const InstallESimPage = () => {
       ];
 
       const matchedDevice = supportedIosDevices.find((device) => userAgent.includes(device));
-      setDeviceName(matchedDevice || "iOS Device");
-      return;
+      if (matchedDevice) {
+        deviceInfo = { name: matchedDevice, esimSupport: true };
+      } else {
+        deviceInfo = { name: "iOS Device", esimSupport: false };
+      }
     }
 
     // Check if it's an Android device
-    if (/Android/i.test(userAgent)) {
+    else if (/Android/i.test(userAgent)) {
       const supportedAndroidDevices = [
-        "Pixel", "Galaxy S20", "Galaxy S21", "Galaxy Note 20",
-        "Motorola Razr", "Huawei P40", "Huawei Mate 40"
+        "Pixel 3", "Pixel 3 XL", "Pixel 4", "Pixel 4 XL", "Pixel 5",
+        "Pixel 6", "Pixel 6 Pro", "Pixel 7", "Pixel 7 Pro",
+        "Galaxy S20", "Galaxy S20+", "Galaxy S20 Ultra",
+        "Galaxy Note 20", "Galaxy Note 20 Ultra",
+        "Galaxy Z Fold 2", "Galaxy Z Fold 3", "Galaxy Z Fold 4",
+        "Galaxy Z Flip", "Galaxy Z Flip 3", "Galaxy Z Flip 4",
+        "Galaxy S21", "Galaxy S21+", "Galaxy S21 Ultra",
+        "Motorola Razr (2019)", "Motorola Razr 5G",
+        "Huawei P40", "Huawei P40 Pro", "Huawei Mate 40 Pro"
       ];
 
       const matchedDevice = supportedAndroidDevices.find((device) => userAgent.toLowerCase().includes(device.toLowerCase()));
-      setDeviceName(matchedDevice || "Android Device");
-      return;
+      if (matchedDevice) {
+        deviceInfo = { name: matchedDevice, esimSupport: true };
+      } else {
+        deviceInfo = { name: "Android Device", esimSupport: false };
+      }
     }
 
-    // Default to unknown device
-    setDeviceName("Device Not Recognized");
+    return deviceInfo;
+  };
+
+  const redirectToEsimSetup = () => {
+    const smdpAddress = "consumer.e-sim.global";
+    const activationCode = "TN2024032517501135006332";
+    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+    window.location.href = url;
   };
 
   return (
     <div>
-      <h1>Detected Device</h1>
-      <p>{deviceName}</p> {/* Display the detected device name */}
+      <h1>eSIM Installation</h1>
+      <p>Device: {deviceName}</p> {/* Display the detected device name */}
+      {esimSupported ? (
+        <button onClick={redirectToEsimSetup}>Install eSIM</button>
+      ) : (
+        <p>Your device does not support eSIM installation.</p>
+      )}
     </div>
   );
 };
 
 export default InstallESimPage;
+
 
 
 
