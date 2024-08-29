@@ -198,7 +198,7 @@ const detectEsimSupport = () => {
     // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
     const year = new Date().getFullYear();
     // For this example, let's assume devices from 2018 onwards might support eSIM.
-    return year >= 2018;
+    return year >= 2010;
   }
 
   // Default to not supporting eSIM
