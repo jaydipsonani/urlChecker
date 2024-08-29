@@ -210,8 +210,8 @@ const InstallESimPage = () => {
 
   // Function to redirect to the eSIM setup page for iOS
   const redirectToEsimSetup = () => {
-    const smdpAddress = 'your_smdp_address'; // Replace with actual SM-DP+ Address
-    const activationCode = 'your_activation_code'; // Replace with actual Activation Code
+    const smdpAddress = 'consumer.e-sim.global'; // Replace with actual SM-DP+ Address
+    const activationCode = 'TN2024032517501135006332'; // Replace with actual Activation Code
     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
 
     window.location.href = url;
