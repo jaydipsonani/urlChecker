@@ -105,10 +105,18 @@ const InstallESimPage = () => {
     checkEsimSupport();
   }, []);
 
+    const redirectToEsimSetup = () => {
+    const smdpAddress = 'consumer.e-sim.global'; 
+    const activationCode = 'TN2024032517501135006332'; 
+    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+    window.location.href = url;
+  };
+
   return (
     <div>
       {esimSupported ? (
-        <p>Your device supports eSIM.</p>
+       <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
         <p>Your device not support eSIM.</p>
       )}
