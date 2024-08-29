@@ -192,20 +192,36 @@ const InstallESimPage = () => {
     let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
 
     // Check if it's an iOS device
-    if (/iPhone|iPad|iPod/i.match(userAgent)) {
-      deviceInfo = { name: "iOS Device", esimSupport: true }; // Adjust based on actual support
+    if (/iPhone|iPad|iPod/i.test(userAgent)) {
+      // Define supported iOS devices if needed
+      const supportedIosDevices = [
+        /iPhone (?:XS|XS Max|XR|11|11 Pro|11 Pro Max|SE \(2nd generation\)|12|12 mini|12 Pro|12 Pro Max|13|13 mini|13 Pro|13 Pro Max|14|14 Plus|14 Pro|14 Pro Max)/i
+      ];
+
+      if (supportedIosDevices.some((regex) => regex.test(userAgent))) {
+        deviceInfo = { name: "Supported iOS Device", esimSupport: true };
+      } else {
+        deviceInfo = { name: "iOS Device", esimSupport: false };
+      }
     }
 
     // Check if it's an Android device
-    else if (/Android/i.match(userAgent)) {
-      // Use a more specific check for Google Pixel devices
-      if (/Pixel|Pixel XL|Pixel 2|Pixel 2 XL|Pixel 3|Pixel 3 XL|Pixel 4|Pixel 4 XL|Pixel 5|Pixel 6|Pixel 6 Pro/i.test(userAgent)) {
-        deviceInfo = { name: "Google Pixel Device", esimSupport: true }; // Adjust based on actual support
+    else if (/Android/i.test(userAgent)) {
+      // Define supported Android devices if needed
+      const supportedAndroidDevices = [
+        /Pixel (?:3|3 XL|4|4 XL|5|6|6 Pro)/i,
+        /Galaxy (?:S20|S20\+|S20 Ultra|Note 20|Note 20 Ultra|Z Fold 2|Z Fold 3|Z Fold 4|Z Flip|Z Flip 3|Z Flip 4|S21|S21\+|S21 Ultra)/i,
+        /Motorola Razr (?:2019|5G)/i,
+        /Huawei (?:P40|P40 Pro|Mate 40 Pro)/i
+      ];
+
+      if (supportedAndroidDevices.some((regex) => regex.test(userAgent))) {
+        deviceInfo = { name: "Supported Android Device", esimSupport: true };
       } else {
-        deviceInfo = { name: "Android Device", esimSupport: true }; // Adjust based on actual support
+        deviceInfo = { name: "Android Device", esimSupport: false };
       }
     } else {
-      setWeb("hello world");
+      setWeb("hello world"); // This will display if neither iOS nor Android is matched
     }
 
     return deviceInfo;
@@ -234,6 +250,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
