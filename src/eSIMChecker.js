@@ -87,15 +87,13 @@
 import { useEffect, useState } from "react";
 
 const InstallESimPage = () => {
-  const [esimSupported, setEsimSupported] = useState(false);
   const [deviceName, setDeviceName] = useState("Unknown Device");
 
   useEffect(() => {
-    const isEsimSupported = detectEsimSupport();
-    setEsimSupported(isEsimSupported);
+    detectDeviceName();
   }, []);
 
-  const detectEsimSupport = () => {
+  const detectDeviceName = () => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     // Check if it's an iOS device
@@ -109,12 +107,8 @@ const InstallESimPage = () => {
       ];
 
       const matchedDevice = supportedIosDevices.find((device) => userAgent.includes(device));
-      if (matchedDevice) {
-        setDeviceName(matchedDevice); // Set the detected iOS device name
-        return true;
-      } else {
-        setDeviceName("iOS Device Not Supported"); // Set default iOS message if not supported
-      }
+      setDeviceName(matchedDevice || "iOS Device");
+      return;
     }
 
     // Check if it's an Android device
@@ -125,35 +119,18 @@ const InstallESimPage = () => {
       ];
 
       const matchedDevice = supportedAndroidDevices.find((device) => userAgent.toLowerCase().includes(device.toLowerCase()));
-      if (matchedDevice) {
-        setDeviceName(matchedDevice); // Set the detected Android device name
-        return true;
-      } else {
-        setDeviceName("Android Device Not Supported"); // Set default Android message if not supported
-      }
+      setDeviceName(matchedDevice || "Android Device");
+      return;
     }
 
-    setDeviceName("Device Not Supported"); // Default message for non-supported devices
-    return false;
-  };
-
-  const redirectToEsimSetup = () => {
-    const smdpAddress = "consumer.e-sim.global";
-    const activationCode = "TN2024032517501135006332";
-    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
-
-    window.location.href = url;
+    // Default to unknown device
+    setDeviceName("Device Not Recognized");
   };
 
   return (
     <div>
-      <h1>eSIM Installation</h1>
-      <p>Detected Device: {deviceName}</p> {/* Display the detected device name */}
-      {esimSupported ? (
-        <button onClick={redirectToEsimSetup}>Install eSIM</button>
-      ) : (
-        <p>Your device does not support eSIM installation.</p>
-      )}
+      <h1>Detected Device</h1>
+      <p>{deviceName}</p> {/* Display the detected device name */}
     </div>
   );
 };
