@@ -86,9 +86,9 @@
 
 import { useEffect, useState } from "react";
 
-// Function to detect platform and possible eSIM support based on user agent
 const InstallESimPage = () => {
   const [esimSupported, setEsimSupported] = useState(false);
+  const [deviceName, setDeviceName] = useState("Unknown Device");
 
   useEffect(() => {
     const isEsimSupported = detectEsimSupport();
@@ -101,52 +101,42 @@ const InstallESimPage = () => {
     // Check if it's an iOS device
     if (/iPhone|iPad|iPod/i.test(userAgent)) {
       const supportedIosDevices = [
-        "iPhone XS",
-        "iPhone XS Max",
-        "iPhone XR",
-        "iPhone 11",
-        "iPhone 11 Pro",
-        "iPhone 11 Pro Max",
-        "iPhone SE (2nd generation)",
-        "iPhone 12",
-        "iPhone 12 mini",
-        "iPhone 12 Pro",
-        "iPhone 12 Pro Max",
-        "iPhone 13",
-        "iPhone 13 mini",
-        "iPhone 13 Pro",
-        "iPhone 13 Pro Max",
-        "iPhone 14",
-        "iPhone 14 Plus",
-        "iPhone 14 Pro",
-        "iPhone 14 Pro Max",
+        "iPhone XS", "iPhone XS Max", "iPhone XR", "iPhone 11",
+        "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE (2nd generation)",
+        "iPhone 12", "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max",
+        "iPhone 13", "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max",
+        "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"
       ];
 
-      return supportedIosDevices.some((device) => userAgent.includes(device));
+      const matchedDevice = supportedIosDevices.find((device) => userAgent.includes(device));
+      if (matchedDevice) {
+        setDeviceName(matchedDevice); // Set the detected iOS device name
+        return true;
+      } else {
+        setDeviceName("iOS Device Not Supported"); // Set default iOS message if not supported
+      }
     }
 
     // Check if it's an Android device
     if (/Android/i.test(userAgent)) {
       const supportedAndroidDevices = [
-        "Pixel 3", "Pixel 3 XL", "Pixel 4", "Pixel 4 XL", "Pixel 5",
-        "Pixel 6", "Pixel 6 Pro", "Pixel 7", "Pixel 7 Pro",
-        "Galaxy S20", "Galaxy S20+", "Galaxy S20 Ultra",
-        "Galaxy Note 20", "Galaxy Note 20 Ultra",
-        "Galaxy Z Fold 2", "Galaxy Z Fold 3", "Galaxy Z Fold 4",
-        "Galaxy Z Flip", "Galaxy Z Flip 3", "Galaxy Z Flip 4",
-        "Galaxy S21", "Galaxy S21+", "Galaxy S21 Ultra",
-        "Motorola Razr (2019)", "Motorola Razr 5G",
-        "Huawei P40", "Huawei P40 Pro", "Huawei Mate 40 Pro"
+        "Pixel", "Galaxy S20", "Galaxy S21", "Galaxy Note 20",
+        "Motorola Razr", "Huawei P40", "Huawei Mate 40"
       ];
 
-      return supportedAndroidDevices.some((device) => userAgent.includes(device));
+      const matchedDevice = supportedAndroidDevices.find((device) => userAgent.toLowerCase().includes(device.toLowerCase()));
+      if (matchedDevice) {
+        setDeviceName(matchedDevice); // Set the detected Android device name
+        return true;
+      } else {
+        setDeviceName("Android Device Not Supported"); // Set default Android message if not supported
+      }
     }
 
-    // Default to not supporting eSIM
+    setDeviceName("Device Not Supported"); // Default message for non-supported devices
     return false;
   };
 
-  // Function to redirect to the eSIM setup page for iOS
   const redirectToEsimSetup = () => {
     const smdpAddress = "consumer.e-sim.global";
     const activationCode = "TN2024032517501135006332";
@@ -158,6 +148,7 @@ const InstallESimPage = () => {
   return (
     <div>
       <h1>eSIM Installation</h1>
+      <p>Detected Device: {deviceName}</p> {/* Display the detected device name */}
       {esimSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
@@ -168,5 +159,6 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
