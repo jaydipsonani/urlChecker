@@ -182,7 +182,7 @@ const detectEsimSupport = () => {
     const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
     if (iOSVersionMatch) {
       const version = iOSVersionMatch[1].replace('_', '.');
-      const supportedVersion = parseFloat(version) >= 12; // iOS 12 and above generally support eSIM
+      const supportedVersion = parseFloat(version) >= 10; // iOS 12 and above generally support eSIM
       return supportedVersion;
     }
     return false; // Default to not supporting eSIM if version cannot be parsed
