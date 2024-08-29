@@ -171,3 +171,62 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
+
+// import React, { useEffect, useState } from 'react';
+
+// const InstallESimPage = () => {
+//   const [esimSupported, setEsimSupported] = useState(false);
+
+//   useEffect(() => {
+//     const checkEsimSupport = () => {
+//       const userAgent = navigator.userAgent.toLowerCase();
+
+//       // Simple check for known eSIM-supported devices
+//       const esimDevices = [
+//         'iphone',
+//         'pixel',
+//         'galaxy s',
+//         'galaxy z',
+//         'ipad',
+//         'surface pro x',
+//         'surface pro 7+',
+//         'razr',
+//         'xperia',
+//         'oppo find'
+//       ];
+
+//       for (let device of esimDevices) {
+//         if (userAgent.includes(device)) {
+//           setEsimSupported(true);
+//           return;
+//         }
+//       }
+
+//       // If no match is found, we assume no eSIM support
+//       setEsimSupported(false);
+//     };
+
+//     checkEsimSupport();
+//   }, []);
+
+//     const redirectToEsimSetup = () => {
+//     const smdpAddress = 'consumer.e-sim.global'; 
+//     const activationCode = 'TN2024032517501135006332'; 
+//     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+//     window.location.href = url;
+//   };
+
+//   return (
+//     <div>
+//       {esimSupported ? (
+//        <button onClick={redirectToEsimSetup}>Install eSIM</button>
+//       ) : (
+//         <p>Your device not support eSIM.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default InstallESimPage;
