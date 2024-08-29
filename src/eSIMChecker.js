@@ -177,33 +177,28 @@ const detectEsimSupport = () => {
 
   // Check if it's an iOS device
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    // List of iOS devices that support eSIM
-    const supportedDevices = [
-      'iPhone XS', 'iPhone XS Max', 'iPhone XR',
-      'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
-      'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini',
-      'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 
-      'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
-      'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max'
-    ];
-
-    // Check if userAgent contains any of the supported devices
-    return supportedDevices.some(device => userAgent.includes(device));
+    // Check if it's a supported iOS device using a more generic check
+    // For iOS, you can use `iOS` detection with specific versions if needed
+    const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
+    if (iOSVersionMatch) {
+      const version = iOSVersionMatch[1].replace('_', '.');
+      const supportedVersion = parseFloat(version) >= 12; // iOS 12 and above generally support eSIM
+      return supportedVersion;
+    }
+    return false; // Default to not supporting eSIM if version cannot be parsed
   }
 
   // Check if it's an Android device
   if (/Android/i.test(userAgent)) {
-    // Android devices are more complex; generally, assume newer devices (from 2018 onwards) support eSIM.
-    // You could add more specific checks based on device models, if known.
-    // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
-    const year = new Date().getFullYear();
-    // For this example, let's assume devices from 2018 onwards might support eSIM.
-    return year >= 2020;
+    // Generally, assume newer Android devices support eSIM
+    // You can also use a more specific check for certain models if needed
+    return true; // Assumes modern Android devices support eSIM
   }
 
   // Default to not supporting eSIM
   return false;
 };
+
 
 const InstallESimPage = () => {
   const [esimSupported, setEsimSupported] = useState(false);
