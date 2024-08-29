@@ -83,6 +83,7 @@
 // export default InstallESimPage;
 
 
+
 import { useEffect, useState } from "react";
 
 const InstallESimPage = () => {
@@ -91,12 +92,16 @@ const InstallESimPage = () => {
 
   useEffect(() => {
     const { name, esimSupport } = detectDeviceInfo();
+    console.log("Detected Device:", name);
+    console.log("eSIM Supported:", esimSupport);
     setDeviceName(name);
     setEsimSupported(esimSupport);
   }, []);
 
   const detectDeviceInfo = () => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    console.log("User Agent:", userAgent); // Debugging line
+
     let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
 
     // Check if it's an iOS device
@@ -164,6 +169,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
