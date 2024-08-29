@@ -115,6 +115,7 @@ const InstallESimPage = () => {
 
   return (
     <div>
+    <h1>eSIM Installation</h1>
       {esimSupported ? (
        <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
