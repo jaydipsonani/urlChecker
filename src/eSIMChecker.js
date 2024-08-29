@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
 
 // Function to detect platform and possible eSIM support based on user agent
+
+const InstallESimPage = () => {
+  const [esimSupported, setEsimSupported] = useState(false);
+
+  useEffect(() => {
+    const isEsimSupported = detectEsimSupport();
+    setEsimSupported(isEsimSupported);
+  }, []);
+
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
@@ -25,27 +34,39 @@ const detectEsimSupport = () => {
     // Android devices are more complex; generally, assume newer devices (from 2018 onwards) support eSIM.
     // You could add more specific checks based on device models, if known.
     // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
-    const year = new Date().getFullYear();
+
+    // const year = new Date().getFullYear();
+
     // For this example, let's assume devices from 2018 onwards might support eSIM.
-    return year >= 2018;
+
+    // return year >= 2018;
+
+    const supportedAndroidDevices = [
+      'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 5',
+      'Pixel 6', 'Pixel 6 Pro', 'Pixel 7', 'Pixel 7 Pro',
+      'Galaxy S20', 'Galaxy S20+', 'Galaxy S20 Ultra',
+      'Galaxy Note 20', 'Galaxy Note 20 Ultra',
+      'Galaxy Z Fold 2', 'Galaxy Z Fold 3', 'Galaxy Z Fold 4',
+      'Galaxy Z Flip', 'Galaxy Z Flip 3', 'Galaxy Z Flip 4',
+      'Galaxy S21', 'Galaxy S21+', 'Galaxy S21 Ultra',
+      'Motorola Razr (2019)', 'Motorola Razr 5G',
+      'Huawei P40', 'Huawei P40 Pro', 'Huawei Mate 40 Pro'
+    ];
+  
+
+    // Check if userAgent contains any of the supported devices
+    return supportedAndroidDevices.some(device => userAgent.includes(device));
+
   }
 
   // Default to not supporting eSIM
   return false;
 };
 
-const InstallESimPage = () => {
-  const [esimSupported, setEsimSupported] = useState(false);
-
-  useEffect(() => {
-    const isEsimSupported = detectEsimSupport();
-    setEsimSupported(isEsimSupported);
-  }, []);
-
   // Function to redirect to the eSIM setup page for iOS
   const redirectToEsimSetup = () => {
-    const smdpAddress = 'consumer.e-sim.global'; // Replace with actual SM-DP+ Address
-    const activationCode = 'TN2024032517501135006332'; // Replace with actual Activation Code
+    const smdpAddress = 'consumer.e-sim.global'; 
+    const activationCode = 'TN2024032517501135006332'; 
     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
 
     window.location.href = url;
@@ -64,3 +85,62 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
+
+// import React, { useEffect, useState } from 'react';
+
+// const InstallESimPage = () => {
+//   const [esimSupported, setEsimSupported] = useState(false);
+
+//   useEffect(() => {
+//     const checkEsimSupport = () => {
+//       const userAgent = navigator.userAgent.toLowerCase();
+
+//       // Simple check for known eSIM-supported devices
+//       const esimDevices = [
+//         'iphone',
+//         'pixel',
+//         'galaxy s',
+//         'galaxy z',
+//         'ipad',
+//         'surface pro x',
+//         'surface pro 7+',
+//         'razr',
+//         'xperia',
+//         'oppo find'
+//       ];
+
+//       for (let device of esimDevices) {
+//         if (userAgent.includes(device)) {
+//           setEsimSupported(true);
+//           return;
+//         }
+//       }
+
+//       // If no match is found, we assume no eSIM support
+//       setEsimSupported(false);
+//     };
+
+//     checkEsimSupport();
+//   }, []);
+
+//     const redirectToEsimSetup = () => {
+//     const smdpAddress = 'consumer.e-sim.global'; 
+//     const activationCode = 'TN2024032517501135006332'; 
+//     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+//     window.location.href = url;
+//   };
+
+//   return (
+//     <div>
+//       {esimSupported ? (
+//        <button onClick={redirectToEsimSetup}>Install eSIM</button>
+//       ) : (
+//         <p>Your device not support eSIM.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default InstallESimPage;
