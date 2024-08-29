@@ -83,8 +83,10 @@
 // export default InstallESimPage;
 
 
+
 import { useEffect, useState } from "react";
 
+// Function to detect platform and possible eSIM support based on user agent
 const InstallESimPage = () => {
   const [esimSupported, setEsimSupported] = useState(false);
 
@@ -93,26 +95,12 @@ const InstallESimPage = () => {
     setEsimSupported(isEsimSupported);
   }, []);
 
-  const detectPlatform = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    
-    if (/Android/i.test(userAgent)) {
-      return "Android";
-    } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-      return "iOS";
-    } else {
-      return "Web";
-    }
-  };
-
   const detectEsimSupport = () => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const platform = detectPlatform();
 
     // Check if it's an iOS device
-    if (platform === "iOS") {
-      // List of iOS devices that support eSIM
-      const supportedDevices = [
+    if (/iPhone|iPad|iPod/i.test(userAgent)) {
+      const supportedIosDevices = [
         "iPhone XS",
         "iPhone XS Max",
         "iPhone XR",
@@ -134,12 +122,11 @@ const InstallESimPage = () => {
         "iPhone 14 Pro Max",
       ];
 
-      return supportedDevices.some((device) => userAgent.includes(device));
+      return supportedIosDevices.some((device) => userAgent.includes(device));
     }
 
     // Check if it's an Android device
-    if (platform === "Android") {
-      // List of some Android devices known to support eSIM
+    if (/Android/i.test(userAgent)) {
       const supportedAndroidDevices = [
         "Pixel 3", "Pixel 3 XL", "Pixel 4", "Pixel 4 XL", "Pixel 5",
         "Pixel 6", "Pixel 6 Pro", "Pixel 7", "Pixel 7 Pro",
@@ -159,6 +146,7 @@ const InstallESimPage = () => {
     return false;
   };
 
+  // Function to redirect to the eSIM setup page for iOS
   const redirectToEsimSetup = () => {
     const smdpAddress = "consumer.e-sim.global";
     const activationCode = "TN2024032517501135006332";
@@ -180,4 +168,5 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
