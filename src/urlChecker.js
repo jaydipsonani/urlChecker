@@ -100,7 +100,7 @@ const URLChecker = () => {
         Redirect URL
       </button>
 
-      <button onClick={installESimProfile}>click</button>
+      <button  style={{ cursor: "pointer", height: "27px", marginLeft: "10px" }} onClick={installESimProfile}>click</button>
 
       {error && <div style={{ marginTop: "10px", color: "red" }}>{error}</div>}
 
