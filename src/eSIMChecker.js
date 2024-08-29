@@ -55,7 +55,11 @@ const detectEsimSupport = () => {
   
 
     // Check if userAgent contains any of the supported devices
-    return supportedAndroidDevices.some(device => userAgent.includes(device));
+          return supportedAndroidDevices.some((device) => {
+        // Case-insensitive check
+        const deviceLowerCase = device.toLowerCase();
+        return userAgent.toLowerCase().includes(deviceLowerCase);
+      });
 
   }
 
