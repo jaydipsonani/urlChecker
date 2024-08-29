@@ -43,7 +43,7 @@ const InstallESimPage = () => {
     }
 
     // Check if it's an Android device
-    if (/android/i.test(userAgent)) {
+    if (/Android/i.test(userAgent)) {
       // Android devices are more complex; generally, assume newer devices (from 2018 onwards) support eSIM.
       // You could add more specific checks based on device models, if known.
       // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
