@@ -54,7 +54,7 @@ const InstallESimPage = () => {
   return (
     <div>
       <h1>eSIM Installation</h1>
-      {!esimSupported ? (
+      {esimSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
         <p>Your device does not support eSIM installation.</p>
