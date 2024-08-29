@@ -171,27 +171,35 @@
 
 
 import React, { useState, useEffect } from 'react';
+import UAParser from 'ua-parser-js';
 
 // Function to check if a device is eSIM supported
-const isESIMSupported = (userAgent) => {
-  // List of known eSIM supported devices
+const isESIMSupported = (device) => {
   const eSIMSupportedDevices = [
     /iPhone.*(X|11|12|13|14)/, // Example for iPhone X and newer
     /Pixel.*(3|4|5|6|7)/,      // Example for Google Pixel 3 and newer
     // Add other devices as needed
   ];
 
-  return eSIMSupportedDevices.some((regex) => regex.test(userAgent));
+  return eSIMSupportedDevices.some((regex) => regex.test(device));
 };
 
-const InstallESimPage = () => {
+const DeviceCheck = () => {
   const [eSIMSupported, setESIMSupported] = useState(false);
   const [error, setError] = useState('');
+  const [userAgent, setUserAgent] = useState('');
 
   useEffect(() => {
     try {
-      const userAgent = navigator.userAgent;
-      setESIMSupported(isESIMSupported(userAgent));
+      const parser = new UAParser();
+      const result = parser.getResult();
+      const userAgentString = navigator.userAgent;
+      setUserAgent(userAgentString);
+
+      console.log('User Agent:', userAgentString); // Log user agent for debugging
+
+      const device = result.device.model;
+      setESIMSupported(isESIMSupported(device));
     } catch (e) {
       setError('Error detecting device.');
     }
@@ -200,6 +208,7 @@ const InstallESimPage = () => {
   return (
     <div>
       {error && <p>{error}</p>}
+      <p>User Agent: {userAgent}</p>
       {eSIMSupported ? (
         <p>Your device supports eSIM.</p>
       ) : (
@@ -209,7 +218,8 @@ const InstallESimPage = () => {
   );
 };
 
-export default InstallESimPage;
+export default DeviceCheck;
+
 
 
 
