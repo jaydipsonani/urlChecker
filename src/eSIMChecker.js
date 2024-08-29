@@ -84,6 +84,7 @@
 
 
 
+
 import { useEffect, useState } from "react";
 
 const InstallESimPage = () => {
@@ -114,12 +115,11 @@ const InstallESimPage = () => {
         "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"
       ];
 
-      const matchedDevice = supportedIosDevices.find((device) => userAgent.includes(device));
-      if (matchedDevice) {
-        deviceInfo = { name: matchedDevice, esimSupport: true };
-      } else {
-        deviceInfo = { name: "iOS Device", esimSupport: false };
-      }
+      // Check for eSIM support in iOS devices
+      const isSupportedIosDevice = supportedIosDevices.some(device => userAgent.includes(device));
+      deviceInfo = isSupportedIosDevice
+        ? { name: "iOS Device", esimSupport: true }
+        : { name: "iOS Device", esimSupport: false };
     }
 
     // Check if it's an Android device
@@ -136,12 +136,11 @@ const InstallESimPage = () => {
         "Huawei P40", "Huawei P40 Pro", "Huawei Mate 40 Pro"
       ];
 
-      const matchedDevice = supportedAndroidDevices.find((device) => userAgent.toLowerCase().includes(device.toLowerCase()));
-      if (matchedDevice) {
-        deviceInfo = { name: matchedDevice, esimSupport: true };
-      } else {
-        deviceInfo = { name: "Android Device", esimSupport: false };
-      }
+      // Check for eSIM support in Android devices
+      const isSupportedAndroidDevice = supportedAndroidDevices.some(device => userAgent.toLowerCase().includes(device.toLowerCase()));
+      deviceInfo = isSupportedAndroidDevice
+        ? { name: "Android Device", esimSupport: true }
+        : { name: "Android Device", esimSupport: false };
     }
 
     return deviceInfo;
@@ -169,6 +168,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
