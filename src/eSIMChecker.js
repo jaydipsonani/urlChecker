@@ -32,7 +32,7 @@ const detectEsimSupport = () => {
       }
     }
   } else if (platform === 'Android') {
-    const androidDeviceMatch = userAgent.match(/\((.*?)\)/);
+    const androidDeviceMatch = userAgent.match(/\(([^)]+)\)/);
     if (androidDeviceMatch) {
       const deviceInfo = androidDeviceMatch[1].split(';');
       deviceName = deviceInfo[deviceInfo.length - 1].trim(); // Get the device name/model
