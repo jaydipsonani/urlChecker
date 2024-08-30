@@ -12,7 +12,7 @@ const deviceList = {
   Android: [
     "Pixel 2", "Pixel 3", "Pixel 3a", "Pixel 4", "Pixel 4a", "Pixel 5",
     "Pixel 5a", "Samsung Galaxy S20", "Samsung Galaxy S20+", "Samsung Galaxy S20 Ultra",
-    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra"
+    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra", "OPPO A76"
   ]
 };
 
