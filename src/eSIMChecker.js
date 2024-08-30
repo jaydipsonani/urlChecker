@@ -12,8 +12,8 @@ const deviceList = {
   Android: [
     "Pixel 2", "Pixel 3", "Pixel 3a", "Pixel 4", "Pixel 4a", "Pixel 5",
     "Pixel 5a", "Samsung Galaxy S20", "Samsung Galaxy S20+", "Samsung Galaxy S20 Ultra",
-    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra", "OPPO A76",
-    "Mozilla/5.0 (Linux; Android 13; CPH2375 Build/RKQ1.200710.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/92.0.4515.115 Mobile Safari/537.36"
+    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra"
+   
   ]
 };
 
@@ -32,12 +32,7 @@ const checkDeviceSupport = (userAgent, deviceList) => {
   }
   
   // Check for Android devices
-  if (/android/.test(normalizedUserAgent)) {
-    // Specific check for Pixel 4
-    if (/opp\/a76|cp2375/.test(normalizedUserAgent)) {
-      return { device: 'OPPO A76', isESIMSupported: false };
-    }
-    
+  if (/android/.test(normalizedUserAgent)) {    
     const matchedDevice = deviceList.Android.find(device =>
       normalizedUserAgent.includes(device.toLowerCase())
     );
