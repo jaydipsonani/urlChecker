@@ -160,31 +160,28 @@
 
 import { useEffect, useState } from 'react';
 
-// Function to detect platform and possible eSIM support based on user agent
-const detectEsimSupport = () => {
+// Function to detect platform
+const detectDevicePlatform = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const lowerCasedUserAgent = userAgent.toLowerCase();
-  
-  console.log("User Agent:", userAgent); // Log user agent for debugging
 
-  // Check if it's an iOS device
-  if (/iphone|ipad|ipod/i.test(lowerCasedUserAgent)) {
-    const supportedIOSDevices = [
-      'iphone xs', 'iphone xs max', 'iphone xr',
-      'iphone 11', 'iphone 11 pro', 'iphone 11 pro max',
-      'iphone se (2nd generation)', 'iphone 12', 'iphone 12 mini',
-      'iphone 12 pro', 'iphone 12 pro max', 'iphone 13', 
-      'iphone 13 mini', 'iphone 13 pro', 'iphone 13 pro max',
-      'iphone 14', 'iphone 14 plus', 'iphone 14 pro', 'iphone 14 pro max'
-    ];
-
-    return supportedIOSDevices.some(device => lowerCasedUserAgent.includes(device));
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return 'iOS';
+  } else if (/android/i.test(userAgent)) {
+    return 'Android';
   }
+  return 'Unknown';
+};
 
-  // Check if it's an Android device
-  if (/android/i.test(lowerCasedUserAgent)) {
-    // Check for known Android devices that support eSIM
-    const supportedAndroidDevices = [
+// Function to check eSIM support based on platform and device lists
+const detectEsimSupport = () => {
+  const platform = detectDevicePlatform();
+  
+  if (platform === 'iOS') {
+    // Most modern iOS devices support eSIM
+    return true;
+  } else if (platform === 'Android') {
+    // Known list of Android devices that support eSIM
+    const knownEsimAndroidDevices = [
       'pixel 3', 'pixel 3 xl', 'pixel 4', 'pixel 4 xl',
       'pixel 5', 'pixel 5a', 'pixel 6', 'pixel 6 pro',
       'pixel 7', 'pixel 7 pro',
@@ -192,12 +189,11 @@ const detectEsimSupport = () => {
       'galaxy note 20', 'galaxy z fold', 'galaxy z flip',
       'motorola razr', 'huawei p40', 'huawei mate 40'
     ];
-
-    // Match against Android device list
-    return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
+    
+    const userAgent = navigator.userAgent.toLowerCase();
+    return knownEsimAndroidDevices.some(device => userAgent.includes(device));
   }
-
-  // Default to not supporting eSIM
+  
   return false;
 };
 
@@ -231,8 +227,6 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
-
-
 
 
 
