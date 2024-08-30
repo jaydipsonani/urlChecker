@@ -403,7 +403,7 @@
 // export default InstallESimPage;
 
 
-// ESIMCheck.js
+
 import React, { useEffect, useState } from 'react';
 
 // Utility function for detecting eSIM support
@@ -412,10 +412,14 @@ const detectESIMSupport = () => {
   const isAndroid = /android/.test(userAgent);
   const isIOS = /iphone|ipad/.test(userAgent);
 
+  console.log("User Agent:", userAgent); // Debugging info
+
   // Example detection logic, adjust as needed
   if (isAndroid) {
-    // Further checks or list of supported models can be added here
-    return userAgent.includes('pixel') || userAgent.includes('samsung');
+    // Checking for some specific models or characteristics
+    // Adjust this list as needed based on eSIM support
+    const eSIMModels = ['pixel', 'samsung'];
+    return eSIMModels.some(model => userAgent.includes(model));
   } else if (isIOS) {
     // iOS devices are generally known to support eSIM
     return true;
@@ -424,7 +428,7 @@ const detectESIMSupport = () => {
 };
 
 // React component for checking eSIM support
-const InstallESimPage = () => {
+const ESIMCheck = () => {
   const [isESIMSupported, setIsESIMSupported] = useState(null);
 
   useEffect(() => {
@@ -448,7 +452,8 @@ const InstallESimPage = () => {
   );
 };
 
-export default InstallESimPage;
+export default ESIMCheck;
+
 
 
 
