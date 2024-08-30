@@ -407,33 +407,43 @@
 import React, { useEffect, useState } from 'react';
 import UAParser from 'ua-parser-js';
 
-const DeviceInfo = () => {
-  const [deviceInfo, setDeviceInfo] = useState({ model: '', type: '' });
+// Define a list of devices known to support eSIM
+const esimSupportedDevices = [
+  'iPhone 12', 'iPhone 13', 'iPhone 14',
+  'Samsung Galaxy S20', 'Samsung Galaxy S21', 'Samsung Galaxy S22'
+  // Add more devices as needed
+];
+
+const InstallESIM = () => {
+  const [isSupported, setIsSupported] = useState(false);
 
   useEffect(() => {
-    // Create a new instance of UAParser
     const parser = new UAParser();
-    // Get device information
     const result = parser.getResult();
     const { device } = result;
     
-    // Update state with device information
-    setDeviceInfo({
-      model: device.model || 'Unknown Model',
-      type: device.type || 'Unknown Type',
-    });
+    // Check if device model is in the supported list
+    if (device.model && esimSupportedDevices.some(model => device.model.includes(model))) {
+      setIsSupported(true);
+    } else {
+      setIsSupported(false);
+    }
   }, []);
 
   return (
     <div>
-      <h1>Device Information</h1>
-      <p><strong>Device Model:</strong> {deviceInfo.model}</p>
-      <p><strong>Device Type:</strong> {deviceInfo.type}</p>
+      {isSupported ? (
+        <button onClick={() => window.location.href = '/install-esim'}>
+          Install eSIM
+        </button>
+      ) : (
+        <p>Your device does not support eSIM installation.</p>
+      )}
     </div>
   );
 };
 
-export default DeviceInfo;
+export default InstallESIM;
 
 
 
