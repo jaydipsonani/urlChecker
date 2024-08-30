@@ -418,37 +418,42 @@ const esimSupportedDevices = [
   'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL',
   'Pixel 5', 'Pixel 5a', 'Pixel 6', 'Pixel 6 Pro',
   'Pixel 7', 'Pixel 7 Pro',
-  // Add more devices as needed
+  // Add more devices if needed
 ];
 
-const InstallESIM = () => {
-  const [isSupported, setIsSupported] = useState(false);
+const DeviceInfo = () => {
+  const [deviceInfo, setDeviceInfo] = useState({
+    deviceName: 'Detecting device...',
+    isSupported: false
+  });
 
   useEffect(() => {
     const parser = new UAParser();
     const result = parser.getResult();
     const { device, os } = result;
 
-    // Debugging information
-    console.log('User Agent:', navigator.userAgent);
-    console.log('Device Info:', device);
-    console.log('OS Info:', os);
+    // Construct the device name string
+    const deviceModel = device.model || 'Unknown Device';
+    const osName = os.name || 'Unknown OS';
+    const formattedDeviceName = `${deviceModel} running ${osName}`;
 
     // Check if device model is in the supported list
-    const deviceModel = device.model ? device.model.toLowerCase() : '';
     const isDeviceSupported = esimSupportedDevices.some(model =>
-      deviceModel.includes(model.toLowerCase())
+      deviceModel.toLowerCase().includes(model.toLowerCase())
     );
 
-    // Debugging result
-    console.log('Is Device Supported:', isDeviceSupported);
-
-    setIsSupported(isDeviceSupported);
+    // Set the device information in state
+    setDeviceInfo({
+      deviceName: formattedDeviceName,
+      isSupported: isDeviceSupported
+    });
   }, []);
 
   return (
     <div>
-      {isSupported ? (
+      <h1>Welcome!</h1>
+      <p>You are using: {deviceInfo.deviceName}</p>
+      {deviceInfo.isSupported ? (
         <button onClick={() => window.location.href = '/install-esim'}>
           Install eSIM
         </button>
@@ -459,6 +464,7 @@ const InstallESIM = () => {
   );
 };
 
-export default InstallESIM;
+export default DeviceInfo;
+
 
 
