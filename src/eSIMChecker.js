@@ -32,16 +32,24 @@ const detectEsimSupport = () => {
       }
     }
   } else if (platform === 'Android') {
-    const androidDeviceMatch = userAgent.match(/\(([^)]+)\)/);
+   const androidDeviceMatch = userAgent.match(/\(([^)]+)\)/);
     if (androidDeviceMatch) {
       const deviceInfo = androidDeviceMatch[1].split(';');
-      deviceName = deviceInfo[deviceInfo.length - 1].trim(); // Get the device name/model
+      deviceName = deviceInfo[deviceInfo.length - 1].trim();
 
-      // Check eSIM support for known devices (expand this list as needed)
-      const supportedDevices = [
-        'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 4a', 'Pixel 5', 'Pixel 6', 'Pixel 6 Pro', 'Pixel 7', 'Pixel 7 Pro',
-        // Add more devices here if necessary
-      ];
+      // Specific handling for Pixel devices
+      if (/Pixel/.test(deviceName)) {
+        const pixelModelMatch = deviceName.match(/Pixel\s\d+(\sXL)?(\sa)?/);
+        if (pixelModelMatch) {
+          deviceName = pixelModelMatch[0];
+          esimSupported = true; // Assuming all Pixel devices that match this pattern support eSIM
+        }
+      } else {
+        // Fallback for other Android devices
+        const supportedDevices = [
+          'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 4a',
+          'Pixel 5', 'Pixel 6', 'Pixel 6 Pro', 'Pixel 7', 'Pixel 7 Pro',
+        ];
 
       esimSupported = supportedDevices.some(device => deviceName.includes(device));
     }
