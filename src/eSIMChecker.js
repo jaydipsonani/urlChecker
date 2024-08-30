@@ -230,70 +230,45 @@ export default InstallESimPage;
 
 // ============================================================================================================
 
-// import { useEffect, useState } from "react";
+//   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+//     return 'iOS';
+//   } else if (/android/i.test(userAgent)) {
+//     return 'Android';
+//   }
+//   return 'Unknown';
+// };
+
+// // Function to check for general eSIM support based on platform
+// const detectEsimSupport = () => {
+//   const platform = detectDevicePlatform();
+  
+//   if (platform === 'iOS') {
+//     // Most modern iOS devices support eSIM
+//     return true;
+//   } else if (platform === 'Android') {
+//     // Android devices from around 2018 onwards generally support eSIM
+//     // Add further checks or assumptions based on general support for recent Android versions
+//     const userAgent = navigator.userAgent.toLowerCase();
+//     // Assume devices with certain characteristics (like newer Android versions) support eSIM
+//     const newerAndroid = /android [9-]{0,1}[1-9]\d*/.test(userAgent) || /android 10|11|12/.test(userAgent);
+//     return newerAndroid;
+//   }
+  
+//   return false;
+// };
 
 // const InstallESimPage = () => {
-//   const [deviceName, setDeviceName] = useState("Unknown Device");
 //   const [esimSupported, setEsimSupported] = useState(false);
 
 //   useEffect(() => {
-//     const { name, esimSupport } = detectDeviceInfo();
-//     console.log("Detected Device:", name);
-//     console.log("eSIM Supported:", esimSupport);
-//     setDeviceName(name);
-//     setEsimSupported(esimSupport);
+//     const isEsimSupported = detectEsimSupport();
+//     console.log("eSIM Supported:", isEsimSupported); // Log result for debugging
+//     setEsimSupported(isEsimSupported);
 //   }, []);
 
-//   const detectDeviceInfo = () => {
-//     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-//     console.log("User Agent:", userAgent); // Debugging line
-
-//     let deviceInfo = { name: "Device Not Recognized", esimSupport: false };
-
-//     // Check if it's an iOS device
-//     if (/iPhone|iPad|iPod/i.test(userAgent)) {
-//       const supportedIosDevices = [
-//         "iPhone XS", "iPhone XS Max", "iPhone XR", "iPhone 11",
-//         "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE (2nd generation)",
-//         "iPhone 12", "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max",
-//         "iPhone 13", "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max",
-//         "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"
-//       ];
-
-//       // Check for eSIM support in iOS devices
-//       const isSupportedIosDevice = supportedIosDevices.some(device => userAgent.includes(device));
-//       deviceInfo = isSupportedIosDevice
-//         ? { name: "iOS Device", esimSupport: true }
-//         : { name: "iOS Device", esimSupport: false };
-//     }
-
-//     // Check if it's an Android device
-//     else if (/Android/i.test(userAgent)) {
-//       const supportedAndroidDevices = [
-//         "Pixel 3", "Pixel 3 XL", "Pixel 4", "Pixel 4 XL", "Pixel 5",
-//         "Pixel 6", "Pixel 6 Pro", "Pixel 7", "Pixel 7 Pro",
-//         "Galaxy S20", "Galaxy S20+", "Galaxy S20 Ultra",
-//         "Galaxy Note 20", "Galaxy Note 20 Ultra",
-//         "Galaxy Z Fold 2", "Galaxy Z Fold 3", "Galaxy Z Fold 4",
-//         "Galaxy Z Flip", "Galaxy Z Flip 3", "Galaxy Z Flip 4",
-//         "Galaxy S21", "Galaxy S21+", "Galaxy S21 Ultra",
-//         "Motorola Razr (2019)", "Motorola Razr 5G",
-//         "Huawei P40", "Huawei P40 Pro", "Huawei Mate 40 Pro"
-//       ];
-
-//       // Check for eSIM support in Android devices
-//       const isSupportedAndroidDevice = supportedAndroidDevices.some(device => userAgent.toLowerCase().includes(device.toLowerCase()));
-//       deviceInfo = isSupportedAndroidDevice
-//         ? { name: "Android Device", esimSupport: true }
-//         : { name: "Android Device", esimSupport: false };
-//     }
-
-//     return deviceInfo;
-//   };
-
 //   const redirectToEsimSetup = () => {
-//     const smdpAddress = "consumer.e-sim.global";
-//     const activationCode = "TN2024032517501135006332";
+//     const smdpAddress = 'your_smdp_address'; // Replace with actual SM-DP+ Address
+//     const activationCode = 'your_activation_code'; // Replace with actual Activation Code
 //     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
 
 //     window.location.href = url;
@@ -302,7 +277,6 @@ export default InstallESimPage;
 //   return (
 //     <div>
 //       <h1>eSIM Installation</h1>
-//       <p>Device: {deviceName}</p> {/* Display the detected device name */}
 //       {esimSupported ? (
 //         <button onClick={redirectToEsimSetup}>Install eSIM</button>
 //       ) : (
