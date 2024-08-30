@@ -83,44 +83,111 @@
 // export default InstallESimPage;
 
 
+// import { useEffect, useState } from 'react';
+
+// // Function to detect platform and possible eSIM support based on user agent
+// const detectEsimSupport = () => {
+//   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+//   // Check if it's an iOS device
+//   if (/iPhone|iPad|iPod/i.test(userAgent)) {
+//     // List of iOS devices that support eSIM
+//     const supportedIOSDevices = [
+//       'iPhone10,3', 'iPhone10,6', // iPhone Xs, Xs Max
+//       'iPhone11,2', 'iPhone11,4', 'iPhone11,6', 'iPhone11,8', // iPhone XR, 11, 11 Pro, 11 Pro Max
+//       'iPhone12,1', 'iPhone12,3', 'iPhone12,5', // iPhone 12, 12 Pro, 12 Pro Max, 12 mini
+//       'iPhone13,1', 'iPhone13,2', 'iPhone13,3', 'iPhone13,4', // iPhone 13 series
+//       'iPhone14,4', 'iPhone14,5', 'iPhone14,2', 'iPhone14,3'  // iPhone 14 series
+//     ];
+
+//     // Check if the user agent contains any of the supported iOS devices
+//     return supportedIOSDevices.some(device => userAgent.includes(device));
+//   }
+
+//   // Check if it's an Android device
+//   if (/Android/i.test(userAgent)) {
+//     // List of Android devices that support eSIM
+//     const supportedAndroidDevices = [
+//       'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 4a', 'Pixel 4a 5G',
+//       'Pixel 5', 'Pixel 5a', 'Pixel 6', 'Pixel 6 Pro', 'Pixel 6a',
+//       'Pixel 7', 'Pixel 7 Pro', 'Pixel 7a',
+//       'Galaxy S20', 'Galaxy S20+', 'Galaxy S20 Ultra', 'Galaxy S21', 'Galaxy S21+', 'Galaxy S21 Ultra',
+//       'Galaxy Note 20', 'Galaxy Note 20 Ultra',
+//       'Galaxy Z Fold 2', 'Galaxy Z Fold 3', 'Galaxy Z Fold 4',
+//       'Galaxy Z Flip', 'Galaxy Z Flip 3', 'Galaxy Z Flip 4',
+//       'Motorola Razr (2019)', 'Motorola Razr 5G',
+//       'Huawei P40', 'Huawei P40 Pro', 'Huawei Mate 40 Pro'
+//     ];
+
+//     // Check if the user agent contains any of the supported Android devices
+//     return supportedAndroidDevices.some(device => userAgent.includes(device));
+//   }
+
+//   // Default to not supporting eSIM
+//   return false;
+// };
+
+// const InstallESimPage = () => {
+//   const [esimSupported, setEsimSupported] = useState(false);
+
+//   useEffect(() => {
+//     const isEsimSupported = detectEsimSupport();
+//     setEsimSupported(isEsimSupported);
+//   }, []);
+
+//   // Function to redirect to the eSIM setup page for iOS
+//   const redirectToEsimSetup = () => {
+//     const smdpAddress = 'your_smdp_address'; // Replace with actual SM-DP+ Address
+//     const activationCode = 'your_activation_code'; // Replace with actual Activation Code
+//     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+//     window.location.href = url;
+//   };
+
+//   return (
+//     <div>
+//       <h1>eSIM Installation</h1>
+//       {esimSupported ? (
+//         <button onClick={redirectToEsimSetup}>Install eSIM</button>
+//       ) : (
+//         <p>Your device does not support eSIM installation.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default InstallESimPage;
+
+
 import { useEffect, useState } from 'react';
 
 // Function to detect platform and possible eSIM support based on user agent
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const lowerCasedUserAgent = userAgent.toLowerCase(); // Normalize user agent string
 
   // Check if it's an iOS device
-  if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    // List of iOS devices that support eSIM
+  if (/iphone|ipad|ipod/i.test(lowerCasedUserAgent)) {
+    // List of iOS devices that support eSIM (using partial matching)
     const supportedIOSDevices = [
-      'iPhone10,3', 'iPhone10,6', // iPhone Xs, Xs Max
-      'iPhone11,2', 'iPhone11,4', 'iPhone11,6', 'iPhone11,8', // iPhone XR, 11, 11 Pro, 11 Pro Max
-      'iPhone12,1', 'iPhone12,3', 'iPhone12,5', // iPhone 12, 12 Pro, 12 Pro Max, 12 mini
-      'iPhone13,1', 'iPhone13,2', 'iPhone13,3', 'iPhone13,4', // iPhone 13 series
-      'iPhone14,4', 'iPhone14,5', 'iPhone14,2', 'iPhone14,3'  // iPhone 14 series
+      'iphone10', 'iphone11', 'iphone12', 'iphone13', 'iphone14' // Partial matches for iPhone X to iPhone 14
     ];
 
     // Check if the user agent contains any of the supported iOS devices
-    return supportedIOSDevices.some(device => userAgent.includes(device));
+    return supportedIOSDevices.some(device => lowerCasedUserAgent.includes(device));
   }
 
   // Check if it's an Android device
-  if (/Android/i.test(userAgent)) {
-    // List of Android devices that support eSIM
+  if (/android/i.test(lowerCasedUserAgent)) {
+    // List of Android devices that support eSIM (using partial matching)
     const supportedAndroidDevices = [
-      'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 4a', 'Pixel 4a 5G',
-      'Pixel 5', 'Pixel 5a', 'Pixel 6', 'Pixel 6 Pro', 'Pixel 6a',
-      'Pixel 7', 'Pixel 7 Pro', 'Pixel 7a',
-      'Galaxy S20', 'Galaxy S20+', 'Galaxy S20 Ultra', 'Galaxy S21', 'Galaxy S21+', 'Galaxy S21 Ultra',
-      'Galaxy Note 20', 'Galaxy Note 20 Ultra',
-      'Galaxy Z Fold 2', 'Galaxy Z Fold 3', 'Galaxy Z Fold 4',
-      'Galaxy Z Flip', 'Galaxy Z Flip 3', 'Galaxy Z Flip 4',
-      'Motorola Razr (2019)', 'Motorola Razr 5G',
-      'Huawei P40', 'Huawei P40 Pro', 'Huawei Mate 40 Pro'
+      'pixel 3', 'pixel 4', 'pixel 5', 'pixel 6', 'pixel 7',
+      'galaxy s20', 'galaxy s21', 'galaxy note 20', 'galaxy z fold', 'galaxy z flip',
+      'motorola razr', 'huawei p40', 'huawei mate 40'
     ];
 
     // Check if the user agent contains any of the supported Android devices
-    return supportedAndroidDevices.some(device => userAgent.includes(device));
+    return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
   }
 
   // Default to not supporting eSIM
@@ -157,6 +224,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 // import { useEffect, useState } from 'react';
