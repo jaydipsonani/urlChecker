@@ -339,7 +339,7 @@ const detectEsimSupport = () => {
       const version = parseFloat(androidVersionMatch[1]);
       
       // Check if the Android version is 12 or above
-      if (version >= 12) {
+      if (version >= 11) {
         esimSupported = true;
       }
 
