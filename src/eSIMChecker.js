@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
-// Utility function to fetch device list from JSON file
-const fetchDeviceList = async () => {
-  try {
-    const response = await fetch('/esim-devices.json');
-    if (!response.ok) {
-      throw new Error('Network response was not ok.');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching device list:', error);
-    return { iOS: [], Android: [] }; // Return an empty list on error
-  }
+// Combined JSON data and JS logic in one file
+const deviceList = {
+  iOS: [
+    "iPhone XS", "iPhone XS Max", "iPhone XR", "iPhone 11", "iPhone 11 Pro",
+    "iPhone 11 Pro Max", "iPhone SE (2nd generation)", "iPhone 12",
+    "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 13",
+    "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 14",
+    "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"
+  ],
+  Android: [
+    "Pixel 2", "Pixel 3", "Pixel 3a", "Pixel 4", "Pixel 4a", "Pixel 5",
+    "Pixel 5a", "Samsung Galaxy S20", "Samsung Galaxy S20+", "Samsung Galaxy S20 Ultra",
+    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra",
+    "Mozilla/5.0 (Linux; Android 11; CPH2219 Build/RKQ1.200710.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/92.0.4515.115 Mobile Safari/537.36"
+
+  ]
 };
 
-// Utility function to check if the device supports eSIM
 const checkDeviceSupport = (userAgent, deviceList) => {
   const normalizedUserAgent = userAgent.toLowerCase();
 
@@ -26,33 +29,34 @@ const checkDeviceSupport = (userAgent, deviceList) => {
       ? { device: matchedDevice, isESIMSupported: true }
       : { device: 'Unknown iPhone', isESIMSupported: false };
   } else if (/android/.test(normalizedUserAgent)) {
+
+    if (/opp\/a76|cph2219/.test(normalizedUserAgent)) {
+      return { device: 'OPPO A76', isESIMSupported: false };
+    }
+
     const matchedDevice = deviceList.Android.find(device =>
       normalizedUserAgent.includes(device.toLowerCase())
     );
     return matchedDevice
-      ? { device: matchedDevice, isESIMSupported: true }
-      : { device: 'Unknown Android Device', isESIMSupported: false };
+    ? { device: matchedDevice, isESIMSupported: true }
+    : { device: 'Unknown Android Device', isESIMSupported: false };
   } else {
     return { device: 'Unknown Device', isESIMSupported: false };
+    
   }
 };
 
 // Main component to check eSIM support
-const ESIMCheck = () => {
+const InstallESimPage = () => {
   const [device, setDevice] = useState('');
   const [isESIMSupported, setIsESIMSupported] = useState(false);
 
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-    const getDeviceSupport = async () => {
-      const deviceList = await fetchDeviceList();
-      const result = checkDeviceSupport(userAgent, deviceList);
-      setDevice(result.device);
-      setIsESIMSupported(result.isESIMSupported);
-    };
-
-    getDeviceSupport();
+    const result = checkDeviceSupport(userAgent, deviceList);
+    setDevice(result.device);
+    setIsESIMSupported(result.isESIMSupported);
   }, []);
 
   return (
@@ -67,7 +71,8 @@ const ESIMCheck = () => {
   );
 };
 
-export default ESIMCheck;
+export default InstallESimPage;
+
 
 
 // ======================================================================================================================
