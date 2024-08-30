@@ -158,20 +158,21 @@
 
 // export default InstallESimPage;
 
-
 import { useEffect, useState } from 'react';
 
 // Function to detect platform and possible eSIM support based on user agent
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   const lowerCasedUserAgent = userAgent.toLowerCase();
+  
+  console.log("User Agent:", userAgent); // Log user agent for debugging
 
   // Check if it's an iOS device
   if (/iphone|ipad|ipod/i.test(lowerCasedUserAgent)) {
     const supportedIOSDevices = [
       'iphone xs', 'iphone xs max', 'iphone xr',
       'iphone 11', 'iphone 11 pro', 'iphone 11 pro max',
-      'iphone se', 'iphone 12', 'iphone 12 mini',
+      'iphone se (2nd generation)', 'iphone 12', 'iphone 12 mini',
       'iphone 12 pro', 'iphone 12 pro max', 'iphone 13', 
       'iphone 13 mini', 'iphone 13 pro', 'iphone 13 pro max',
       'iphone 14', 'iphone 14 plus', 'iphone 14 pro', 'iphone 14 pro max'
@@ -182,6 +183,7 @@ const detectEsimSupport = () => {
 
   // Check if it's an Android device
   if (/android/i.test(lowerCasedUserAgent)) {
+    // Check for known Android devices that support eSIM
     const supportedAndroidDevices = [
       'pixel 3', 'pixel 3 xl', 'pixel 4', 'pixel 4 xl',
       'pixel 5', 'pixel 5a', 'pixel 6', 'pixel 6 pro',
@@ -191,10 +193,8 @@ const detectEsimSupport = () => {
       'motorola razr', 'huawei p40', 'huawei mate 40'
     ];
 
-   return supportedAndroidDevices.some(device => 
-  lowerCasedUserAgent.includes(device) ||
-  lowerCasedUserAgent.includes(device.replace(/ /g, '').toLowerCase()) // Handling without spaces
-);
+    // Match against Android device list
+    return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
   }
 
   // Default to not supporting eSIM
@@ -206,8 +206,7 @@ const InstallESimPage = () => {
 
   useEffect(() => {
     const isEsimSupported = detectEsimSupport();
-    console.log("User Agent:", navigator.userAgent); // For debugging purposes
-    console.log("eSIM Supported:", isEsimSupported); // To verify detection logic
+    console.log("eSIM Supported:", isEsimSupported); // Log result for debugging
     setEsimSupported(isEsimSupported);
   }, []);
 
@@ -232,6 +231,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
