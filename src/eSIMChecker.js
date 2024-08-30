@@ -409,9 +409,13 @@ import UAParser from 'ua-parser-js';
 
 // Define a list of devices known to support eSIM
 const esimSupportedDevices = [
-  'iPhone 12', 'iPhone 8', 'iPhone 13', 'iPhone 14',
-  'Samsung Galaxy S20', 'Samsung Galaxy S21', 'Samsung Galaxy S22'
-  // Add more devices as needed
+  'iPhone X', 'iPhone XS', 'iPhone XS Max', 'iPhone XR',
+  'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
+  'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
+  'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
+  'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+  'Samsung Galaxy S20', 'Samsung Galaxy S21', 'Samsung Galaxy S22',
+  // Add more devices if needed
 ];
 
 const InstallESIM = () => {
@@ -421,13 +425,18 @@ const InstallESIM = () => {
     const parser = new UAParser();
     const result = parser.getResult();
     const { device } = result;
-    
+
     // Check if device model is in the supported list
-    if (device.model && esimSupportedDevices.some(model => device.model.includes(model))) {
-      setIsSupported(true);
-    } else {
-      setIsSupported(false);
-    }
+    const deviceModel = device.model ? device.model.toLowerCase() : '';
+    const isDeviceSupported = esimSupportedDevices.some(model =>
+      deviceModel.includes(model.toLowerCase())
+    );
+
+    // Fallback check for iPhones based on user agent
+    const isIphone = /iPhone/.test(navigator.userAgent);
+    const isModernIphone = /iPhone [1-9][0-9]/.test(navigator.userAgent); // Basic check for modern iPhones
+
+    setIsSupported(isDeviceSupported || (isIphone && isModernIphone));
   }, []);
 
   return (
@@ -444,6 +453,7 @@ const InstallESIM = () => {
 };
 
 export default InstallESIM;
+
 
 
 
