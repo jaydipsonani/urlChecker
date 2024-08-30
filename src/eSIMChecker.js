@@ -403,80 +403,53 @@
 // export default InstallESimPage;
 
 
-import React, { useState, useEffect } from 'react';
+// ESIMCheck.js
+import React, { useEffect, useState } from 'react';
 
-const EsimDetector = () => {
-  const [deviceInfo, setDeviceInfo] = useState({
-    os: '',
-    browser: '',
-    device: '',
-  });
-  const [esimSupported, setEsimSupported] = useState(false);
+// Utility function for detecting eSIM support
+const detectESIMSupport = () => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isAndroid = /android/.test(userAgent);
+  const isIOS = /iphone|ipad/.test(userAgent);
+
+  // Example detection logic, adjust as needed
+  if (isAndroid) {
+    // Further checks or list of supported models can be added here
+    return userAgent.includes('pixel') || userAgent.includes('samsung');
+  } else if (isIOS) {
+    // iOS devices are generally known to support eSIM
+    return true;
+  }
+  return false;
+};
+
+// React component for checking eSIM support
+const InstallESimPage = () => {
+  const [isESIMSupported, setIsESIMSupported] = useState(null);
 
   useEffect(() => {
-    const getDeviceInfo = () => {
-      try {
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        const device = {
-          os: '',
-          browser: '',
-          device: '',
-        };
-
-        // Parse user agent to get OS
-        if (/Android/i.test(userAgent)) {
-          device.os = 'Android';
-        } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-          device.os = 'iOS';
-        } else if (/Linux/i.test(userAgent)) {
-          device.os = 'Linux'; // This is a fallback for cases where Linux is detected
-        }
-
-        // Parse user agent to get browser
-        if (/Chrome/i.test(userAgent) && !/Edge/i.test(userAgent)) {
-          device.browser = 'Chrome';
-        } else if (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) {
-          device.browser = 'Safari';
-        } else if (/Firefox/i.test(userAgent)) {
-          device.browser = 'Firefox';
-        } else if (/Edge/i.test(userAgent)) {
-          device.browser = 'Edge';
-        }
-
-        // Extract device model if possible
-        const deviceModelMatch = userAgent.match(/\(([^)]+)\)/);
-        if (deviceModelMatch) {
-          device.device = deviceModelMatch[1].split(';').pop().trim();
-        } else {
-          device.device = 'Unknown Device';
-        }
-
-        // Simulate eSIM detection based on known devices and platforms
-        if (device.os === 'iOS' || (device.os === 'Android' && /Pixel|Galaxy|OnePlus|Moto|Huawei/i.test(userAgent))) {
-          setEsimSupported(true);
-        }
-
-        setDeviceInfo(device);
-      } catch (error) {
-        console.error('Error detecting device info:', error);
-      }
+    const checkESIMSupport = () => {
+      const support = detectESIMSupport();
+      setIsESIMSupported(support);
     };
-
-    getDeviceInfo();
+    checkESIMSupport();
   }, []);
 
   return (
     <div>
-      <h1>Device Info</h1>
-      <p>OS: {deviceInfo.os}</p>
-      <p>Browser: {deviceInfo.browser}</p>
-      <p>Device: {deviceInfo.device}</p>
-      <p>eSIM Supported: {esimSupported ? 'Yes' : 'No'}</p>
+      {isESIMSupported === null ? (
+        <p>Checking eSIM support...</p>
+      ) : isESIMSupported ? (
+        <p>Your device supports eSIM.</p>
+      ) : (
+        <p>Your device does not support eSIM.</p>
+      )}
     </div>
   );
 };
 
-export default EsimDetector;
+export default InstallESimPage;
+
 
 
 
