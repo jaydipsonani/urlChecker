@@ -369,11 +369,12 @@ const detectEsimSupport = () => {
   // Check if it's an Android device
   if (/Android/i.test(userAgent)) {
     // Extract Android version from user agent string
-    const androidVersionMatch = userAgent.match(/Android (\d+(\.\d+)?)/);
-    if (androidVersionMatch) {
-      const version = parseFloat(androidVersionMatch[1]);
-      // Check if the version is greater than 13
-      return version >= 14;
+    // const androidVersionMatch = userAgent.match(/Android (\d+(\.\d+)?)/);
+    // if (androidVersionMatch) {
+    //   const version = parseFloat(androidVersionMatch[1]);
+    //   // Check if the version is greater than 13
+    //   return version >= 14;
+    return true;
     }
     // Default to supporting eSIM for newer Android versions if version cannot be parsed
     return false;
