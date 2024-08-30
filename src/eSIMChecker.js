@@ -1,3 +1,75 @@
+// import React, { useState, useEffect } from 'react';
+
+// // Combined JSON data and JS logic in one file
+// const deviceList = {
+//   iOS: [
+//     "iPhone XS", "iPhone XS Max", "iPhone XR", "iPhone 11", "iPhone 11 Pro",
+//     "iPhone 11 Pro Max", "iPhone SE (2nd generation)", "iPhone 12",
+//     "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 13",
+//     "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 14",
+//     "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"
+//   ],
+//   Android: [
+//     "Pixel 2", "Pixel 3", "Pixel 3a", "Pixel 4", "Pixel 4a", "Pixel 5",
+//     "Pixel 5a", "Samsung Galaxy S20", "Samsung Galaxy S20+", "Samsung Galaxy S20 Ultra",
+//     "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra"
+//   ]
+// };
+
+// // Utility function to normalize text
+// const normalizeText = (text) => text.trim().toLowerCase();
+
+// // Utility function to check if the device supports eSIM
+// const checkDeviceSupport = (userAgent, deviceList) => {
+//   const normalizedUserAgent = normalizeText(userAgent);
+
+//   if (/iphone/.test(normalizedUserAgent)) {
+//     const matchedDevice = deviceList.iOS.find(device =>
+//       normalizedUserAgent.includes(normalizeText(device))
+//     );
+//     return matchedDevice
+//       ? { device: matchedDevice, isESIMSupported: true }
+//       : { device: 'Unknown iPhone', isESIMSupported: false };
+//   } else if (/android/.test(normalizedUserAgent)) {
+//     const matchedDevice = deviceList.Android.find(device =>
+//       normalizedUserAgent.includes(normalizeText(device))
+//     );
+//     return matchedDevice
+//       ? { device: matchedDevice, isESIMSupported: true }
+//       : { device: 'Unknown Android Device', isESIMSupported: false };
+//   } else {
+//     return { device: 'Unknown Device', isESIMSupported: false };
+//   }
+// };
+
+// // Main component to check eSIM support
+// const InstallESimPage = () => {
+//   const [device, setDevice] = useState('');
+//   const [isESIMSupported, setIsESIMSupported] = useState(false);
+
+//   useEffect(() => {
+//     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+//     const result = checkDeviceSupport(userAgent, deviceList);
+//     setDevice(result.device);
+//     setIsESIMSupported(result.isESIMSupported);
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>Device: {device}</h1>
+//       {isESIMSupported ? (
+//         <p>Your device supports eSIM.</p>
+//       ) : (
+//         <p>Your device does not support eSIM.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default InstallESimPage;
+
+
 import React, { useState, useEffect } from 'react';
 
 // Combined JSON data and JS logic in one file
@@ -16,23 +88,20 @@ const deviceList = {
   ]
 };
 
-// Utility function to normalize text
-const normalizeText = (text) => text.trim().toLowerCase();
-
 // Utility function to check if the device supports eSIM
 const checkDeviceSupport = (userAgent, deviceList) => {
-  const normalizedUserAgent = normalizeText(userAgent);
+  const normalizedUserAgent = userAgent;
 
   if (/iphone/.test(normalizedUserAgent)) {
     const matchedDevice = deviceList.iOS.find(device =>
-      normalizedUserAgent.includes(normalizeText(device))
+      normalizedUserAgent.includes(device)
     );
     return matchedDevice
       ? { device: matchedDevice, isESIMSupported: true }
       : { device: 'Unknown iPhone', isESIMSupported: false };
   } else if (/android/.test(normalizedUserAgent)) {
     const matchedDevice = deviceList.Android.find(device =>
-      normalizedUserAgent.includes(normalizeText(device))
+      normalizedUserAgent.includes(device)
     );
     return matchedDevice
       ? { device: matchedDevice, isESIMSupported: true }
@@ -68,6 +137,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
