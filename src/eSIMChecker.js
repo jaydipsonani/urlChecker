@@ -191,7 +191,10 @@ const detectEsimSupport = () => {
       'motorola razr', 'huawei p40', 'huawei mate 40'
     ];
 
-    return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
+   return supportedAndroidDevices.some(device => 
+  lowerCasedUserAgent.includes(device) ||
+  lowerCasedUserAgent.includes(device.replace(/ /g, '').toLowerCase()) // Handling without spaces
+);
   }
 
   // Default to not supporting eSIM
