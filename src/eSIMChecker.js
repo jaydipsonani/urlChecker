@@ -12,17 +12,16 @@ const deviceList = {
   Android: [
     "Pixel 2", "Pixel 3", "Pixel 3a", "Pixel 4", "Pixel 4a", "Pixel 5",
     "Pixel 5a", "Samsung Galaxy S20", "Samsung Galaxy S20+", "Samsung Galaxy S20 Ultra",
-    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra"
-   
+    "Samsung Galaxy S21", "Samsung Galaxy S21+", "Samsung Galaxy S21 Ultra", "OPPO A76"
   ]
 };
 
-// Function to check if a device supports eSIM
 const checkDeviceSupport = (userAgent, deviceList) => {
   const normalizedUserAgent = userAgent.toLowerCase();
+  console.log('Normalized User Agent:', normalizedUserAgent);
 
   // Check for iOS devices
-  if (/iphone/.test(normalizedUserAgent)) {
+  if (/iphone|ipad|ipod/.test(normalizedUserAgent)) {
     const matchedDevice = deviceList.iOS.find(device =>
       normalizedUserAgent.includes(device.toLowerCase())
     );
@@ -31,8 +30,16 @@ const checkDeviceSupport = (userAgent, deviceList) => {
       : { device: 'Unknown iPhone', isESIMSupported: false };
   }
   
-  // Check for Android devices
-  if (/android/.test(normalizedUserAgent)) {    
+  // Check for Android devices with specific checks
+  if (/android/.test(normalizedUserAgent)) {
+    // Specific checks for certain Android devices
+    if (/pixel\s4/.test(normalizedUserAgent)) {
+      return { device: 'Pixel 4', isESIMSupported: true };
+    }
+    if (/oppo\s+a76|cph2219/.test(normalizedUserAgent)) {
+      return { device: 'OPPO A76', isESIMSupported: false };
+    }
+
     const matchedDevice = deviceList.Android.find(device =>
       normalizedUserAgent.includes(device.toLowerCase())
     );
@@ -52,7 +59,11 @@ const InstallESimPage = () => {
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
+    console.log('User Agent:', userAgent); // For debugging
+
     const result = checkDeviceSupport(userAgent, deviceList);
+    console.log('Detection Result:', result); // For debugging
+
     setDevice(result.device);
     setIsESIMSupported(result.isESIMSupported);
   }, []);
