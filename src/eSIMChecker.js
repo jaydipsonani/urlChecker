@@ -330,8 +330,20 @@ const detectEsimSupport = () => {
   let deviceName = 'Device Not Recognized';
 
   if (platform === 'iOS') {
-    // Most modern iOS devices support eSIM
-    esimSupported = true;
+    const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
+    if (iOSVersionMatch) {
+      const version = iOSVersionMatch[1].replace('_', '.');
+      const supportedVersion = parseFloat(version) >= 12; // iOS 12 and above generally support eSIM
+      esimSupported = supportedVersion;
+
+      if (/iPhone/i.test(userAgent)) {
+        deviceName = `iPhone (iOS ${version})`;
+      } else if (/iPad/i.test(userAgent)) {
+        deviceName = `iPad (iOS ${version})`;
+      } else if (/iPod/i.test(userAgent)) {
+        deviceName = `iPod (iOS ${version})`;
+      }
+    }
     deviceName = 'iOS Device';
   } else if (platform === 'Android') {
     const androidVersionMatch = userAgent.match(/Android\s([0-9\.]*)/);
