@@ -409,7 +409,7 @@ import UAParser from 'ua-parser-js';
 
 // Define a list of devices known to support eSIM
 const esimSupportedDevices = [
-  'iPhone 12', 'iPhone 13', 'iPhone 14',
+  'iPhone 12', 'iPhone 8', 'iPhone 13', 'iPhone 14',
   'Samsung Galaxy S20', 'Samsung Galaxy S21', 'Samsung Galaxy S22'
   // Add more devices as needed
 ];
