@@ -406,11 +406,15 @@
 import React, { useState, useEffect } from 'react';
 
 const EsimDetector = () => {
-  const [deviceInfo, setDeviceInfo] = useState({});
+  const [deviceInfo, setDeviceInfo] = useState({
+    os: '',
+    browser: '',
+    device: '',
+  });
   const [esimSupported, setEsimSupported] = useState(false);
 
   useEffect(() => {
-    const getDeviceInfo = async () => {
+    const getDeviceInfo = () => {
       try {
         const userAgent = navigator.userAgent;
         const device = {
@@ -420,26 +424,32 @@ const EsimDetector = () => {
         };
 
         // Parse user agent to get device info
-        if (userAgent.match(/Android/i)) {
+        if (/Android/i.test(userAgent)) {
           device.os = 'Android';
-        } else if (userAgent.match(/iPhone|iPad|iPod/i)) {
+        } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
           device.os = 'iOS';
         }
 
-        if (userAgent.match(/Chrome/i)) {
+        if (/Chrome/i.test(userAgent)) {
           device.browser = 'Chrome';
-        } else if (userAgent.match(/Safari/i)) {
+        } else if (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) {
           device.browser = 'Safari';
         }
 
-        // Check if device supports eSIM
-        if ('icc' in navigator) {
+        // Detect device model from user agent (simple heuristic)
+        const modelMatch = userAgent.match(/\(([^)]+)\)/);
+        if (modelMatch) {
+          device.device = modelMatch[1];
+        }
+
+        // Simulate eSIM detection based on known devices and platforms
+        if (device.os === 'iOS' || (device.os === 'Android' && /Pixel|Galaxy|OnePlus/.test(userAgent))) {
           setEsimSupported(true);
         }
 
         setDeviceInfo(device);
       } catch (error) {
-        console.error(error);
+        console.error('Error detecting device info:', error);
       }
     };
 
@@ -458,4 +468,5 @@ const EsimDetector = () => {
 };
 
 export default EsimDetector;
+
 
