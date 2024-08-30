@@ -80,8 +80,7 @@
 //   );
 // };
 
-// export default InstallESimPage;
-
+export default InstallESimPage;
 
 
 
@@ -355,29 +354,29 @@ import { useEffect, useState } from 'react';
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Check if it's an iOS device
-  if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    // Check if it's a supported iOS device using a more generic check
-    // For iOS, you can use `iOS` detection with specific versions if needed
-    const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
-    if (iOSVersionMatch) {
-      const version = iOSVersionMatch[1].replace('_', '.');
-      const supportedVersion = parseFloat(version) >= 12; 
-      return supportedVersion;
-    }
-    return false; // Default to not supporting eSIM if version cannot be parsed
-  }
+//   // Check if it's an iOS device
+//   if (/iPhone|iPad|iPod/i.test(userAgent)) {
+//     // Check if it's a supported iOS device using a more generic check
+//     // For iOS, you can use `iOS` detection with specific versions if needed
+//     const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
+//     if (iOSVersionMatch) {
+//       const version = iOSVersionMatch[1].replace('_', '.');
+//       const supportedVersion = parseFloat(version) >= 12; // iOS 12 and above generally support eSIM
+//       return supportedVersion;
+//     }
+//     return false; // Default to not supporting eSIM if version cannot be parsed
+//   }
 
-  // Check if it's an Android device
-  if (/Android/i.test(userAgent)) {
-    // Generally, assume newer Android devices support eSIM
-    // You can also use a more specific check for certain models if needed
-    return true; // Assumes modern Android devices support eSIM
-  }
+//   // Check if it's an Android device
+//   if (/Android/i.test(userAgent)) {
+//     // Generally, assume newer Android devices support eSIM
+//     // You can also use a more specific check for certain models if needed
+//     return true; // Assumes modern Android devices support eSIM
+//   }
 
-  // Default to not supporting eSIM
-  return false;
-};
+//   // Default to not supporting eSIM
+//   return false;
+// };
 
 
 const InstallESimPage = () => {
