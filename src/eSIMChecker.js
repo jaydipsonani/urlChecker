@@ -405,54 +405,36 @@
 
 
 import React, { useEffect, useState } from 'react';
+import UAParser from 'ua-parser-js';
 
-// Utility function for detecting eSIM support
-const detectESIMSupport = () => {
-  const userAgent = navigator.userAgent.toLowerCase();
-  const isAndroid = /android/.test(userAgent);
-  const isIOS = /iphone|ipad/.test(userAgent);
-
-  console.log("User Agent:", userAgent); // Debugging info
-
-  // Example detection logic, adjust as needed
-  if (isAndroid) {
-    // Checking for some specific models or characteristics
-    // Adjust this list as needed based on eSIM support
-    const eSIMModels = ['pixel', 'samsung'];
-    return eSIMModels.some(model => userAgent.includes(model));
-  } else if (isIOS) {
-    // iOS devices are generally known to support eSIM
-    return true;
-  }
-  return false;
-};
-
-// React component for checking eSIM support
-const ESIMCheck = () => {
-  const [isESIMSupported, setIsESIMSupported] = useState(null);
+const DeviceInfo = () => {
+  const [deviceInfo, setDeviceInfo] = useState({ model: '', type: '' });
 
   useEffect(() => {
-    const checkESIMSupport = () => {
-      const support = detectESIMSupport();
-      setIsESIMSupported(support);
-    };
-    checkESIMSupport();
+    // Create a new instance of UAParser
+    const parser = new UAParser();
+    // Get device information
+    const result = parser.getResult();
+    const { device } = result;
+    
+    // Update state with device information
+    setDeviceInfo({
+      model: device.model || 'Unknown Model',
+      type: device.type || 'Unknown Type',
+    });
   }, []);
 
   return (
     <div>
-      {isESIMSupported === null ? (
-        <p>Checking eSIM support...</p>
-      ) : isESIMSupported ? (
-        <p>Your device supports eSIM.</p>
-      ) : (
-        <p>Your device does not support eSIM.</p>
-      )}
+      <h1>Device Information</h1>
+      <p><strong>Device Model:</strong> {deviceInfo.model}</p>
+      <p><strong>Device Type:</strong> {deviceInfo.type}</p>
     </div>
   );
 };
 
-export default ESIMCheck;
+export default DeviceInfo;
+
 
 
 
