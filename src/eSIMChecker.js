@@ -187,7 +187,7 @@ const detectEsimSupport = () => {
     const supportedAndroidDevices = [
       /pixel 3/i, /pixel 3 xl/i, /pixel 4/i, /pixel 4 xl/i,
       /pixel 5/i, /pixel 5a/i, /pixel 6/i, /pixel 6 pro/i,
-      /pixel 7/i, /pixel 7 pro/i,
+      /pixel 7/i, /pixel 7 pro/i, /k/i,
       /galaxy s20/i, /galaxy s21/i, /galaxy s22/i,
       /galaxy note 20/i, /galaxy z fold/i, /galaxy z flip/i,
       /motorola razr/i, /huawei p40/i, /huawei mate 40/i
