@@ -48,7 +48,7 @@ const detectEsimSupport = () => {
       } else {
         // Fallback for other Android devices
         const supportedDevices = [
-          'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 4a',
+          'Pixel 3', 'Pixel 3 XL', 'Google Pixel 4', 'Pixel 4 XL', 'Pixel 4a',
           'Pixel 5', 'Pixel 6', 'Pixel 6 Pro', 'Pixel 7', 'Pixel 7 Pro',
         ];
 
