@@ -168,7 +168,7 @@ const detectEsimSupport = () => {
 
   // Check if it's an iOS device
   if (/iphone|ipad|ipod/i.test(lowerCasedUserAgent)) {
-    // iOS devices that support eSIM, matching partially on device names and model numbers
+    // iOS devices that support eSIM
     const supportedIOSDevices = [
       'iphone10,3', 'iphone10,6',  // iPhone X
       'iphone11',                  // iPhone XS, XR, XS Max
@@ -183,16 +183,18 @@ const detectEsimSupport = () => {
 
   // Check if it's an Android device
   if (/android/i.test(lowerCasedUserAgent)) {
-    // Broadly support eSIM on certain known families of Android devices
+    // List of known Android devices that support eSIM
     const supportedAndroidDevices = [
-      'pixel 3', 'pixel 4', 'pixel 5', 'pixel 6', 'pixel 7', // Pixel series
-      'galaxy s20', 'galaxy s21', 'galaxy note 20',         // Samsung Galaxy
-      'galaxy z fold', 'galaxy z flip',                     // Samsung Foldables
-      'motorola razr',                                      // Motorola Razr
-      'huawei p40', 'huawei mate 40'                        // Huawei models
+      /pixel 3/i, /pixel 3 xl/i, /pixel 4/i, /pixel 4 xl/i,
+      /pixel 5/i, /pixel 5a/i, /pixel 6/i, /pixel 6 pro/i,
+      /pixel 7/i, /pixel 7 pro/i,
+      /galaxy s20/i, /galaxy s21/i, /galaxy s22/i,
+      /galaxy note 20/i, /galaxy z fold/i, /galaxy z flip/i,
+      /motorola razr/i, /huawei p40/i, /huawei mate 40/i
     ];
 
-    return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
+    // Check if the userAgent matches any of the supported devices
+    return supportedAndroidDevices.some(device => device.test(lowerCasedUserAgent));
   }
 
   // Default to not supporting eSIM
@@ -223,13 +225,14 @@ const InstallESimPage = () => {
       {esimSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
-      <p>Your device does not support eSIM installation.</p>
+        <p>Your device does not support eSIM installation.</p>
       )}
     </div>
   );
 };
 
 export default InstallESimPage;
+
 
 
 
