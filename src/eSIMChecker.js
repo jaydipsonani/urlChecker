@@ -160,7 +160,7 @@
 
 import { useEffect, useState } from 'react';
 
-// Function to detect platform
+// Function to detect the platform
 const detectDevicePlatform = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
@@ -172,7 +172,7 @@ const detectDevicePlatform = () => {
   return 'Unknown';
 };
 
-// Function to check eSIM support based on platform and device lists
+// Function to check for general eSIM support based on platform
 const detectEsimSupport = () => {
   const platform = detectDevicePlatform();
   
@@ -180,18 +180,12 @@ const detectEsimSupport = () => {
     // Most modern iOS devices support eSIM
     return true;
   } else if (platform === 'Android') {
-    // Known list of Android devices that support eSIM
-    const knownEsimAndroidDevices = [
-      'pixel 3', 'pixel 3 xl', 'pixel 4', 'pixel 4 xl',
-      'pixel 5', 'pixel 5a', 'pixel 6', 'pixel 6 pro',
-      'pixel 7', 'pixel 7 pro',
-      'galaxy s20', 'galaxy s21', 'galaxy s22',
-      'galaxy note 20', 'galaxy z fold', 'galaxy z flip',
-      'motorola razr', 'huawei p40', 'huawei mate 40'
-    ];
-    
+    // Android devices from around 2018 onwards generally support eSIM
+    // Add further checks or assumptions based on general support for recent Android versions
     const userAgent = navigator.userAgent.toLowerCase();
-    return knownEsimAndroidDevices.some(device => userAgent.includes(device));
+    // Assume devices with certain characteristics (like newer Android versions) support eSIM
+    const newerAndroid = /android [9-]{0,1}[1-9]\d*/.test(userAgent) || /android 10|11|12/.test(userAgent);
+    return newerAndroid;
   }
   
   return false;
@@ -227,6 +221,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
