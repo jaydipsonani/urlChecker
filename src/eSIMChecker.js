@@ -416,35 +416,68 @@ const EsimDetector = () => {
   useEffect(() => {
     const getDeviceInfo = () => {
       try {
-        const userAgent = navigator.userAgent;
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
         const device = {
           os: '',
           browser: '',
           device: '',
         };
 
-        // Parse user agent to get device info
+        // Parse user agent to get OS
         if (/Android/i.test(userAgent)) {
           device.os = 'Android';
         } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
           device.os = 'iOS';
+        } else if (/Linux/i.test(userAgent)) {
+          device.os = 'Linux'; // Fallback for cases where Linux is detected
         }
 
-        if (/Chrome/i.test(userAgent)) {
+        // Parse user agent to get browser
+        if (/Chrome/i.test(userAgent) && !/Edge/i.test(userAgent)) {
           device.browser = 'Chrome';
         } else if (/Safari/i.test(userAgent) && !/Chrome/i.test(userAgent)) {
           device.browser = 'Safari';
+        } else if (/Firefox/i.test(userAgent)) {
+          device.browser = 'Firefox';
+        } else if (/Edge/i.test(userAgent)) {
+          device.browser = 'Edge';
         }
 
-        // Detect device model from user agent (simple heuristic)
-        const modelMatch = userAgent.match(/\(([^)]+)\)/);
-        if (modelMatch) {
-          device.device = modelMatch[1];
+        // Extract device model
+        const deviceModelMatch = userAgent.match(/\(([^)]+)\)/);
+        if (deviceModelMatch) {
+          device.device = deviceModelMatch[1].split(';').pop().trim();
+        } else {
+          device.device = 'Unknown Device';
         }
 
-        // Simulate eSIM detection based on known devices and platforms
-        if (device.os === 'iOS' || (device.os === 'Android' && /Pixel|Galaxy|OnePlus/.test(userAgent))) {
+        // eSIM supported devices
+        const esimSupportedDevices = [
+          // iOS Devices
+          'iPhone XS', 'iPhone XS Max', 'iPhone XR',
+          'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
+          'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini',
+          'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 
+          'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
+          'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+          // Android Devices
+          'X11; Linux x86_64'
+          'Pixel 3', 'Pixel 3 XL', 'Pixel 4', 'Pixel 4 XL', 'Pixel 5',
+          'Pixel 6', 'Pixel 6 Pro', 'Pixel 7', 'Pixel 7 Pro',
+          'Galaxy S20', 'Galaxy S20+', 'Galaxy S20 Ultra',
+          'Galaxy Note 20', 'Galaxy Note 20 Ultra',
+          'Galaxy Z Fold 2', 'Galaxy Z Fold 3', 'Galaxy Z Fold 4',
+          'Galaxy Z Flip', 'Galaxy Z Flip 3', 'Galaxy Z Flip 4',
+          'Galaxy S21', 'Galaxy S21+', 'Galaxy S21 Ultra',
+          'Motorola Razr (2019)', 'Motorola Razr 5G',
+          'Huawei P40', 'Huawei P40 Pro', 'Huawei Mate 40 Pro'
+        ];
+
+        // Check if device supports eSIM
+        if (device.os === 'iOS' || (device.os === 'Android' && esimSupportedDevices.includes(device.device))) {
           setEsimSupported(true);
+        } else {
+          setEsimSupported(false);
         }
 
         setDeviceInfo(device);
@@ -468,5 +501,6 @@ const EsimDetector = () => {
 };
 
 export default EsimDetector;
+
 
 
