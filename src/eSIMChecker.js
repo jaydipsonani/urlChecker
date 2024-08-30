@@ -237,6 +237,7 @@ export default InstallESimPage;
 
 
 
+
 // import { useEffect, useState } from 'react';
 
 // // Function to detect platform, device name, and possible eSIM support based on user agent
