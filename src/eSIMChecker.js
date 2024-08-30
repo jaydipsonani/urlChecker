@@ -164,29 +164,34 @@ import { useEffect, useState } from 'react';
 // Function to detect platform and possible eSIM support based on user agent
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const lowerCasedUserAgent = userAgent.toLowerCase(); // Normalize user agent string
+  const lowerCasedUserAgent = userAgent.toLowerCase();
 
   // Check if it's an iOS device
   if (/iphone|ipad|ipod/i.test(lowerCasedUserAgent)) {
-    // List of iOS devices that support eSIM (using partial matching)
+    // iOS devices that support eSIM, matching partially on device names and model numbers
     const supportedIOSDevices = [
-      'iphone10', 'iphone11', 'iphone12', 'iphone13', 'iphone14' // Partial matches for iPhone X to iPhone 14
+      'iphone10,3', 'iphone10,6',  // iPhone X
+      'iphone11',                  // iPhone XS, XR, XS Max
+      'iphone12',                  // iPhone 11 series
+      'iphone13',                  // iPhone 12 series
+      'iphone14',                  // iPhone 13 series
+      'iphone15'                   // iPhone 14 series
     ];
 
-    // Check if the user agent contains any of the supported iOS devices
     return supportedIOSDevices.some(device => lowerCasedUserAgent.includes(device));
   }
 
   // Check if it's an Android device
   if (/android/i.test(lowerCasedUserAgent)) {
-    // List of Android devices that support eSIM (using partial matching)
+    // Broadly support eSIM on certain known families of Android devices
     const supportedAndroidDevices = [
-      'pixel 3', 'pixel 4', 'pixel 5', 'pixel 6', 'pixel 7',
-      'galaxy s20', 'galaxy s21', 'galaxy note 20', 'galaxy z fold', 'galaxy z flip',
-      'motorola razr', 'huawei p40', 'huawei mate 40'
+      'pixel 3', 'pixel 4', 'pixel 5', 'pixel 6', 'pixel 7', // Pixel series
+      'galaxy s20', 'galaxy s21', 'galaxy note 20',         // Samsung Galaxy
+      'galaxy z fold', 'galaxy z flip',                     // Samsung Foldables
+      'motorola razr',                                      // Motorola Razr
+      'huawei p40', 'huawei mate 40'                        // Huawei models
     ];
 
-    // Check if the user agent contains any of the supported Android devices
     return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
   }
 
@@ -199,10 +204,11 @@ const InstallESimPage = () => {
 
   useEffect(() => {
     const isEsimSupported = detectEsimSupport();
+    console.log("User Agent:", navigator.userAgent); // For debugging purposes
+    console.log("eSIM Supported:", isEsimSupported); // To verify detection logic
     setEsimSupported(isEsimSupported);
   }, []);
 
-  // Function to redirect to the eSIM setup page for iOS
   const redirectToEsimSetup = () => {
     const smdpAddress = 'your_smdp_address'; // Replace with actual SM-DP+ Address
     const activationCode = 'your_activation_code'; // Replace with actual Activation Code
@@ -217,13 +223,14 @@ const InstallESimPage = () => {
       {esimSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
-        <p>Your device does not support eSIM installation.</p>
+      <p>Your device does not support eSIM installation.</p>
       )}
     </div>
   );
 };
 
 export default InstallESimPage;
+
 
 
 
