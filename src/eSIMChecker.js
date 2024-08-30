@@ -168,14 +168,13 @@ const detectEsimSupport = () => {
 
   // Check if it's an iOS device
   if (/iphone|ipad|ipod/i.test(lowerCasedUserAgent)) {
-    // iOS devices that support eSIM
     const supportedIOSDevices = [
-      'iphone10,3', 'iphone10,6',  // iPhone X
-      'iphone11',                  // iPhone XS, XR, XS Max
-      'iphone12',                  // iPhone 11 series
-      'iphone13',                  // iPhone 12 series
-      'iphone14',                  // iPhone 13 series
-      'iphone15'                   // iPhone 14 series
+      'iphone xs', 'iphone xs max', 'iphone xr',
+      'iphone 11', 'iphone 11 pro', 'iphone 11 pro max',
+      'iphone se', 'iphone 12', 'iphone 12 mini',
+      'iphone 12 pro', 'iphone 12 pro max', 'iphone 13', 
+      'iphone 13 mini', 'iphone 13 pro', 'iphone 13 pro max',
+      'iphone 14', 'iphone 14 plus', 'iphone 14 pro', 'iphone 14 pro max'
     ];
 
     return supportedIOSDevices.some(device => lowerCasedUserAgent.includes(device));
@@ -183,18 +182,16 @@ const detectEsimSupport = () => {
 
   // Check if it's an Android device
   if (/android/i.test(lowerCasedUserAgent)) {
-    // List of known Android devices that support eSIM
     const supportedAndroidDevices = [
-      /pixel 3/i, /pixel 3 xl/i, /pixel 4/i, /pixel 4 xl/i,
-      /pixel 5/i, /pixel 5a/i, /pixel 6/i, /pixel 6 pro/i,
-      /pixel 7/i, /pixel 7 pro/i, /k/i,
-      /galaxy s20/i, /galaxy s21/i, /galaxy s22/i,
-      /galaxy note 20/i, /galaxy z fold/i, /galaxy z flip/i,
-      /motorola razr/i, /huawei p40/i, /huawei mate 40/i
+      'pixel 3', 'pixel 3 xl', 'pixel 4', 'pixel 4 xl',
+      'pixel 5', 'pixel 5a', 'pixel 6', 'pixel 6 pro',
+      'pixel 7', 'pixel 7 pro',
+      'galaxy s20', 'galaxy s21', 'galaxy s22',
+      'galaxy note 20', 'galaxy z fold', 'galaxy z flip',
+      'motorola razr', 'huawei p40', 'huawei mate 40'
     ];
 
-    // Check if the userAgent matches any of the supported devices
-    return supportedAndroidDevices.some(device => device.test(lowerCasedUserAgent));
+    return supportedAndroidDevices.some(device => lowerCasedUserAgent.includes(device));
   }
 
   // Default to not supporting eSIM
@@ -232,8 +229,6 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
-
-
 
 
 
