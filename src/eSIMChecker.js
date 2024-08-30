@@ -409,6 +409,7 @@ import UAParser from 'ua-parser-js';
 
 // Define a list of devices known to support eSIM
 const esimSupportedDevices = [
+  'K',
   'iPhone X', 'iPhone XS', 'iPhone XS Max', 'iPhone XR',
   'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
   'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
