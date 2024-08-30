@@ -35,8 +35,8 @@ const checkDeviceSupport = (userAgent, deviceList) => {
       normalizedUserAgent.includes(normalizeText(device))
     );
     return matchedDevice
-      ? { device: matchedDevice, isESIMSupported: false }
-      : { device: 'Unknown Android Device', isESIMSupported: true };
+      ? { device: matchedDevice, isESIMSupported: true }
+      : { device: 'Unknown Android Device', isESIMSupported: false };
   } else {
     return { device: 'Unknown Device', isESIMSupported: false };
   }
