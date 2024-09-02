@@ -499,32 +499,55 @@ import { useEffect, useState } from 'react';
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
+  // Function to get iOS device name
+  const getIosDeviceName = () => {
+    const iosDevices = {
+      'iPhone10,1': 'iPhone 8',
+      'iPhone10,2': 'iPhone 8 Plus',
+      'iPhone10,3': 'iPhone X',
+      'iPhone10,6': 'iPhone X',
+      'iPhone11,2': 'iPhone XS',
+      'iPhone11,4': 'iPhone XS Max',
+      'iPhone11,6': 'iPhone XS Max',
+      'iPhone11,8': 'iPhone XR',
+      'iPhone12,1': 'iPhone 11',
+      'iPhone12,3': 'iPhone 11 Pro',
+      'iPhone12,5': 'iPhone 11 Pro Max',
+      'iPhone12,8': 'iPhone SE (2nd generation)',
+      'iPhone13,1': 'iPhone 12 mini',
+      'iPhone13,2': 'iPhone 12',
+      'iPhone13,3': 'iPhone 12 Pro',
+      'iPhone13,4': 'iPhone 12 Pro Max',
+      'iPhone14,4': 'iPhone 13 mini',
+      'iPhone14,5': 'iPhone 13',
+      'iPhone14,2': 'iPhone 13 Pro',
+      'iPhone14,3': 'iPhone 13 Pro Max',
+      'iPhone14,7': 'iPhone 14',
+      'iPhone14,8': 'iPhone 14 Plus',
+      'iPhone15,2': 'iPhone 14 Pro',
+      'iPhone15,3': 'iPhone 14 Pro Max',
+    };
+    const match = userAgent.match(/iPhone.*OS (\d+)_/);
+    if (match) {
+      const version = match[1];
+      // Using device model from the user agent
+      // Add more specific device detection if necessary
+      return iosDevices[version] || 'iOS Device';
+    }
+    return 'iOS Device';
+  };
+
   // Check if it's an iOS device
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    // List of iOS devices that support eSIM
-    const supportedDevices = [
-      'iPhone XS', 'iPhone XS Max', 'iPhone XR',
-      'iPhone 8 Plus',
-      'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
-      'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini',
-      'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 
-      'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
-      'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max'
-    ];
-
-    // Find the device name from the user agent
-    const deviceName = supportedDevices.find(device => userAgent.includes(device));
+    const deviceName = getIosDeviceName();
     return {
-      isSupported: !!deviceName,
-      deviceName: deviceName || 'iOS Device'
+      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
+      deviceName
     };
   }
 
   // Check if it's an Android device
   if (/Android/i.test(userAgent)) {
-    // Android devices are more complex; generally, assume newer devices (from 2018 onwards) support eSIM.
-    // You could add more specific checks based on device models, if known.
-    // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
     const year = new Date().getFullYear();
     return {
       isSupported: year >= 2018,
@@ -570,4 +593,5 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
