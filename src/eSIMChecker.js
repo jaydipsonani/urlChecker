@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 // Function to detect platform and possible eSIM support based on user agent
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const platform = navigator.platform;
 
   // Function to get iOS device name
   const getIosDeviceName = () => {
@@ -33,29 +34,30 @@ const detectEsimSupport = () => {
       'iPhone15,2': 'iPhone 14 Pro',
       'iPhone15,3': 'iPhone 14 Pro Max',
     };
-    
-    // Check user agent for iOS device and extract device model
-    const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
-    if (match) {
-      // Sample userAgent might not directly include the hardware identifier
-      // Use platform information as a fallback
-      const platform = navigator.platform;
-      if (platform.includes('iPhone')) {
 
-        const deviceModel = 'iPhone10,2'; 
-        
-        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
-      }
-      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
-    }
-    return 'iOS Device';
+    // This part should be adapted to match the actual way to get the device model.
+    // For simplicity, we are assuming `deviceModel` is available as a string here.
+    // In practice, device models are often not included in userAgent or platform, 
+    // so you might need to rely on specific user agent patterns or other methods.
+
+    // Extract device model from userAgent (mock example, adjust based on real patterns)
+    const deviceModel = userAgent.match(/iPhone\s*(\d+_\d+|\d+_\d+_\d+)/)?.[1] || 'Unknown';
+
+    return iosDevices[deviceModel] || `iOS Device ${deviceModel}`;
   };
 
   // Check if it's an iOS device
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
     const deviceName = getIosDeviceName();
     return {
-      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
+      isSupported: [
+        'iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 
+        'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 
+        'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
+        'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 
+        'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+        'iPhone 8 Plus'
+      ].includes(deviceName),
       deviceName
     };
   }
