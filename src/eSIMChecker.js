@@ -7,27 +7,25 @@ const detectEsimSupport = () => {
   // Function to get iOS device name based on user agent
   const getIosDeviceName = () => {
     const iosPatterns = [
-      
-      
-      { pattern: /iPhone12,1/, model: 'iPhone 11' },
-      { pattern: /iPhone12,3/, model: 'iPhone 11 Pro' },
-      { pattern: /iPhone12,5/, model: 'iPhone 11 Pro Max' },
-      { pattern: /iPhone13,1/, model: 'iPhone 12 mini' },
-      { pattern: /iPhone13,2/, model: 'iPhone 12' },
-      { pattern: /iPhone10,2/, model: 'iPhone 8 Plus' },
-      { pattern: /iPhone10,5/, model: 'iPhone 8 Plus' },
-      { pattern: /iPhone13,3/, model: 'iPhone 12 Pro' },
-      { pattern: /iPhone13,4/, model: 'iPhone 12 Pro Max' },
-      { pattern: /iPhone14,4/, model: 'iPhone 13 mini' },
-      { pattern: /iPhone14,5/, model: 'iPhone 13' },
-      { pattern: /iPhone14,2/, model: 'iPhone 13 Pro' },
-      { pattern: /iPhone14,3/, model: 'iPhone 13 Pro Max' },
-      { pattern: /iPhone15,2/, model: 'iPhone 14 Pro' },
-      { pattern: /iPhone15,3/, model: 'iPhone 14 Pro Max' },
-      { pattern: /iPhone15,4/, model: 'iPhone 15' },
-      { pattern: /iPhone15,5/, model: 'iPhone 15 Plus' },
-      { pattern: /iPhone16,1/, model: 'iPhone 15 Pro' },
-      { pattern: /iPhone16,2/, model: 'iPhone 15 Pro Max' },
+     { pattern: /iPhone.*OS 16_3/, model: 'iPhone 14 Pro Max' },
+    { pattern: /iPhone.*OS 16_2/, model: 'iPhone 14 Pro' },
+    { pattern: /iPhone.*OS 16_1/, model: 'iPhone 14 Plus' },
+    { pattern: /iPhone.*OS 16_0/, model: 'iPhone 14' },
+    { pattern: /iPhone.*OS 15_3/, model: 'iPhone 13 Pro Max' },
+    { pattern: /iPhone.*OS 15_2/, model: 'iPhone 13 Pro' },
+    { pattern: /iPhone.*OS 15_1/, model: 'iPhone 13 mini' },
+    { pattern: /iPhone.*OS 15_0/, model: 'iPhone 13' },
+    { pattern: /iPhone.*OS 14_3/, model: 'iPhone 12 Pro Max' },
+    { pattern: /iPhone.*OS 14_2/, model: 'iPhone 12 Pro' },
+    { pattern: /iPhone.*OS 14_1/, model: 'iPhone 12 mini' },
+    { pattern: /iPhone.*OS 14_0/, model: 'iPhone 12' },
+    { pattern: /iPhone.*OS 13_2/, model: 'iPhone 11 Pro Max' },
+    { pattern: /iPhone.*OS 13_1/, model: 'iPhone 11 Pro' },
+    { pattern: /iPhone.*OS 13_0/, model: 'iPhone 11' },
+    { pattern: /iPhone.*OS 12_2/, model: 'iPhone XR' },
+    { pattern: /iPhone.*OS 12_1/, model: 'iPhone XS Max' },
+    { pattern: /iPhone.*OS 12_0/, model: 'iPhone XS' },
+    { pattern: /iPhone.*OS 11_0/, model: 'iPhone 8 Plus' }, 
     ];
 
     // Log userAgent for debugging
