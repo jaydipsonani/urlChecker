@@ -431,7 +431,8 @@ function App() {
         if (match && match[1]) {
           return match[1];
         }
-        return "Unknown Android Device";
+        // If no specific device name, return a generic Android label
+        return "Android Device";
       }
 
       // Detect iOS devices
@@ -447,14 +448,17 @@ function App() {
     }
 
     setDeviceName(getDeviceName());
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
   return (
     <div>
-      <p>{deviceName}</p>
+      <h1>{deviceName}</h1>
     </div>
   );
 }
+
+export default App;
+
 
 export default App;
 
