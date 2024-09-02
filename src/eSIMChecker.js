@@ -8,8 +8,8 @@ const detectEsimSupport = () => {
   const getIosDeviceName = () => {
     // Mapping iOS user agents to device names
     const iosDevices = {
-      'iPhone10,1': 'iPhone 8',
-      'iPhone10,2': 'iPhone 8 Plus',
+      // 'iPhone10,1': 'iPhone 8',
+      // 'iPhone10,2': 'iPhone 8 Plus',
       'iPhone10,3': 'iPhone X',
       'iPhone10,6': 'iPhone X',
       'iPhone11,2': 'iPhone XS',
@@ -36,7 +36,7 @@ const detectEsimSupport = () => {
 
     // Check if user agent contains any known patterns for iOS devices
     const iosPatterns = [
-      { pattern: /iPhone.*OS 11_0.*\b(\d+_\d+)/, model: 'iPhone 8 Plus' },
+      // { pattern: /iPhone.*OS 11_0.*\b(\d+_\d+)/, model: 'iPhone 8 Plus' },
       { pattern: /iPhone.*OS 11_4/, model: 'iPhone X' },
       { pattern: /iPhone.*OS 12_0/, model: 'iPhone XS' },
       { pattern: /iPhone.*OS 12_1/, model: 'iPhone XS Max' },
