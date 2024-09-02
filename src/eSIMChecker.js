@@ -4,56 +4,46 @@ import { useEffect, useState } from 'react';
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Function to get iOS device name
-  const getIosDeviceName = () => {
-    // Mapping internal identifiers to device names
-    const iosDevices = {
-      'iPhone10,1': 'iPhone 8',
-      'iPhone10,3': 'iPhone X',
-      'iPhone10,6': 'iPhone X',
-      'iPhone11,2': 'iPhone XS',
-      'iPhone11,4': 'iPhone XS Max',
-      'iPhone11,6': 'iPhone XS Max',
-      'iPhone11,8': 'iPhone XR',
-      'iPhone12,1': 'iPhone 11',
-      'iPhone10,2': 'iPhone 8 Plus',
-      'iPhone12,3': 'iPhone 11 Pro',
-      'iPhone12,5': 'iPhone 11 Pro Max',
-      'iPhone12,8': 'iPhone SE (2nd generation)',
-      'iPhone13,1': 'iPhone 12 mini',
-      'iPhone13,2': 'iPhone 12',
-      'iPhone13,3': 'iPhone 12 Pro',
-      'iPhone13,4': 'iPhone 12 Pro Max',
-      'iPhone14,4': 'iPhone 13 mini',
-      'iPhone14,5': 'iPhone 13',
-      'iPhone14,2': 'iPhone 13 Pro',
-      'iPhone14,3': 'iPhone 13 Pro Max',
-      'iPhone14,7': 'iPhone 14',
-      'iPhone14,8': 'iPhone 14 Plus',
-      'iPhone15,2': 'iPhone 14 Pro',
-      'iPhone15,3': 'iPhone 14 Pro Max',
-    };
+  // Mapping internal identifiers to device names
+  const iosDevices = {
+    'iPhone10,1': 'iPhone 8',
+    'iPhone10,2': 'iPhone 8 Plus',
+    'iPhone10,3': 'iPhone X',
+    'iPhone10,6': 'iPhone X',
+    'iPhone11,2': 'iPhone XS',
+    'iPhone11,4': 'iPhone XS Max',
+    'iPhone11,6': 'iPhone XS Max',
+    'iPhone11,8': 'iPhone XR',
+    'iPhone12,1': 'iPhone 11',
+    'iPhone12,3': 'iPhone 11 Pro',
+    'iPhone12,5': 'iPhone 11 Pro Max',
+    'iPhone12,8': 'iPhone SE (2nd generation)',
+    'iPhone13,1': 'iPhone 12 mini',
+    'iPhone13,2': 'iPhone 12',
+    'iPhone13,3': 'iPhone 12 Pro',
+    'iPhone13,4': 'iPhone 12 Pro Max',
+    'iPhone14,4': 'iPhone 13 mini',
+    'iPhone14,5': 'iPhone 13',
+    'iPhone14,2': 'iPhone 13 Pro',
+    'iPhone14,3': 'iPhone 13 Pro Max',
+    'iPhone14,7': 'iPhone 14',
+    'iPhone14,8': 'iPhone 14 Plus',
+    'iPhone15,2': 'iPhone 14 Pro',
+    'iPhone15,3': 'iPhone 14 Pro Max',
+  };
 
-    // Extract iOS device model from userAgent if possible
-    const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
-    if (match) {
-      // Use platform information as a fallback
-      const platform = navigator.platform;
-      if (platform.includes('iPhone')) {
-        // Extract device model from user agent or use a placeholder for now
-        // Note: You need a more accurate way to get deviceModel
-        const deviceModel = Object.keys(iosDevices); // Placeholder value
-
-        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
-      }
-      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
-    }
-    return 'iOS Device';
+  // Placeholder function to determine device model based on user agent
+  const getDeviceModel = () => {
+    // This function should accurately return the device model from the user agent
+    // For demonstration purposes, we use a hardcoded value (you should replace this with actual logic)
+    const deviceModel = Object.keys(iosDevices); // Example: replace with actual logic to determine device model
+    return deviceModel;
   };
 
   // Check if it's an iOS device
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    const deviceName = getIosDeviceName();
+    const deviceModel = getDeviceModel();
+    const deviceName = iosDevices[deviceModel] || 'Unknown iOS Device';
     return {
       isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
       deviceName
@@ -107,6 +97,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 
