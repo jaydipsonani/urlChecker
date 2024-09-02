@@ -6,23 +6,16 @@ const detectEsimSupport = () => {
 
   // Function to get iOS device name based on user agent
   const getIosDeviceName = () => {
-    // Mapping iOS user agents to device names
     const iosPatterns = [
-      { pattern: /iPhone10,3|iPhone10,6/, model: 'iPhone X' },
-      { pattern: /iPhone9,1|iPhone9,3/, model: 'iPhone 7' },
-      { pattern: /iPhone9,2|iPhone9,4/, model: 'iPhone 7 Plus' },
-      { pattern: /iPhone8,1/, model: 'iPhone 6s' },
-      { pattern: /iPhone8,2/, model: 'iPhone 6s Plus' },
-      { pattern: /iPhone8,4/, model: 'iPhone SE (1st generation)' },
-      { pattern: /iPhone11,2/, model: 'iPhone XS' },
-      { pattern: /iPhone11,4|iPhone11,6/, model: 'iPhone XS Max' },
-      { pattern: /iPhone11,8/, model: 'iPhone XR' },
+      
+      
       { pattern: /iPhone12,1/, model: 'iPhone 11' },
       { pattern: /iPhone12,3/, model: 'iPhone 11 Pro' },
       { pattern: /iPhone12,5/, model: 'iPhone 11 Pro Max' },
       { pattern: /iPhone13,1/, model: 'iPhone 12 mini' },
       { pattern: /iPhone13,2/, model: 'iPhone 12' },
-      { pattern: /iPhone8,2/, model: 'iPhone 8 Plus' }, // Fixed pattern
+      { pattern: /iPhone10,2/, model: 'iPhone 8 Plus' },
+      { pattern: /iPhone10,5/, model: 'iPhone 8 Plus' },
       { pattern: /iPhone13,3/, model: 'iPhone 12 Pro' },
       { pattern: /iPhone13,4/, model: 'iPhone 12 Pro Max' },
       { pattern: /iPhone14,4/, model: 'iPhone 13 mini' },
@@ -36,6 +29,9 @@ const detectEsimSupport = () => {
       { pattern: /iPhone16,1/, model: 'iPhone 15 Pro' },
       { pattern: /iPhone16,2/, model: 'iPhone 15 Pro Max' },
     ];
+
+    // Log userAgent for debugging
+    console.log('User Agent:', userAgent);
 
     // Match user agent against known patterns
     for (const { pattern, model } of iosPatterns) {
@@ -110,6 +106,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 
 // ========================================================================================================
