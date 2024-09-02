@@ -424,6 +424,9 @@ function App() {
   useEffect(() => {
     function getDeviceName() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      
+      // Log the user agent to the console
+      console.log("User Agent:", userAgent);
 
       // Known Android device patterns
       const androidDevicePatterns = [
@@ -445,7 +448,7 @@ function App() {
             return device.name;
           }
         }
-        return "Android Device"; // Default label if no specific model is matched
+        return `Android Version: ${userAgent.match(/Android\s([0-9\.]+)/i)[1]}`; // Return Android version if no specific model is matched
       }
 
       // Detect iOS devices and show type
@@ -466,13 +469,13 @@ function App() {
   return (
     <div>
       <p>{deviceName}</p>
-
-    <h1>hello</h1>
+      <h1>Hello</h1>
     </div>
   );
 }
 
 export default App;
+
 
 
 
