@@ -504,6 +504,7 @@ const detectEsimSupport = () => {
     // List of iOS devices that support eSIM
     const supportedDevices = [
       'iPhone XS', 'iPhone XS Max', 'iPhone XR',
+      'iPhone 8 Plus',
       'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
       'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini',
       'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 
