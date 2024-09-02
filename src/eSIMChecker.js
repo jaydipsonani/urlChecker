@@ -348,68 +348,97 @@
 
 // =================================================================================================================
 
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 
-const detectEsimSupport = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const lowerCasedUserAgent = userAgent.toLowerCase();
+// const detectEsimSupport = () => {
+//   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+//   const lowerCasedUserAgent = userAgent.toLowerCase();
 
-  // Check if it's an iOS device
-  if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    // Check if it's a supported iOS device using a more generic check
-    const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
-    if (iOSVersionMatch) {
-      const version = iOSVersionMatch[1].replace('_', '.');
-      const supportedVersion = parseFloat(version) >= 12; 
-      return supportedVersion;
+//   // Check if it's an iOS device
+//   if (/iPhone|iPad|iPod/i.test(userAgent)) {
+//     // Check if it's a supported iOS device using a more generic check
+//     const iOSVersionMatch = userAgent.match(/OS (\d+_\d+)/);
+//     if (iOSVersionMatch) {
+//       const version = iOSVersionMatch[1].replace('_', '.');
+//       const supportedVersion = parseFloat(version) >= 12; 
+//       return supportedVersion;
+//     }
+//     return false; // Default to not supporting eSIM if version cannot be parsed
+//   }
+
+//   // Check if it's an Android device
+//   if (/Android/i.test(userAgent)) {
+//     // Extract Android version from user agent string
+//     // const androidVersionMatch = userAgent.match(/Android (\d+(\.\d+)?)/);
+//     // if (androidVersionMatch) {
+//     //   const version = parseFloat(androidVersionMatch[1]);
+//     //   // Check if the version is greater than 13
+//     //   return version > 13;
+//     // }
+//     // // Default to supporting eSIM for newer Android versions if version cannot be parsed
+//     // return false;
+//     return true
+//   }
+
+//   // Default to not supporting eSIM
+//   return false;
+// };
+
+// const InstallESimPage = () => {
+//   const [esimSupported, setEsimSupported] = useState(false);
+
+//   useEffect(() => {
+//     const isEsimSupported = detectEsimSupport();
+//     setEsimSupported(isEsimSupported);
+//   }, []);
+
+//   const redirectToEsimSetup = () => {
+//     const smdpAddress = 'consumer.e-sim.global'; // Replace with actual SM-DP+ Address
+//     const activationCode = 'TN2024032517501135006332'; // Replace with actual Activation Code
+//     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+//     window.location.href = url;
+//   };
+
+//   return (
+//     <div>
+//       <h1>eSIM Installation</h1>
+//       {esimSupported ? (
+//         <button onClick={redirectToEsimSetup}>Install eSIM</button>
+//       ) : (
+//         <p>Your device does not support eSIM installation.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default InstallESimPage;
+
+// ================================================================================================================================================
+
+function detectDeviceName() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/android/i.test(userAgent)) {
+        const match = userAgent.match(/Android\s\d+;\s+([^;]+)/);
+        if (match && match[1]) {
+            return `Android device: ${match[1]}`;
+        }
+        return "Unknown Android Device";
     }
-    return false; // Default to not supporting eSIM if version cannot be parsed
-  }
 
-  // Check if it's an Android device
-  if (/Android/i.test(userAgent)) {
-    // Extract Android version from user agent string
-    // const androidVersionMatch = userAgent.match(/Android (\d+(\.\d+)?)/);
-    // if (androidVersionMatch) {
-    //   const version = parseFloat(androidVersionMatch[1]);
-    //   // Check if the version is greater than 13
-    //   return version > 13;
-    // }
-    // // Default to supporting eSIM for newer Android versions if version cannot be parsed
-    // return false;
-    return true
-  }
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        const match = userAgent.match(/(iPhone|iPad|iPod)/);
+        if (match && match[1]) {
+            return `Apple device: ${match[1]}`;
+        }
+        return "Unknown iOS Device";
+    }
 
-  // Default to not supporting eSIM
-  return false;
-};
+    return "Unknown Device";
+}
 
-const InstallESimPage = () => {
-  const [esimSupported, setEsimSupported] = useState(false);
+console.log(detectDeviceName());
 
-  useEffect(() => {
-    const isEsimSupported = detectEsimSupport();
-    setEsimSupported(isEsimSupported);
-  }, []);
 
-  const redirectToEsimSetup = () => {
-    const smdpAddress = 'consumer.e-sim.global'; // Replace with actual SM-DP+ Address
-    const activationCode = 'TN2024032517501135006332'; // Replace with actual Activation Code
-    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
 
-    window.location.href = url;
-  };
-
-  return (
-    <div>
-      <h1>eSIM Installation</h1>
-      {esimSupported ? (
-        <button onClick={redirectToEsimSetup}>Install eSIM</button>
-      ) : (
-        <p>Your device does not support eSIM installation.</p>
-      )}
-    </div>
-  );
-};
-
-export default InstallESimPage;
