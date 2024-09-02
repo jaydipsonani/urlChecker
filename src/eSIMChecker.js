@@ -8,7 +8,7 @@ const detectEsimSupport = () => {
   const getIosDeviceName = () => {
     // Mapping internal identifiers to device names
     const iosDevices = {
-      'iPhone10,1': 'iPhone 8',
+      'iPhone10,2': 'iPhone 8 Plus',
       'iPhone10,3': 'iPhone X',
       'iPhone10,6': 'iPhone X',
       'iPhone11,2': 'iPhone XS',
@@ -16,7 +16,6 @@ const detectEsimSupport = () => {
       'iPhone11,6': 'iPhone XS Max',
       'iPhone11,8': 'iPhone XR',
       'iPhone12,1': 'iPhone 11',
-      'iPhone10,2': 'iPhone 8 Plus',
       'iPhone12,3': 'iPhone 11 Pro',
       'iPhone12,5': 'iPhone 11 Pro Max',
       'iPhone12,8': 'iPhone SE (2nd generation)',
@@ -55,7 +54,9 @@ const detectEsimSupport = () => {
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
     const deviceName = getIosDeviceName();
     return {
-      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
+      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 
+        'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 
+        'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
       deviceName
     };
   }
