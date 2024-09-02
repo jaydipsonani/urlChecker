@@ -416,84 +416,146 @@
 
 // ================================================================================================================================================
 
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 
-function App() {
-  const [deviceName, setDeviceName] = useState('Unknown Device');
+// function App() {
+//   const [deviceName, setDeviceName] = useState('Unknown Device');
+
+//   useEffect(() => {
+//     function getDeviceName() {
+//       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      
+//       // Log the user agent to the console
+//       console.log("User Agent:", userAgent);
+
+//       // Known Android device patterns
+//       const androidDevicePatterns = [
+//         { name: "Pixel 4", pattern: /Pixel 4/ },
+//         { name: "Samsung Galaxy S21", pattern: /SM-G991/ },
+//         { name: "Samsung Galaxy S20", pattern: /SM-G981/ },
+//         { name: "OnePlus 8", pattern: /OnePlus8/ },
+//         { name: "OnePlus 9", pattern: /LE211/ },
+//         { name: "Huawei P30", pattern: /ELE-L29/ },
+//         { name: "Xiaomi Mi 10", pattern: /M2001J2G/ },
+//         { name: "OPPO A76", pattern: /CPH2375/ }, 
+//         // Add more device patterns here
+//       ];
+
+//       // Known iOS device patterns
+//       const iosDevicePatterns = [
+//         { name: "iPhone 12", pattern: /iPhone.*(iPhone 12|iPhone12,1|iPhone12,3|iPhone12,5)/ },
+//         { name: "iPhone 11", pattern: /iPhone.*(iPhone 11|iPhone11,2|iPhone11,4|iPhone11,6)/ },
+//         { name: "iPhone X", pattern: /iPhone.*(iPhone X|iPhone10,3|iPhone10,6)/ },
+//         { name: "iPhone 8", pattern: /iPhone.*(iPhone 8|iPhone10,1|iPhone10,4)/ },
+//         { name: "iPhone 7", pattern: /iPhone.*(iPhone 7|iPhone9,1|iPhone9,3)/ },
+//         { name: "iPad Pro", pattern: /iPad.*(iPad Pro)/ },
+//         { name: "iPad Air", pattern: /iPad.*(iPad Air)/ },
+//         { name: "iPad Mini", pattern: /iPad.*(iPad Mini)/ },
+//         { name: "iPad", pattern: /iPad.*(iPad)/ },
+//         // Add more device patterns here
+//       ];
+
+//       // Detect Android devices and extract model name if available
+//       if (/android/i.test(userAgent)) {
+//         for (const device of androidDevicePatterns) {
+//           if (device.pattern.test(userAgent)) {
+//             return device.name;
+//           }
+//         }
+//         return `Android Version: ${userAgent.match(/Android\s([0-9\.]+)/i)?.[1] || 'Unknown Version'}`;
+//       }
+
+//       // Detect iOS devices and extract model name if available
+//       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+//         for (const device of iosDevicePatterns) {
+//           if (device.pattern.test(userAgent)) {
+//             return device.name;
+//           }
+//         }
+//         return `iOS Version: ${userAgent.match(/OS\s([0-9_]+)/i)?.[1].replace(/_/g, '.') || 'Unknown Version'}`;
+//       }
+
+//       return "Unknown Device";
+//     }
+
+//     setDeviceName(getDeviceName());
+//   }, []);
+
+//   return (
+//     <div>
+//       <p>{deviceName}</p>
+//       <h1>ffwe</h1>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+// =============================================================================================================================================
+
+import { useEffect, useState } from 'react';
+
+// Function to detect platform and possible eSIM support based on user agent
+const detectEsimSupport = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  // Check if it's an iOS device
+  if (/iPhone|iPad|iPod/i.test(userAgent)) {
+    // List of iOS devices that support eSIM
+    const supportedDevices = [
+      'iPhone XS', 'iPhone XS Max', 'iPhone XR',
+      'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
+      'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini',
+      'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 
+      'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
+      'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max'
+    ];
+
+    // Check if userAgent contains any of the supported devices
+    return supportedDevices.some(device => userAgent.includes(device));
+  }
+
+  // Check if it's an Android device
+  if (/Android/i.test(userAgent)) {
+    // Android devices are more complex; generally, assume newer devices (from 2018 onwards) support eSIM.
+    // You could add more specific checks based on device models, if known.
+    // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
+    const year = new Date().getFullYear();
+    // For this example, let's assume devices from 2018 onwards might support eSIM.
+    return year >= 2018;
+  }
+
+  // Default to not supporting eSIM
+  return false;
+};
+
+const InstallESimPage = () => {
+  const [esimSupported, setEsimSupported] = useState(false);
 
   useEffect(() => {
-    function getDeviceName() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      
-      // Log the user agent to the console
-      console.log("User Agent:", userAgent);
-
-      // Known Android device patterns
-      const androidDevicePatterns = [
-        { name: "Pixel 4", pattern: /Pixel 4/ },
-        { name: "Samsung Galaxy S21", pattern: /SM-G991/ },
-        { name: "Samsung Galaxy S20", pattern: /SM-G981/ },
-        { name: "OnePlus 8", pattern: /OnePlus8/ },
-        { name: "OnePlus 9", pattern: /LE211/ },
-        { name: "Huawei P30", pattern: /ELE-L29/ },
-        { name: "Xiaomi Mi 10", pattern: /M2001J2G/ },
-        { name: "OPPO A76", pattern: /CPH2375/ }, 
-        // Add more device patterns here
-      ];
-
-      // Known iOS device patterns
-      const iosDevicePatterns = [
-        { name: "iPhone 12", pattern: /iPhone.*(iPhone 12|iPhone12,1|iPhone12,3|iPhone12,5)/ },
-        { name: "iPhone 11", pattern: /iPhone.*(iPhone 11|iPhone11,2|iPhone11,4|iPhone11,6)/ },
-        { name: "iPhone X", pattern: /iPhone.*(iPhone X|iPhone10,3|iPhone10,6)/ },
-        { name: "iPhone 8", pattern: /iPhone.*(iPhone 8|iPhone10,1|iPhone10,4)/ },
-        { name: "iPhone 7", pattern: /iPhone.*(iPhone 7|iPhone9,1|iPhone9,3)/ },
-        { name: "iPad Pro", pattern: /iPad.*(iPad Pro)/ },
-        { name: "iPad Air", pattern: /iPad.*(iPad Air)/ },
-        { name: "iPad Mini", pattern: /iPad.*(iPad Mini)/ },
-        { name: "iPad", pattern: /iPad.*(iPad)/ },
-        // Add more device patterns here
-      ];
-
-      // Detect Android devices and extract model name if available
-      if (/android/i.test(userAgent)) {
-        for (const device of androidDevicePatterns) {
-          if (device.pattern.test(userAgent)) {
-            return device.name;
-          }
-        }
-        return `Android Version: ${userAgent.match(/Android\s([0-9\.]+)/i)?.[1] || 'Unknown Version'}`;
-      }
-
-      // Detect iOS devices and extract model name if available
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        for (const device of iosDevicePatterns) {
-          if (device.pattern.test(userAgent)) {
-            return device.name;
-          }
-        }
-        return `iOS Version: ${userAgent.match(/OS\s([0-9_]+)/i)?.[1].replace(/_/g, '.') || 'Unknown Version'}`;
-      }
-
-      return "Unknown Device";
-    }
-
-    setDeviceName(getDeviceName());
+    const isEsimSupported = detectEsimSupport();
+    setEsimSupported(isEsimSupported);
   }, []);
+
+  // Function to redirect to the eSIM setup page for iOS
+  const redirectToEsimSetup = () => {
+    const smdpAddress = 'your_smdp_address'; // Replace with actual SM-DP+ Address
+    const activationCode = 'your_activation_code'; // Replace with actual Activation Code
+    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+    window.location.href = url;
+  };
 
   return (
     <div>
-      <p>{deviceName}</p>
-      <h1>ffwe</h1>
+      <h1>eSIM Installation</h1>
+      {esimSupported ? (
+        <button onClick={redirectToEsimSetup}>Install eSIM</button>
+      ) : (
+        <p>Your device does not support eSIM installation.</p>
+      )}
     </div>
   );
-}
+};
 
-export default App;
-
-
-
-
-
-
-
+export default InstallESimPage;
