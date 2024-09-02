@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 // Function to detect platform and possible eSIM support based on user agent
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const platform = navigator.platform;
 
   // Function to get iOS device name
   const getIosDeviceName = () => {
+    // Mapping internal identifiers to device names
     const iosDevices = {
       'iPhone10,1': 'iPhone 8',
       'iPhone10,2': 'iPhone 8 Plus',
@@ -34,10 +34,21 @@ const detectEsimSupport = () => {
       'iPhone15,3': 'iPhone 14 Pro Max',
     };
 
+    // Check user agent for iOS device and extract device model
     const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
     if (match) {
-      const deviceModel = match[1] || match[2] || 'Unknown';
-      return iosDevices[deviceModel] || `iOS Device ${deviceModel}`;
+      // Sample userAgent might not directly include the hardware identifier
+      // Use platform information as a fallback
+      const platform = navigator.platform;
+      if (platform.includes('iPhone')) {
+
+        const deviceModel = 'iPhone10,2' || 'iPhone10,3' || 'iPhone10,6' || 'iPhone11,2' || 'iPhone11,4'
+        || 'iPhone11,6' || 'iPhone11,8' || 'iPhone12,1' || 'iPhone12,3' || 'iPhone12,5' || 'iPhone12,8'
+        || 'iPhone13,1' || 'iPhone13,2' || 'iPhone13,3' || 'iPhone13,4' || 'iPhone14,4' || 'iPhone14,5'
+        || 'iPhone14,2' || 'iPhone14,3' || 'iPhone14,7' || 'iPhone14,8' || 'iPhone15,2' || 'iPhone15,3'; 
+        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
+      }
+      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
     }
     return 'iOS Device';
   };
@@ -47,8 +58,7 @@ const detectEsimSupport = () => {
     const deviceName = getIosDeviceName();
     return {
       isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
-      deviceName,
-      platform: 'iOS'
+      deviceName
     };
   }
 
@@ -57,25 +67,23 @@ const detectEsimSupport = () => {
     const year = new Date().getFullYear();
     return {
       isSupported: year >= 2018,
-      deviceName: 'Android Device',
-      platform: 'Android'
+      deviceName: 'Android Device'
     };
   }
 
   // Default to not supporting eSIM
   return {
     isSupported: false,
-    deviceName: 'Unknown Device',
-    platform: platform
+    deviceName: 'Unknown Device'
   };
 };
 
 const InstallESimPage = () => {
-  const [esimInfo, setEsimInfo] = useState({ isSupported: false, deviceName: 'Unknown Device', platform: 'Unknown' });
+  const [esimInfo, setEsimInfo] = useState({ isSupported: false, deviceName: 'Unknown Device' });
 
   useEffect(() => {
-    const { isSupported, deviceName, platform } = detectEsimSupport();
-    setEsimInfo({ isSupported, deviceName, platform });
+    const { isSupported, deviceName } = detectEsimSupport();
+    setEsimInfo({ isSupported, deviceName });
   }, []);
 
   // Function to redirect to the eSIM setup page for iOS
@@ -91,7 +99,6 @@ const InstallESimPage = () => {
     <div>
       <h1>eSIM Installation</h1>
       <p>Device: {esimInfo.deviceName}</p>
-      <p>Platform: {esimInfo.platform}</p>
       {esimInfo.isSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
