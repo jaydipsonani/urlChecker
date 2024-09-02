@@ -416,9 +416,9 @@
 
 // ================================================================================================================================================
 
-iimport React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function InstallESimPage() {
+function App() {
   const [deviceName, setDeviceName] = useState('Unknown Device');
 
   useEffect(() => {
@@ -434,6 +434,7 @@ function InstallESimPage() {
         { name: "OnePlus 9", pattern: /LE211/ },
         { name: "Huawei P30", pattern: /ELE-L29/ },
         { name: "Xiaomi Mi 10", pattern: /M2001J2G/ },
+        { name: "OPPO A76", pattern: /CPH2375/ }, 
         // Add more device patterns here
       ];
 
@@ -464,12 +465,14 @@ function InstallESimPage() {
 
   return (
     <div>
-      <h1>{deviceName}</h1>
+      <p>{deviceName}</p>
+
+    <h1>hello</h1>
     </div>
   );
 }
 
-export default InstallESimPage;
+export default App;
 
 
 
