@@ -7,6 +7,7 @@ const getIosDeviceName = () => {
   // Mapping model identifiers to human-readable device names
   const iosDevices = {
     'iPhone10,1': 'iPhone 8',
+    'iPhone10,2': 'iPhone 8 Plus',
     'iPhone10,3': 'iPhone X',
     'iPhone10,6': 'iPhone X',
     'iPhone11,2': 'iPhone XS',
@@ -19,7 +20,6 @@ const getIosDeviceName = () => {
     'iPhone12,8': 'iPhone SE (2nd generation)',
     'iPhone13,1': 'iPhone 12 mini',
     'iPhone13,2': 'iPhone 12',
-    'iPhone10,2': 'iPhone 8 Plus',
     'iPhone13,3': 'iPhone 12 Pro',
     'iPhone13,4': 'iPhone 12 Pro Max',
     'iPhone14,4': 'iPhone 13 mini',
@@ -33,16 +33,16 @@ const getIosDeviceName = () => {
     // Add more mappings as needed
   };
 
-  // Extract the model identifier from the user agent string
-  const match = userAgent.match(/iPhone\d{1,2},\d{1,2}/);
+  // Regular expression to match the model identifier
+  const modelMatch = userAgent.match(/iPhone\d{1,2},\d{1,2}/);
 
-  if (match) {
-    const deviceModel = 'iPhone12,1'; // e.g., 'iPhone10,2'
+  if (modelMatch) {
+    const deviceModel = modelMatch[0]; // e.g., 'iPhone10,2'
 
-    // Dynamically find the correct device name
-    const deviceName = Object.keys(iosDevices).find((key) => key === deviceModel);
-
-    return iosDevices[deviceName] || 'Unknown iPhone Model';
+    // Look up the device name in the iosDevices object
+    if (iosDevices[deviceModel]) {
+      return iosDevices[deviceModel];
+    }
   }
 
   return 'Unknown iPhone Model';
@@ -71,7 +71,6 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
-
 
 
 // ========================================================================================================
