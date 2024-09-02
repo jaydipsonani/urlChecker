@@ -69,7 +69,7 @@ const detectEsimSupport = () => {
   { pattern: /iPhone12,5/, model: 'iPhone 11 Pro Max' },
   { pattern: /iPhone13,1/, model: 'iPhone 12 mini' },
   { pattern: /iPhone13,2/, model: 'iPhone 12' },
-  { pattern: /iPhone10,2/, model: 'iPhone 8 Plus' },
+  { pattern: /iPhone8,2/, model: 'iPhone 8 Plus' },
   { pattern: /iPhone13,3/, model: 'iPhone 12 Pro' },
   { pattern: /iPhone13,4/, model: 'iPhone 12 Pro Max' },
   { pattern: /iPhone14,4/, model: 'iPhone 13 mini' },
