@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
+import UAParser from 'ua-parser-js';
 
 // Function to detect platform and possible eSIM support based on user agent
 const detectEsimSupport = () => {
+  const parser = new UAParser();
+  const result = parser.getResult();
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   // Mapping internal identifiers to device names
   const iosDevices = {
     'iPhone10,1': 'iPhone 8',
-    'iPhone10,2': 'iPhone 8 Plus',
     'iPhone10,3': 'iPhone X',
     'iPhone10,6': 'iPhone X',
     'iPhone11,2': 'iPhone XS',
     'iPhone11,4': 'iPhone XS Max',
+    'iPhone10,2': 'iPhone 8 Plus',
     'iPhone11,6': 'iPhone XS Max',
     'iPhone11,8': 'iPhone XR',
     'iPhone12,1': 'iPhone 11',
@@ -32,20 +35,28 @@ const detectEsimSupport = () => {
     'iPhone15,3': 'iPhone 14 Pro Max',
   };
 
-  // Placeholder function to determine device model based on user agent
-  const getDeviceModel = () => {
-    // This function should accurately return the device model from the user agent
-    // For demonstration purposes, we use a hardcoded value (you should replace this with actual logic)
-    const deviceModel = Object.keys(iosDevices); // Example: replace with actual logic to determine device model
-    return deviceModel;
+  // Function to get iOS device name
+  const getIosDeviceName = () => {
+    const deviceModel = result.device.model; // Use the model detected by UAParser
+    // Check all possible device models
+    for (const key in iosDevices) {
+      if (key === deviceModel) {
+        return iosDevices[key];
+      }
+    }
+    return `iOS Device ${deviceModel || 'Unknown Version'}`;
   };
 
   // Check if it's an iOS device
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    const deviceModel = getDeviceModel();
-    const deviceName = iosDevices[deviceModel] || 'Unknown iOS Device';
+    const deviceName = getIosDeviceName();
     return {
-      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
+      isSupported: [
+        'iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max',
+        'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
+        'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus',
+        'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'
+      ].includes(deviceName),
       deviceName
     };
   }
@@ -97,9 +108,6 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
-
-
-
 
 
 // ========================================================================================================
