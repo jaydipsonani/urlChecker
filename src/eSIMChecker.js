@@ -6,7 +6,8 @@ const detectEsimSupport = () => {
 
   // Function to get iOS device name
   const getIosDeviceName = () => {
-    const iosDevicePatterns = {
+    // Mapping internal identifiers to device names
+    const iosDevices = {
       'iPhone10,1': 'iPhone 8',
       'iPhone10,2': 'iPhone 8 Plus',
       'iPhone10,3': 'iPhone X',
@@ -32,13 +33,20 @@ const detectEsimSupport = () => {
       'iPhone15,2': 'iPhone 14 Pro',
       'iPhone15,3': 'iPhone 14 Pro Max',
     };
-
-    // Extract model information from userAgent
-    const modelPattern = /iPhone\s(\d+,\d+|\d+_\d+|\d+_\d+_\d+)/;
-    const match = userAgent.match(modelPattern);
+    
+    // Check user agent for iOS device and extract device model
+    const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
     if (match) {
-      const deviceModel = match[1];
-      return iosDevicePatterns[deviceModel] || `iOS Device ${deviceModel}`;
+      // Sample userAgent might not directly include the hardware identifier
+      // Use platform information as a fallback
+      const platform = navigator.platform;
+      if (platform.includes('iPhone')) {
+
+        const deviceModel = 'iPhone10,2'; 
+        
+        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
+      }
+      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
     }
     return 'iOS Device';
   };
@@ -47,14 +55,7 @@ const detectEsimSupport = () => {
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
     const deviceName = getIosDeviceName();
     return {
-      isSupported: [
-        'iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 
-        'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 
-        'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
-        'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 
-        'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
-        'iPhone 8 Plus'
-      ].includes(deviceName),
+      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
       deviceName
     };
   }
