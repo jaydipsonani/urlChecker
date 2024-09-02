@@ -9,7 +9,6 @@ const detectEsimSupport = () => {
     // Mapping internal identifiers to device names
     const iosDevices = {
       'iPhone10,1': 'iPhone 8',
-      'iPhone10,2': 'iPhone 8 Plus',
       'iPhone10,3': 'iPhone X',
       'iPhone10,6': 'iPhone X',
       'iPhone11,2': 'iPhone XS',
@@ -17,6 +16,7 @@ const detectEsimSupport = () => {
       'iPhone11,6': 'iPhone XS Max',
       'iPhone11,8': 'iPhone XR',
       'iPhone12,1': 'iPhone 11',
+      'iPhone10,2': 'iPhone 8 Plus',
       'iPhone12,3': 'iPhone 11 Pro',
       'iPhone12,5': 'iPhone 11 Pro Max',
       'iPhone12,8': 'iPhone SE (2nd generation)',
@@ -42,7 +42,7 @@ const detectEsimSupport = () => {
       const platform = navigator.platform;
       if (platform.includes('iPhone')) {
 
-        const deviceModel = 'iPhone 10.2'; 
+        const deviceModel = 'iPhone 10,2'; 
 
         return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
       }
