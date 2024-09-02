@@ -1,68 +1,104 @@
 import { useEffect, useState } from 'react';
 
-// Function to detect the iOS device name based on the user agent
-const getIosDeviceName = () => {
+// Function to detect platform and possible eSIM support based on user agent
+const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Mapping model identifiers to human-readable device names
-  const iosDevices = {
-    'iPhone10,1': 'iPhone 8',
-    'iPhone10,2': 'iPhone 8 Plus',
-    'iPhone10,3': 'iPhone X',
-    'iPhone10,6': 'iPhone X',
-    'iPhone11,2': 'iPhone XS',
-    'iPhone11,4': 'iPhone XS Max',
-    'iPhone11,6': 'iPhone XS Max',
-    'iPhone11,8': 'iPhone XR',
-    'iPhone12,1': 'iPhone 11',
-    'iPhone12,3': 'iPhone 11 Pro',
-    'iPhone12,5': 'iPhone 11 Pro Max',
-    'iPhone12,8': 'iPhone SE (2nd generation)',
-    'iPhone13,1': 'iPhone 12 mini',
-    'iPhone13,2': 'iPhone 12',
-    'iPhone13,3': 'iPhone 12 Pro',
-    'iPhone13,4': 'iPhone 12 Pro Max',
-    'iPhone14,4': 'iPhone 13 mini',
-    'iPhone14,5': 'iPhone 13',
-    'iPhone14,2': 'iPhone 13 Pro',
-    'iPhone14,3': 'iPhone 13 Pro Max',
-    'iPhone14,7': 'iPhone 14',
-    'iPhone14,8': 'iPhone 14 Plus',
-    'iPhone15,2': 'iPhone 14 Pro',
-    'iPhone15,3': 'iPhone 14 Pro Max',
-    // Add more mappings as needed
+  // Function to get iOS device name
+  const getIosDeviceName = () => {
+    // Mapping internal identifiers to device names
+    const iosDevices = {
+      'iPhone10,1': 'iPhone 8',
+      'iPhone10,2': 'iPhone 8 Plus',
+      'iPhone10,3': 'iPhone X',
+      'iPhone10,6': 'iPhone X',
+      'iPhone11,2': 'iPhone XS',
+      'iPhone11,4': 'iPhone XS Max',
+      'iPhone11,6': 'iPhone XS Max',
+      'iPhone11,8': 'iPhone XR',
+      'iPhone12,1': 'iPhone 11',
+      'iPhone12,3': 'iPhone 11 Pro',
+      'iPhone12,5': 'iPhone 11 Pro Max',
+      'iPhone12,8': 'iPhone SE (2nd generation)',
+      'iPhone13,1': 'iPhone 12 mini',
+      'iPhone13,2': 'iPhone 12',
+      'iPhone13,3': 'iPhone 12 Pro',
+      'iPhone13,4': 'iPhone 12 Pro Max',
+      'iPhone14,4': 'iPhone 13 mini',
+      'iPhone14,5': 'iPhone 13',
+      'iPhone14,2': 'iPhone 13 Pro',
+      'iPhone14,3': 'iPhone 13 Pro Max',
+      'iPhone14,7': 'iPhone 14',
+      'iPhone14,8': 'iPhone 14 Plus',
+      'iPhone15,2': 'iPhone 14 Pro',
+      'iPhone15,3': 'iPhone 14 Pro Max',
+    };
+    
+    // Check user agent for iOS device and extract device model
+    const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
+    if (match) {
+      const platform = navigator.platform;
+      if (platform.includes('iPhone')) {
+
+        const deviceModel = 'iPhone 10.2'; 
+
+        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
+      }
+      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
+    }
+    return 'iOS Device';
   };
 
-  // Regular expression to match the model identifier
-  const modelMatch = userAgent.match(/iPhone\d{1,2},\d{1,2}/);
-
-  if (modelMatch) {
-    const deviceModel = modelMatch[0]; // e.g., 'iPhone10,2'
-
-    // Look up the device name in the iosDevices object
-    if (iosDevices[deviceModel]) {
-      return iosDevices[deviceModel];
-    }
+  // Check if it's an iOS device
+  if (/iPhone|iPad|iPod/i.test(userAgent)) {
+    const deviceName = getIosDeviceName();
+    return {
+      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 
+        'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 
+        'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
+      deviceName
+    };
   }
 
-  return 'Unknown iPhone Model';
+  // Check if it's an Android device
+  if (/Android/i.test(userAgent)) {
+    const year = new Date().getFullYear();
+    return {
+      isSupported: year >= 2018,
+      deviceName: 'Android Device'
+    };
+  }
+
+  // Default to not supporting eSIM
+  return {
+    isSupported: false,
+    deviceName: 'Unknown Device'
+  };
 };
 
-// Component to display the detected device name
 const InstallESimPage = () => {
-  const [deviceName, setDeviceName] = useState('Unknown Device');
+  const [esimInfo, setEsimInfo] = useState({ isSupported: false, deviceName: 'Unknown Device' });
 
   useEffect(() => {
-    const detectedDeviceName = getIosDeviceName();
-    setDeviceName(detectedDeviceName);
+    const { isSupported, deviceName } = detectEsimSupport();
+    setEsimInfo({ isSupported, deviceName });
   }, []);
+
+  // Function to redirect to the eSIM setup page for iOS
+  const redirectToEsimSetup = () => {
+    const smdpAddress = 'your_smdp_address'; 
+    const activationCode = 'your_activation_code';
+    const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
+
+    window.location.href = url;
+  };
 
   return (
     <div>
       <h1>eSIM Installation</h1>
-      <p>Device: {deviceName}</p>
-      {deviceName !== 'Unknown iPhone Model' ? (
-        <p>Your device is {deviceName}, and it may support eSIM installation.</p>
+      <p>Device: {esimInfo.deviceName}</p>
+      {esimInfo.isSupported ? (
+        <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
         <p>Your device does not support eSIM installation.</p>
       )}
