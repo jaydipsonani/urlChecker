@@ -42,7 +42,7 @@ const detectEsimSupport = () => {
       if (platform.includes('iPhone')) {
         // Extract device model from user agent or use a placeholder for now
         // Note: You need a more accurate way to get deviceModel
-        const deviceModel = 'iPhone10,3'; // Placeholder value
+        const deviceModel = Object.keys(iosDevices); // Placeholder value
 
         return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
       }
