@@ -451,7 +451,7 @@ function App() {
 
   return (
     <div>
-      <h1>{deviceName}</h1>
+      <p>{deviceName}</p>
     </div>
   );
 }
