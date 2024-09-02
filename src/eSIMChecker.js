@@ -416,29 +416,48 @@
 
 // ================================================================================================================================================
 
-function detectDeviceName() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+import React, { useEffect, useState } from 'react';
 
-    if (/android/i.test(userAgent)) {
+function App() {
+  const [deviceName, setDeviceName] = useState('Unknown Device');
+
+  useEffect(() => {
+    function getDeviceName() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Detect Android devices
+      if (/android/i.test(userAgent)) {
         const match = userAgent.match(/Android\s\d+;\s+([^;]+)/);
         if (match && match[1]) {
-            return `Android device: ${match[1]}`;
+          return match[1];
         }
         return "Unknown Android Device";
-    }
+      }
 
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      // Detect iOS devices
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         const match = userAgent.match(/(iPhone|iPad|iPod)/);
         if (match && match[1]) {
-            return `Apple device: ${match[1]}`;
+          return match[1];
         }
         return "Unknown iOS Device";
+      }
+
+      return "Unknown Device";
     }
 
-    return "Unknown Device";
+    setDeviceName(getDeviceName());
+  }, []); // Empty dependency array ensures this runs only once on mount
+
+  return (
+    <div>
+      <h1>{deviceName}</h1>
+    </div>
+  );
 }
 
-console.log(detectDeviceName());
+export default App;
+
 
 
 
