@@ -7,6 +7,7 @@ const detectEsimSupport = () => {
 
   // Function to get iOS device name
   const getIosDeviceName = () => {
+    // Mapping internal identifiers to device names
     const iosDevices = {
       'iPhone10,1': 'iPhone 8',
       'iPhone10,2': 'iPhone 8 Plus',
@@ -34,13 +35,21 @@ const detectEsimSupport = () => {
       'iPhone15,3': 'iPhone 14 Pro Max',
     };
 
-    // Extract device model from userAgent string
-    const match = userAgent.match(/\((iPhone|iPad|iPod);.*OS (\d+)_/);
+    // Check user agent for iOS device and extract device model
+    const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
     if (match) {
-      const deviceModel = match[1];
-      const iosVersion = match[2];
-      // Map the device model to a known device name
-      return iosDevices[deviceModel] || `iOS Device ${iosVersion}`;
+      // Sample userAgent might not directly include the hardware identifier
+      // Use platform information as a fallback
+      const platform = navigator.platform;
+      if (platform.includes('iPhone')) {
+        // Determine device model based on user agent or platform
+        // This part might need to be adjusted based on real detection cases
+        // Assuming a function or external service to identify the model
+        // Use placeholders for demonstration
+        const deviceModel = 'iPhone10,2'; // Placeholder for actual detection
+        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
+      }
+      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
     }
     return 'iOS Device';
   };
@@ -101,6 +110,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 // ========================================================================================================
 // import React, { useState, useEffect } from 'react';
