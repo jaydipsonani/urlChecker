@@ -416,30 +416,42 @@
 
 // ================================================================================================================================================
 
-import React, { useEffect, useState } from 'react';
+iimport React, { useEffect, useState } from 'react';
 
-function App() {
+function InstallESimPage() {
   const [deviceName, setDeviceName] = useState('Unknown Device');
 
   useEffect(() => {
     function getDeviceName() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-      // Detect Android devices
+      // Known Android device patterns
+      const androidDevicePatterns = [
+        { name: "Pixel 4", pattern: /Pixel 4/ },
+        { name: "Samsung Galaxy S21", pattern: /SM-G991/ },
+        { name: "Samsung Galaxy S20", pattern: /SM-G981/ },
+        { name: "OnePlus 8", pattern: /OnePlus8/ },
+        { name: "OnePlus 9", pattern: /LE211/ },
+        { name: "Huawei P30", pattern: /ELE-L29/ },
+        { name: "Xiaomi Mi 10", pattern: /M2001J2G/ },
+        // Add more device patterns here
+      ];
+
+      // Detect Android devices and extract model name if available
       if (/android/i.test(userAgent)) {
-        const match = userAgent.match(/Android\s\d+;\s+([^;]+)/);
-        if (match && match[1]) {
-          return match[1];
+        for (const device of androidDevicePatterns) {
+          if (device.pattern.test(userAgent)) {
+            return device.name;
+          }
         }
-        // If no specific device name, return a generic Android label
-        return "Android Device";
+        return "Android Device"; // Default label if no specific model is matched
       }
 
-      // Detect iOS devices
+      // Detect iOS devices and show type
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         const match = userAgent.match(/(iPhone|iPad|iPod)/);
         if (match && match[1]) {
-          return match[1];
+          return match[1]; // Return the device type
         }
         return "Unknown iOS Device";
       }
@@ -457,10 +469,8 @@ function App() {
   );
 }
 
-export default App;
+export default InstallESimPage;
 
-
-export default App;
 
 
 
