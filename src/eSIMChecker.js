@@ -511,8 +511,12 @@ const detectEsimSupport = () => {
       'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max'
     ];
 
-    // Check if userAgent contains any of the supported devices
-    return supportedDevices.some(device => userAgent.includes(device));
+    // Find the device name from the user agent
+    const deviceName = supportedDevices.find(device => userAgent.includes(device));
+    return {
+      isSupported: !!deviceName,
+      deviceName: deviceName || 'iOS Device'
+    };
   }
 
   // Check if it's an Android device
@@ -521,20 +525,25 @@ const detectEsimSupport = () => {
     // You could add more specific checks based on device models, if known.
     // Example: Check for 'Pixel 4', 'Pixel 5', etc., if you have a comprehensive list.
     const year = new Date().getFullYear();
-    // For this example, let's assume devices from 2018 onwards might support eSIM.
-    return year >= 2018;
+    return {
+      isSupported: year >= 2018,
+      deviceName: 'Android Device'
+    };
   }
 
   // Default to not supporting eSIM
-  return false;
+  return {
+    isSupported: false,
+    deviceName: 'Unknown Device'
+  };
 };
 
 const InstallESimPage = () => {
-  const [esimSupported, setEsimSupported] = useState(false);
+  const [esimInfo, setEsimInfo] = useState({ isSupported: false, deviceName: 'Unknown Device' });
 
   useEffect(() => {
-    const isEsimSupported = detectEsimSupport();
-    setEsimSupported(isEsimSupported);
+    const { isSupported, deviceName } = detectEsimSupport();
+    setEsimInfo({ isSupported, deviceName });
   }, []);
 
   // Function to redirect to the eSIM setup page for iOS
@@ -549,7 +558,8 @@ const InstallESimPage = () => {
   return (
     <div>
       <h1>eSIM Installation</h1>
-      {esimSupported ? (
+      <p>Device: {esimInfo.deviceName}</p>
+      {esimInfo.isSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
         <p>Your device does not support eSIM installation.</p>
@@ -559,3 +569,4 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
