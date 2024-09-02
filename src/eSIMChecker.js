@@ -441,6 +441,20 @@ function App() {
         // Add more device patterns here
       ];
 
+      // Known iOS device patterns
+      const iosDevicePatterns = [
+        { name: "iPhone 12", pattern: /iPhone.*(iPhone 12|iPhone12,1|iPhone12,3|iPhone12,5)/ },
+        { name: "iPhone 11", pattern: /iPhone.*(iPhone 11|iPhone11,2|iPhone11,4|iPhone11,6)/ },
+        { name: "iPhone X", pattern: /iPhone.*(iPhone X|iPhone10,3|iPhone10,6)/ },
+        { name: "iPhone 8", pattern: /iPhone.*(iPhone 8|iPhone10,1|iPhone10,4)/ },
+        { name: "iPhone 7", pattern: /iPhone.*(iPhone 7|iPhone9,1|iPhone9,3)/ },
+        { name: "iPad Pro", pattern: /iPad.*(iPad Pro)/ },
+        { name: "iPad Air", pattern: /iPad.*(iPad Air)/ },
+        { name: "iPad Mini", pattern: /iPad.*(iPad Mini)/ },
+        { name: "iPad", pattern: /iPad.*(iPad)/ },
+        // Add more device patterns here
+      ];
+
       // Detect Android devices and extract model name if available
       if (/android/i.test(userAgent)) {
         for (const device of androidDevicePatterns) {
@@ -448,16 +462,17 @@ function App() {
             return device.name;
           }
         }
-        return `Android Version: ${userAgent.match(/Android\s([0-9\.]+)/i)[1]}`; // Return Android version if no specific model is matched
+        return `Android Version: ${userAgent.match(/Android\s([0-9\.]+)/i)?.[1] || 'Unknown Version'}`;
       }
 
-      // Detect iOS devices and show type
+      // Detect iOS devices and extract model name if available
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        const match = userAgent.match(/(iPhone|iPad|iPod)/);
-        if (match && match[1]) {
-          return match[1]; // Return the device type
+        for (const device of iosDevicePatterns) {
+          if (device.pattern.test(userAgent)) {
+            return device.name;
+          }
         }
-        return "Unknown iOS Device";
+        return `iOS Version: ${userAgent.match(/OS\s([0-9_]+)/i)?.[1].replace(/_/g, '.') || 'Unknown Version'}`;
       }
 
       return "Unknown Device";
@@ -469,12 +484,13 @@ function App() {
   return (
     <div>
       <p>{deviceName}</p>
-      <h1>Hello</h1>
+      <h1>ffwe</h1>
     </div>
   );
 }
 
 export default App;
+
 
 
 
