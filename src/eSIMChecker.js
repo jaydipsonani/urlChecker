@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Function to get iOS device name
+  // Function to get iOS device name based on user agent
   const getIosDeviceName = () => {
-    // Mapping internal identifiers to device names
+    // Mapping iOS user agents to device names
     const iosDevices = {
+      'iPhone10,1': 'iPhone 8',
       'iPhone10,2': 'iPhone 8 Plus',
       'iPhone10,3': 'iPhone X',
       'iPhone10,6': 'iPhone X',
@@ -32,21 +33,38 @@ const detectEsimSupport = () => {
       'iPhone15,2': 'iPhone 14 Pro',
       'iPhone15,3': 'iPhone 14 Pro Max',
     };
-    
-    // Check user agent for iOS device and extract device model
-    const match = userAgent.match(/iPhone(?:.*CPU OS (\d+_\d+|\d+_\d+_\d+)|.*iPhone OS (\d+_\d+))/);
-    if (match) {
-      // Sample userAgent might not directly include the hardware identifier
-      // Use platform information as a fallback
-      const platform = navigator.platform;
-      if (platform.includes('iPhone')) {
 
-        const deviceModel = 'iPhone 10,2'; 
+    // Check if user agent contains any known patterns for iOS devices
+    const iosPatterns = [
+      { pattern: /iPhone.*OS 11_0.*\b(\d+_\d+)/, model: 'iPhone 8 Plus' },
+      { pattern: /iPhone.*OS 11_4/, model: 'iPhone X' },
+      { pattern: /iPhone.*OS 12_0/, model: 'iPhone XS' },
+      { pattern: /iPhone.*OS 12_1/, model: 'iPhone XS Max' },
+      { pattern: /iPhone.*OS 12_2/, model: 'iPhone XR' },
+      { pattern: /iPhone.*OS 13_0/, model: 'iPhone 11' },
+      { pattern: /iPhone.*OS 13_1/, model: 'iPhone 11 Pro' },
+      { pattern: /iPhone.*OS 13_2/, model: 'iPhone 11 Pro Max' },
+      { pattern: /iPhone.*OS 14_0/, model: 'iPhone 12' },
+      { pattern: /iPhone.*OS 14_1/, model: 'iPhone 12 mini' },
+      { pattern: /iPhone.*OS 14_2/, model: 'iPhone 12 Pro' },
+      { pattern: /iPhone.*OS 14_3/, model: 'iPhone 12 Pro Max' },
+      { pattern: /iPhone.*OS 15_0/, model: 'iPhone 13' },
+      { pattern: /iPhone.*OS 15_1/, model: 'iPhone 13 mini' },
+      { pattern: /iPhone.*OS 15_2/, model: 'iPhone 13 Pro' },
+      { pattern: /iPhone.*OS 15_3/, model: 'iPhone 13 Pro Max' },
+      { pattern: /iPhone.*OS 16_0/, model: 'iPhone 14' },
+      { pattern: /iPhone.*OS 16_1/, model: 'iPhone 14 Plus' },
+      { pattern: /iPhone.*OS 16_2/, model: 'iPhone 14 Pro' },
+      { pattern: /iPhone.*OS 16_3/, model: 'iPhone 14 Pro Max' },
+    ];
 
-        return iosDevices[deviceModel] || `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
+    // Match user agent against known patterns
+    for (const { pattern, model } of iosPatterns) {
+      if (pattern.test(userAgent)) {
+        return model;
       }
-      return `iOS Device ${match[1] || match[2] || 'Unknown Version'}`;
     }
+
     return 'iOS Device';
   };
 
@@ -54,9 +72,14 @@ const detectEsimSupport = () => {
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
     const deviceName = getIosDeviceName();
     return {
-      isSupported: ['iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 'iPhone 12', 
-        'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max', 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Plus', 
-        'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 8 Plus'].includes(deviceName),
+      isSupported: [
+        'iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 
+        'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 
+        'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
+        'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 
+        'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+        'iPhone 8 Plus'
+      ].includes(deviceName),
       deviceName
     };
   }
@@ -108,6 +131,7 @@ const InstallESimPage = () => {
 };
 
 export default InstallESimPage;
+
 
 // ========================================================================================================
 // import React, { useState, useEffect } from 'react';
