@@ -14,7 +14,7 @@ const detectEsimSupport = () => {
     'iPhone10,6': 'iPhone X',
     'iPhone11,2': 'iPhone XS',
     'iPhone11,4': 'iPhone XS Max',
-    'iPhone10,2': 'iPhone 8 Plus',
+    'iPhone10,2': 'iPhon 8 Plus',
     'iPhone11,6': 'iPhone XS Max',
     'iPhone11,8': 'iPhone XR',
     'iPhone12,1': 'iPhone 11',
@@ -44,7 +44,7 @@ const detectEsimSupport = () => {
         return iosDevices[key];
       }
     }
-    return `iOS Device ${deviceModel || 'Unknown Version'}`;
+    return ` iPhone iOS Device ${deviceModel || 'Unknown Version'}`;
   };
 
   // Check if it's an iOS device
