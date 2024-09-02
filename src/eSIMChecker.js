@@ -27,8 +27,8 @@ const detectEsimSupport = () => {
     // { pattern: /iPhone.*OS 12_0/, model: 'iPhone XS' },
     // { pattern: /iPhone.*OS 11_0/, model: 'iPhone 8 Plus' }, 
 
-       { pattern: /iPhone.*OS 16_1/, model: 'iPhone 8 Plus Plus' }, // Latest version for iPhone 8 Plus
-  { pattern: /iPhone.*OS 16_7/, model: 'iPhone 11/11 Pro/11 Pro Max' }, // Latest version for iPhone 11 series
+  { pattern: /iPhone.*OS 16_1/, model: 'iPhone 8 Plus Plus' }, // Latest version for iPhone 8 Plus
+  { pattern: /iPhone.*OS 16_7/, model: 'iPhone 11/11 Pro/11 Pro Max' },// Latest version for iPhone 11 series
   { pattern: /iPhone.*OS 17_0/, model: 'iPhone 12/12 mini/12 Pro/12 Pro Max' },
   { pattern: /iPhone.*OS 17_0/, model: 'iPhone 13/13 mini/13 Pro/13 Pro Max' },
   { pattern: /iPhone.*OS 17_0/, model: 'iPhone SE (2nd generation)' },
@@ -95,8 +95,8 @@ const InstallESimPage = () => {
 
   // Function to redirect to the eSIM setup page for iOS
   const redirectToEsimSetup = () => {
-    const smdpAddress = 'your_smdp_address'; 
-    const activationCode = 'your_activation_code';
+    const smdpAddress = 'consumer.e-sim.global'; 
+    const activationCode = 'TN2024032517501135006332';
     const url = `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$${smdpAddress}$${activationCode}`;
 
     window.location.href = url;
