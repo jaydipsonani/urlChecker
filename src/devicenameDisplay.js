@@ -1,17 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import UAParser from 'ua-parser-js';
 
-// Simplified device detection function
+// Device detection function using ua-parser-js
 const getDeviceName = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const parser = new UAParser();
+  const result = parser.getResult();
+  
+  // Extract device information
+  const deviceModel = result.device.model;
+  const deviceType = result.device.type;
+  const osName = result.os.name;
+  
+  // Provide a fallback for Realme 3 Pro
+  if (/Realme 3 Pro/.test(deviceModel)) {
+    return 'Realme 3 Pro';
+  }
 
-  // Device detection based on user agent and screen size
-  if (/RMX1851/.test(userAgent)) return 'Realme 3 Pro';
-  if (/iPhone/.test(userAgent)) return 'iPhone';
-  if (/Android/.test(userAgent) && /Pixel/.test(userAgent)) return 'Google Pixel Device';
-//   if (/Android/.test(userAgent)) return 'Android Device';
-  if (/iPad/.test(userAgent)) return 'iPad';
-  if (/Windows/.test(userAgent)) return 'Windows PC';
-  if (/Mac/.test(userAgent)) return 'Macintosh';
+  // Use other detection logic or fallbacks
+  if (deviceType === 'mobile') {
+    if (osName === 'iOS') {
+      return 'iPhone';
+    }
+    if (osName === 'Android') {
+      return 'Android Device';
+    }
+  } else if (deviceType === 'tablet') {
+    return 'Tablet';
+  } else if (osName === 'Windows') {
+    return 'Windows PC';
+  } else if (osName === 'Mac OS') {
+    return 'Macintosh';
+  }
 
   return 'Unknown Device';
 };
