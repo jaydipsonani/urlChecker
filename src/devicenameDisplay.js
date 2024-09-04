@@ -8,7 +8,7 @@ const getDeviceName = () => {
   if (/RMX1851/.test(userAgent)) return 'Realme 3 Pro';
   if (/iPhone/.test(userAgent)) return 'iPhone';
   if (/Android/.test(userAgent) && /Pixel/.test(userAgent)) return 'Google Pixel Device';
-  if (/Android/.test(userAgent)) return 'Android Device';
+//   if (/Android/.test(userAgent)) return 'Android Device';
   if (/iPad/.test(userAgent)) return 'iPad';
   if (/Windows/.test(userAgent)) return 'Windows PC';
   if (/Mac/.test(userAgent)) return 'Macintosh';
