@@ -7,32 +7,14 @@ const detectEsimSupport = () => {
   // Function to get iOS device name based on user agent
   const getIosDeviceName = () => {
     const iosPatterns = [
-    //  { pattern: /iPhone.*OS 16_3/, model: 'iPhone 14 Pro Max' },
-    // { pattern: /iPhone.*OS 16_2/, model: 'iPhone 14 Pro' },
-    // { pattern: /iPhone.*OS 16_1/, model: 'iPhone 14 Plus' },
-    // { pattern: /iPhone.*OS 16_0/, model: 'iPhone 14' },
-    // { pattern: /iPhone.*OS 15_3/, model: 'iPhone 13 Pro Max' },
-    // { pattern: /iPhone.*OS 15_2/, model: 'iPhone 13 Pro' },
-    // { pattern: /iPhone.*OS 15_1/, model: 'iPhone 13 mini' },
-    // { pattern: /iPhone.*OS 15_0/, model: 'iPhone 13' },
-    // { pattern: /iPhone.*OS 14_3/, model: 'iPhone 12 Pro Max' },
-    // { pattern: /iPhone.*OS 14_2/, model: 'iPhone 12 Pro' },
-    // { pattern: /iPhone.*OS 14_1/, model: 'iPhone 12 mini' },
-    // { pattern: /iPhone.*OS 14_0/, model: 'iPhone 12' },
-    // { pattern: /iPhone.*OS 13_2/, model: 'iPhone 11 Pro Max' },
-    // { pattern: /iPhone.*OS 13_1/, model: 'iPhone 11 Pro' },
-    // { pattern: /iPhone.*OS 13_0/, model: 'iPhone 11' },
-    // { pattern: /iPhone.*OS 12_2/, model: 'iPhone XR' },
-    // { pattern: /iPhone.*OS 12_1/, model: 'iPhone XS Max' },
-    // { pattern: /iPhone.*OS 12_0/, model: 'iPhone XS' },
-    // { pattern: /iPhone.*OS 11_0/, model: 'iPhone 8 Plus' }, 
+   
     { pattern: /iPhone.*OS 16_1/, model: 'iPhone 8 Plus' },
   { pattern: /iPhone.*OS 16_7/, model: 'iPhone 11/11 Pro/11 Pro Max' },// Latest version for iPhone 11 series
-  { pattern: /iPhone.*OS 17_0/, model: 'iPhone 12/12 mini/12 Pro/12 Pro Max' },
-  { pattern: /iPhone.*OS 17_0/, model: 'iPhone 13/13 mini/13 Pro/13 Pro Max' },
-  { pattern: /iPhone.*OS 17_0/, model: 'iPhone SE (2nd generation)' },
-  { pattern: /iPhone.*OS 17_0/, model: 'iPhone 14/14 Plus/14 Pro/14 Pro Max' },
-  { pattern: /iPhone.*OS 17_1/, model: 'iPhone 15/15 Plus/15 Pro/15 Pro Max' }, // Latest version for iPhone 15 series
+  { pattern: /iPhone.*OS 18_0/, model: 'iPhone 12/12 mini/12 Pro/12 Pro Max' },
+  { pattern: /iPhone.*OS 18_0/, model: 'iPhone 13/13 mini/13 Pro/13 Pro Max' },
+  { pattern: /iPhone.*OS 18_0/, model: 'iPhone SE (2nd generation)' },
+  { pattern: /iPhone.*OS 18_0/, model: 'iPhone 14/14 Plus/14 Pro/14 Pro Max' },
+  { pattern: /iPhone.*OS 18_1/, model: 'iPhone 15/15 Plus/15 Pro/15 Pro Max' }, // Latest version for iPhone 15 series
   { pattern: /iPhone.*OS 16_0/, model: 'iPhone XS/XS Max/XR' },
     ];
 
@@ -54,11 +36,7 @@ const detectEsimSupport = () => {
     const deviceName = getIosDeviceName();
     return {
       isSupported: [
-        // 'iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 
-        // 'iPhone 11 Pro', 'iPhone 11 Pro Max', 'iPhone SE (2nd generation)', 
-        // 'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
-        // 'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 
-        // 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+    
         'iPhone 11/11 Pro/11 Pro Max', 'iPhone 12/12 mini/12 Pro/12 Pro Max',
         'iPhone 13/13 mini/13 Pro/13 Pro Max','iPhone SE (2nd generation)',
         'iPhone 14/14 Plus/14 Pro/14 Pro Max','iPhone 15/15 Plus/15 Pro/15 Pro Max',
@@ -88,6 +66,8 @@ const InstallESimPage = () => {
   const [esimInfo, setEsimInfo] = useState({ isSupported: false, deviceName: 'Unknown Device' });
 
   useEffect(() => {
+
+
     const { isSupported, deviceName } = detectEsimSupport();
     setEsimInfo({ isSupported, deviceName });
   }, []);
@@ -105,6 +85,7 @@ const InstallESimPage = () => {
     <div>
       <h1>eSIM Installation</h1>
       <p>Device: {esimInfo.deviceName}</p>
+      <p></p>
       {esimInfo.isSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
