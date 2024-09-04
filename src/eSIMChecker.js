@@ -27,7 +27,6 @@ const detectEsimSupport = () => {
     // { pattern: /iPhone.*OS 12_0/, model: 'iPhone XS' },
     // { pattern: /iPhone.*OS 11_0/, model: 'iPhone 8 Plus' }, 
 
-  { pattern: /iPhone.*OS 16_1/, model: 'iPhone 8 Plus' }, // Latest version for iPhone 8 Plus
   { pattern: /iPhone.*OS 16_7/, model: 'iPhone 11/11 Pro/11 Pro Max' },// Latest version for iPhone 11 series
   { pattern: /iPhone.*OS 17_0/, model: 'iPhone 12/12 mini/12 Pro/12 Pro Max' },
   { pattern: /iPhone.*OS 17_0/, model: 'iPhone 13/13 mini/13 Pro/13 Pro Max' },
