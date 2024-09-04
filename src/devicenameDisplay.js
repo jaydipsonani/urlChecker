@@ -1,48 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import DeviceDetector from 'device-detector-js';
 
-// Device detection function
+// Device detection function using device-detector-js
 const getDeviceName = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  
-    console.log("User Agent:", userAgent); // Debugging: Print user agent to console
-  
-    // iPhone models
-    const iPhoneModels = {
-      'iPhone14,2': 'iPhone 13 Pro',
-      'iPhone10,6': 'iPhone X',
-      'iPhone10,5': 'iPhone 8 Plus',
-      // Add more iPhone mappings here
-    };
-  
-    for (const model in iPhoneModels) {
-      if (userAgent.includes(model)) {
-        return iPhoneModels[model];
-      }
-    }
-  
-    // Android models
-    const androidModels = {
-      'RMX1851': 'Realme 3 Pro',  // Realme 3 Pro model number
-      // Add more Android mappings here
-    };
-  
-    for (const model in androidModels) {
-      if (userAgent.includes(model)) {
-        return androidModels[model];
-      }
-    }
-  
-    // Fallbacks
-    if (/iPhone/.test(userAgent)) return 'iPhone';
-    if (/Android/.test(userAgent)) return 'Android Device';
-    if (/iPad/.test(userAgent)) return 'iPad';
-    if (/Windows/.test(userAgent)) return 'Windows PC';
-    if (/Mac/.test(userAgent)) return 'Macintosh';
-  
-    return 'Unknown Device';
-  };
-  
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const detector = new DeviceDetector();
+  const device = detector.detect(userAgent);
 
+  if (device.device) {
+    return `${device.device.model} (${device.device.vendor})`;
+  } else if (device.os) {
+    return `${device.os.name} Device`;
+  } else if (device.browser) {
+    return `${device.browser.name} Browser`;
+  }
+
+  // Fallbacks
+  if (/iPhone/.test(userAgent)) return 'iPhone';
+  if (/Android/.test(userAgent)) return 'Android Device';
+  if (/iPad/.test(userAgent)) return 'iPad';
+  if (/Windows/.test(userAgent)) return 'Windows PC';
+  if (/Mac/.test(userAgent)) return 'Macintosh';
+
+  return 'Unknown Device';
+};
+
+// React component to display device name
 const DeviceNameDisplay = () => {
   const [deviceName, setDeviceName] = useState('Unknown Device');
 
