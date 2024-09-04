@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 const detectEsimSupport = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Function to get iOS device name and version based on user agent
-  const getIosDeviceInfo = () => {
+  // Function to get iOS device name based on user agent
+  const getIosDeviceName = () => {
     const iosPatterns = [
     //  { pattern: /iPhone.*OS 16_3/, model: 'iPhone 14 Pro Max' },
     // { pattern: /iPhone.*OS 16_2/, model: 'iPhone 14 Pro' },
@@ -36,21 +36,22 @@ const detectEsimSupport = () => {
   { pattern: /iPhone.*OS 16_0/, model: 'iPhone XS/XS Max/XR' },
     ];
 
+    // Log userAgent for debugging
+    console.log('User Agent:', userAgent);
+
     // Match user agent against known patterns
     for (const { pattern, model } of iosPatterns) {
       if (pattern.test(userAgent)) {
-        const versionMatch = userAgent.match(/OS (\d+)_/);
-        const iosVersion = versionMatch ? parseInt(versionMatch[1], 10) : null;
-        return { model, iosVersion };
+        return model;
       }
     }
 
-    return { model: 'iOS Device', iosVersion: null };
+    return 'iOS Device';
   };
 
   // Check if it's an iOS device
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    const { model, iosVersion } = getIosDeviceInfo();
+    const deviceName = getIosDeviceName();
     return {
       isSupported: [
         // 'iPhone XS', 'iPhone XS Max', 'iPhone XR', 'iPhone 11', 
@@ -61,7 +62,7 @@ const detectEsimSupport = () => {
         'iPhone 11/11 Pro/11 Pro Max', 'iPhone 12/12 mini/12 Pro/12 Pro Max',
         'iPhone 13/13 mini/13 Pro/13 Pro Max','iPhone SE (2nd generation)',
         'iPhone 14/14 Plus/14 Pro/14 Pro Max','iPhone 15/15 Plus/15 Pro/15 Pro Max',
-        'iPhone XS/XS Max/XR','iPhone 8 Plus'
+        'iPhone XS/XS Max/XR','iPhone 8 Plus',
       ].includes(deviceName),
       deviceName
     };
@@ -87,8 +88,6 @@ const InstallESimPage = () => {
   const [esimInfo, setEsimInfo] = useState({ isSupported: false, deviceName: 'Unknown Device' });
 
   useEffect(() => {
-
-
     const { isSupported, deviceName } = detectEsimSupport();
     setEsimInfo({ isSupported, deviceName });
   }, []);
@@ -106,6 +105,7 @@ const InstallESimPage = () => {
     <div>
       <h1>eSIM Installation</h1>
       <p>Device: {esimInfo.deviceName}</p>
+      <p>useragernt: {esimInfo.userAgent}</p>
       {esimInfo.isSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
