@@ -62,7 +62,7 @@ const detectEsimSupport = () => {
         'iPhone 11/11 Pro/11 Pro Max', 'iPhone 12/12 mini/12 Pro/12 Pro Max',
         'iPhone 13/13 mini/13 Pro/13 Pro Max','iPhone SE (2nd generation)',
         'iPhone 14/14 Plus/14 Pro/14 Pro Max','iPhone 15/15 Plus/15 Pro/15 Pro Max',
-        'iPhone XS/XS Max/XR','iPhone 8 Plus'
+        'iPhone XS/XS Max/XR'
       ].includes(deviceName),
       deviceName
     };
