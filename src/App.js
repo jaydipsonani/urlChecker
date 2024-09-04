@@ -10,7 +10,7 @@ function App() {
     <div className="App">
         <URLChecker />
         <InstallESimPage />
-        {/* <DeviceNameDisplay /> */}
+        <DeviceNameDisplay />
     </div>
   );
 }
