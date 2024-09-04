@@ -2,45 +2,46 @@ import React, { useState, useEffect } from 'react';
 
 // Device detection function
 const getDeviceName = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-  // iPhone models
-  const iPhoneModels = {
-    'iPhone14,2': 'iPhone 13 Pro',
-    'iPhone10,6': 'iPhone X',
-    'iPhone10,5': 'iPhone 8 Plus',
-    // Add more iPhone mappings here
-  };
-
-  for (const model in iPhoneModels) {
-    if (userAgent.includes(model)) {
-      return iPhoneModels[model];
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  
+    console.log("User Agent:", userAgent); // Debugging: Print user agent to console
+  
+    // iPhone models
+    const iPhoneModels = {
+      'iPhone14,2': 'iPhone 13 Pro',
+      'iPhone10,6': 'iPhone X',
+      'iPhone10,5': 'iPhone 8 Plus',
+      // Add more iPhone mappings here
+    };
+  
+    for (const model in iPhoneModels) {
+      if (userAgent.includes(model)) {
+        return iPhoneModels[model];
+      }
     }
-  }
-
-  // Android models
-  const androidModels = {
-    'Pixel 4': 'Google Pixel 4',
-    'SM-G991B': 'Samsung Galaxy S21',
-    'RMX1851': 'Realme 3 Pro',  // Added Realme 3 Pro
-    // Add more Android mappings here
-  };
-
-  for (const model in androidModels) {
-    if (userAgent.includes(model)) {
-      return androidModels[model];
+  
+    // Android models
+    const androidModels = {
+      'RMX1851': 'Realme 3 Pro',  // Realme 3 Pro model number
+      // Add more Android mappings here
+    };
+  
+    for (const model in androidModels) {
+      if (userAgent.includes(model)) {
+        return androidModels[model];
+      }
     }
-  }
-
-  // Fallbacks
-  if (/iPhone/.test(userAgent)) return 'iPhone';
-  if (/Android/.test(userAgent)) return 'Android Device';
-  if (/iPad/.test(userAgent)) return 'iPad';
-  if (/Windows/.test(userAgent)) return 'Windows PC';
-  if (/Mac/.test(userAgent)) return 'Macintosh';
-
-  return 'Unknown Device';
-};
+  
+    // Fallbacks
+    if (/iPhone/.test(userAgent)) return 'iPhone';
+    if (/Android/.test(userAgent)) return 'Android Device';
+    if (/iPad/.test(userAgent)) return 'iPad';
+    if (/Windows/.test(userAgent)) return 'Windows PC';
+    if (/Mac/.test(userAgent)) return 'Macintosh';
+  
+    return 'Unknown Device';
+  };
+  
 
 const DeviceNameDisplay = () => {
   const [deviceName, setDeviceName] = useState('Unknown Device');
