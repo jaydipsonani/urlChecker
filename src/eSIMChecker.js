@@ -81,7 +81,7 @@ const InstallESimPage = () => {
     <div>
       <h1>eSIM Installation</h1>
       <p>Device: {esimInfo.deviceName}</p>
-      <p>useragernt: {esimInfo.userAgent}</p>
+      <p>useragernt:</p>
        {esimInfo.isSupported ? (
         <>
       <p>userAgent:{esimInfo.userAgent}</p>
