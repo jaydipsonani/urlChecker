@@ -75,6 +75,7 @@ const InstallESimPage = () => {
     <div>
       <h1>eSIM Installation</h1>
       <p>Device: {esimInfo.deviceName}</p>
+<p>userager: {userAgent}</p>
       {esimInfo.isSupported ? (
         <button onClick={redirectToEsimSetup}>Install eSIM</button>
       ) : (
