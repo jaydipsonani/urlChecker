@@ -41,11 +41,6 @@ const URLChecker = () => {
   const smdpAddress = "consumer.e-sim.global";
   const activationToken = "TN2024032517501135006332";
 
-  // useEffect(() => {
-  //   // Example usage
-  //   installESimProfile(smdpAddress, activationToken);
-  // }, []);
-
   const detectPlatform = () => {
     if (navigator.userAgent.match(/Android/i)) {
       return "Android";
@@ -60,6 +55,7 @@ const URLChecker = () => {
     let url = "";
 
     const platform = detectPlatform();
+
     console.log("platform", platform);
     if (platform === "Android") {
       url = `LPA:1$${smdpAddress}$${activationToken}`;
@@ -70,13 +66,12 @@ const URLChecker = () => {
       return;
     }
     console.log("URL: ", url);
-    //  Open URL
-    // window.location.href = url;
     window.open(url, "_blank");
   };
 
   return (
     <div>
+      
       <input
         type="text"
         value={url}
@@ -97,7 +92,7 @@ const URLChecker = () => {
       >
         Redirect URL
       </button>
-
+    
       <button
         style={{ cursor: "pointer", height: "27px", marginLeft: "10px" }}
         onClick={installESimProfile}

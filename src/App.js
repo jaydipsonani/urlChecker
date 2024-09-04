@@ -1,4 +1,5 @@
 import './App.css';
+import DeviceNameDisplay from './devicenameDisplay';
 import InstallESimPage from './eSIMChecker';
 
 
@@ -9,6 +10,7 @@ function App() {
     <div className="App">
         <URLChecker />
         <InstallESimPage />
+        <DeviceNameDisplay />
     </div>
   );
 }
