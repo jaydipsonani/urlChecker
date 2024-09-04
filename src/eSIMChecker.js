@@ -33,7 +33,7 @@ const detectEsimSupport = () => {
   if (/iPhone|iPad|iPod/i.test(userAgent)) {
     const { model, iosVersion } = getIosDeviceInfo();
     return {
-      isSupported: iosVersion !== null && iosVersion <= 14,
+      isSupported: iosVersion !== null && iosVersion <= 16,
       deviceName: model
     };
   }
