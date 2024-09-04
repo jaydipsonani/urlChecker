@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import DeviceDetector from 'device-detector-js';
 
-// Device detection function using device-detector-js
+// Simplified device detection function
 const getDeviceName = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const detector = new DeviceDetector();
-  const device = detector.detect(userAgent);
 
-  if (device.device) {
-    return `${device.device.model} (${device.device.vendor})`;
-  } else if (device.os) {
-    return `${device.os.name} Device`;
-  } else if (device.browser) {
-    return `${device.browser.name} Browser`;
-  }
-
-  // Fallbacks
+  // Device detection based on user agent and screen size
+  if (/RMX1851/.test(userAgent)) return 'Realme 3 Pro';
   if (/iPhone/.test(userAgent)) return 'iPhone';
+  if (/Android/.test(userAgent) && /Pixel/.test(userAgent)) return 'Google Pixel Device';
   if (/Android/.test(userAgent)) return 'Android Device';
   if (/iPad/.test(userAgent)) return 'iPad';
   if (/Windows/.test(userAgent)) return 'Windows PC';
