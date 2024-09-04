@@ -1,36 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import UAParser from 'ua-parser-js';
 
-// Device detection function using ua-parser-js
+// Enhanced device detection function
 const getDeviceName = () => {
-  const parser = new UAParser();
-  const result = parser.getResult();
-  
-  // Extract device information
-  const deviceModel = result.device.model;
-  const deviceType = result.device.type;
-  const osName = result.os.name;
-  
-  // Provide a fallback for Realme 3 Pro
-  if (/Realme 3 Pro/.test(deviceModel)) {
-    return 'Realme 3 Pro';
-  }
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
 
-  // Use other detection logic or fallbacks
-  if (deviceType === 'mobile') {
-    if (osName === 'iOS') {
-      return 'iPhone';
-    }
-    if (osName === 'Android') {
-      return 'Android Device';
-    }
-  } else if (deviceType === 'tablet') {
-    return 'Tablet';
-  } else if (osName === 'Windows') {
-    return 'Windows PC';
-  } else if (osName === 'Mac OS') {
-    return 'Macintosh';
+  // Device detection logic based on user agent and screen size
+  if (/Realme 3 Pro/.test(userAgent)) return 'Realme 3 Pro';
+  if (/iPhone/.test(userAgent)) return 'iPhone';
+  if (/Pixel/.test(userAgent)) return 'Google Pixel Device';
+  if (/Android/.test(userAgent)) {
+    // Additional checks for common Android devices
+    if (screenWidth === 1080 && screenHeight === 2340) return 'Realme 3 Pro'; // Example for Realme 3 Pro
+    return 'Android Device';
   }
+  if (/iPad/.test(userAgent)) return 'iPad';
+  if (/Windows/.test(userAgent)) return 'Windows PC';
+  if (/Mac/.test(userAgent)) return 'Macintosh';
 
   return 'Unknown Device';
 };
