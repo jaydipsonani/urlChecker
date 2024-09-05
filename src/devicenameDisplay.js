@@ -1,51 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import DeviceDetector from 'device-detector-js';
 
-// Helper function for manual detection
 const getDeviceModelManually = (userAgent) => {
   const ua = userAgent.toLowerCase();
-  console.log("Testing User-Agent:", ua); // Debug log
+  console.log("Testing User-Agent:", ua);
 
   if (/pixel 3/.test(ua)) {
-    console.log("Matched Pixel 3"); // Debug log
+    console.log("Matched Pixel 3");
     return 'Google Pixel 3';
   }
   if (/pixel 4/.test(ua)) {
-    console.log("Matched Pixel 4"); // Debug log
+    console.log("Matched Pixel 4");
     return 'Google Pixel 4';
   }
   if (/iphone.*os 13/.test(ua)) {
-    console.log("Matched iPhone 8"); // Debug log
+    console.log("Matched iPhone 8");
     return 'iPhone 8';
   }
   if (/realme 3 pro/.test(ua)) {
-    console.log("Matched Realme 3 Pro"); // Debug log
+    console.log("Matched Realme 3 Pro");
     return 'Realme 3 Pro';
   }
   if (/samsung galaxy s21/.test(ua)) {
-    console.log("Matched Samsung Galaxy S21"); // Debug log
+    console.log("Matched Samsung Galaxy S21");
     return 'Samsung Galaxy S21';
   }
   if (/iphone.*os 14/.test(ua)) {
-    console.log("Matched iPhone 12"); // Debug log
+    console.log("Matched iPhone 12");
     return 'iPhone 12';
   }
-
-  // Adding general patterns for known devices
   if (/android/.test(ua)) {
-    console.log("Matched Android Device"); // Debug log
+    console.log("Matched Android Device");
     return 'Android Device';
   }
   if (/iphone/.test(ua)) {
-    console.log("Matched iPhone Device"); // Debug log
+    console.log("Matched iPhone Device");
     return 'iPhone Device';
   }
   if (/windows nt/.test(ua)) {
-    console.log("Matched Windows Device"); // Debug log
+    console.log("Matched Windows Device");
     return 'Windows Device';
   }
   if (/macintosh/.test(ua)) {
-    console.log("Matched Mac Device"); // Debug log
+    console.log("Matched Mac Device");
     return 'Mac Device';
   }
 
@@ -65,7 +62,6 @@ const DeviceInfo = () => {
       const deviceData = deviceDetector.parse(userAgent);
       console.log("Parsed Device Data:", deviceData);
 
-      // Fallback to manual detection if deviceData is incomplete
       const model = deviceData.device?.model || getDeviceModelManually(userAgent);
 
       setDeviceInfo({
