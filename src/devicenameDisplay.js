@@ -22,6 +22,32 @@ const getDeviceModelManually = (userAgent) => {
     console.log("Matched Realme 3 Pro"); // Debug log
     return 'Realme 3 Pro';
   }
+  if (/samsung galaxy s21/.test(ua)) {
+    console.log("Matched Samsung Galaxy S21"); // Debug log
+    return 'Samsung Galaxy S21';
+  }
+  if (/iphone.*os 14/.test(ua)) {
+    console.log("Matched iPhone 12"); // Debug log
+    return 'iPhone 12';
+  }
+
+  // Adding general patterns for known devices
+  if (/android/.test(ua)) {
+    console.log("Matched Android Device"); // Debug log
+    return 'Android Device';
+  }
+  if (/iphone/.test(ua)) {
+    console.log("Matched iPhone Device"); // Debug log
+    return 'iPhone Device';
+  }
+  if (/windows nt/.test(ua)) {
+    console.log("Matched Windows Device"); // Debug log
+    return 'Windows Device';
+  }
+  if (/macintosh/.test(ua)) {
+    console.log("Matched Mac Device"); // Debug log
+    return 'Mac Device';
+  }
 
   return 'Unknown Device';
 };
@@ -39,6 +65,7 @@ const DeviceInfo = () => {
       const deviceData = deviceDetector.parse(userAgent);
       console.log("Parsed Device Data:", deviceData);
 
+      // Fallback to manual detection if deviceData is incomplete
       const model = deviceData.device?.model || getDeviceModelManually(userAgent);
 
       setDeviceInfo({
