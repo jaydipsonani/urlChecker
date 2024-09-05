@@ -11,11 +11,23 @@ const getDeviceModelManually = (userAgent) => {
   if (/pixel 4/.test(ua)) {
     return 'Google Pixel 4';
   }
-  if (/iphone/.test(ua) && /iphone os 13/.test(ua)) {
+  if (/iphone.*os 13/.test(ua)) {
     return 'iPhone 8';
   }
   if (/rmx1851/.test(ua)) {
     return 'Realme 3 Pro';
+  }
+  if (/samsung galaxy s10/.test(ua)) {
+    return 'Samsung Galaxy S10';
+  }
+  if (/samsung galaxy s20/.test(ua)) {
+    return 'Samsung Galaxy S20';
+  }
+  if (/oneplus 8/.test(ua)) {
+    return 'OnePlus 8';
+  }
+  if (/iphone 12/.test(ua)) {
+    return 'iPhone 12';
   }
   return 'Unknown Device';
 };
