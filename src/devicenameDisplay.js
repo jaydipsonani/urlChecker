@@ -1,49 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import DeviceDetector from 'device-detector-js';
 
+// Helper function for manual detection
 const getDeviceModelManually = (userAgent) => {
   const ua = userAgent.toLowerCase();
-  console.log("Testing User-Agent:", ua);
+  console.log("Testing User-Agent:", ua); // Debug log
 
   if (/pixel 3/.test(ua)) {
-    console.log("Matched Pixel 3");
+    console.log("Matched Pixel 3"); // Debug log
     return 'Google Pixel 3';
   }
   if (/pixel 4/.test(ua)) {
-    console.log("Matched Pixel 4");
+    console.log("Matched Pixel 4"); // Debug log
     return 'Google Pixel 4';
   }
   if (/iphone.*os 13/.test(ua)) {
-    console.log("Matched iPhone 8");
+    console.log("Matched iPhone 8"); // Debug log
     return 'iPhone 8';
   }
   if (/realme 3 pro/.test(ua)) {
-    console.log("Matched Realme 3 Pro");
+    console.log("Matched Realme 3 Pro"); // Debug log
     return 'Realme 3 Pro';
-  }
-  if (/samsung galaxy s21/.test(ua)) {
-    console.log("Matched Samsung Galaxy S21");
-    return 'Samsung Galaxy S21';
-  }
-  if (/iphone.*os 14/.test(ua)) {
-    console.log("Matched iPhone 12");
-    return 'iPhone 12';
-  }
-  if (/android/.test(ua)) {
-    console.log("Matched Android Device");
-    return 'Android Device';
-  }
-  if (/iphone/.test(ua)) {
-    console.log("Matched iPhone Device");
-    return 'iPhone Device';
-  }
-  if (/windows nt/.test(ua)) {
-    console.log("Matched Windows Device");
-    return 'Windows Device';
-  }
-  if (/macintosh/.test(ua)) {
-    console.log("Matched Mac Device");
-    return 'Mac Device';
   }
 
   return 'Unknown Device';
