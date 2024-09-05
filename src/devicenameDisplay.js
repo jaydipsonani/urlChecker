@@ -37,12 +37,12 @@ const DeviceInfo = () => {
       console.log("Parsed Device Data:", deviceData);
 
       // Fallback to manual detection if model is not detected
-      const model = deviceData.device.model || getDeviceModelManually(userAgent);
+      // const model = deviceData.device.model || getDeviceModelManually(userAgent);
 
       setDeviceInfo({
         type: deviceData.device.type || 'Unknown',
         brand: deviceData.device.brand || 'Unknown',
-        model: model,
+        model: deviceData.device.model || 'Unknown',
         os: deviceData.os.name || 'Unknown',
         browser: deviceData.client.name || 'Unknown',
       });
