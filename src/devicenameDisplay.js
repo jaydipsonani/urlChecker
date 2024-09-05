@@ -2,9 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-// Device detection logic
+// Enhanced device detection logic
 const getDeviceModel = () => {
   const userAgent = navigator.userAgent;
+
+  // Debugging information
+  console.log('User Agent:', userAgent);
 
   // Device detection patterns
   const devices = {
