@@ -71,7 +71,6 @@ const URLChecker = () => {
 
   return (
     <div>
-      
       <input
         type="text"
         value={url}
