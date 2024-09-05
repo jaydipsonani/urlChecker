@@ -16,7 +16,7 @@ const getDeviceModelManually = (userAgent) => {
   if (/iphone/.test(ua) && /iphone os 13/.test(ua)) {
     return 'iPhone 8';
   }
-  if (/rmx1851/.test(ua)) {
+  if (/RMX1851/.test(ua)) {
     return 'Realme 3 Pro';
   }
   return 'Unknown Device';
