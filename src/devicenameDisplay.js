@@ -15,7 +15,6 @@ const getDeviceModelManually = (userAgent) => {
   if (/RMX1851/.test(userAgent)) {
     return 'Realme 3 Pro';
   }
-  // Add more device mappings as needed...
   return 'Unknown Device';
 };
 
@@ -29,7 +28,7 @@ const DeviceInfo = () => {
     // Try detecting device using device-detector-js
     const deviceData = deviceDetector.parse(userAgent);
 
-    // If the model is not detected, fallback to manual detection
+    // Fallback to manual detection if needed
     const model = deviceData.device.model || getDeviceModelManually(userAgent);
 
     setDeviceInfo({
@@ -49,6 +48,13 @@ const DeviceInfo = () => {
       <p>Model: {deviceInfo.model}</p>
       <p>OS: {deviceInfo.os}</p>
       <p>Browser: {deviceInfo.browser}</p>
+
+      {/* Show the install button if the device type is a smartphone */}
+      {deviceInfo.type === 'smartphone' ? (
+        <button>Install eSIM</button>
+      ) : (
+        <p>Does not support eSIM</p>
+      )}
     </div>
   );
 };
