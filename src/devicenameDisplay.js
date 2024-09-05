@@ -1,20 +1,54 @@
+import React, { useState, useEffect } from 'react';
 import DeviceDetector from 'device-detector-js';
 
-const DeviceInfo = () => {
-  const deviceDetector = new DeviceDetector();
-  const userAgent = navigator.userAgent; // Get the user agent from the browser
-  const device = deviceDetector.parse(userAgent);
+// Helper function for manual detection
+const getDeviceModelManually = (userAgent) => {
+  if (/Pixel 3/.test(userAgent)) {
+    return 'Google Pixel 3';
+  }
+  if (/Pixel 4/.test(userAgent)) {
+    return 'Google Pixel 4';
+  }
+  if (/iPhone/.test(userAgent) && /iPhone OS 13/.test(userAgent)) {
+    return 'iPhone 8';
+  }
+  if (/RMX1851/.test(userAgent)) {
+    return 'Realme 3 Pro';
+  }
+  // Add more device mappings as needed...
+  return 'Unknown Device';
+};
 
-  console.log(device);
+const DeviceInfo = () => {
+  const [deviceInfo, setDeviceInfo] = useState({});
+
+  useEffect(() => {
+    const deviceDetector = new DeviceDetector();
+    const userAgent = navigator.userAgent;
+
+    // Try detecting device using device-detector-js
+    const deviceData = deviceDetector.parse(userAgent);
+
+    // If the model is not detected, fallback to manual detection
+    const model = deviceData.device.model || getDeviceModelManually(userAgent);
+
+    setDeviceInfo({
+      type: deviceData.device.type || 'Unknown',
+      brand: deviceData.device.brand || 'Unknown',
+      model: model,
+      os: deviceData.os.name || 'Unknown',
+      browser: deviceData.client.name || 'Unknown',
+    });
+  }, []);
 
   return (
     <div>
       <h1>Device Information</h1>
-      <p>Type: {device.device.type}</p>
-      <p>Brand: {device.device.brand}</p>
-      <p>Model: {device.device.model}</p>
-      <p>OS: {device.os.name}</p>
-      <p>Browser: {device.client.name}</p>
+      <p>Type: {deviceInfo.type}</p>
+      <p>Brand: {deviceInfo.brand}</p>
+      <p>Model: {deviceInfo.model}</p>
+      <p>OS: {deviceInfo.os}</p>
+      <p>Browser: {deviceInfo.browser}</p>
     </div>
   );
 };
