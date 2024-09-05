@@ -5,6 +5,7 @@ import DeviceDetector from 'device-detector-js';
 const getDeviceModelManually = (userAgent) => {
   const ua = userAgent.toLowerCase();
 
+  // Add or update patterns based on real user-agent strings
   if (/pixel 3/.test(ua)) {
     return 'Google Pixel 3';
   }
@@ -17,18 +18,7 @@ const getDeviceModelManually = (userAgent) => {
   if (/rmx1851/.test(ua)) {
     return 'Realme 3 Pro';
   }
-  if (/samsung galaxy s10/.test(ua)) {
-    return 'Samsung Galaxy S10';
-  }
-  if (/samsung galaxy s20/.test(ua)) {
-    return 'Samsung Galaxy S20';
-  }
-  if (/oneplus 8/.test(ua)) {
-    return 'OnePlus 8';
-  }
-  if (/iphone 12/.test(ua)) {
-    return 'iPhone 12';
-  }
+  // Add more device patterns as needed
   return 'Unknown Device';
 };
 
@@ -40,21 +30,21 @@ const DeviceInfo = () => {
       const deviceDetector = new DeviceDetector();
       const userAgent = navigator.userAgent || '';
 
-      // Log userAgent and device data for debugging
+      // Log user-agent and device data for debugging
       console.log("User-Agent:", userAgent);
 
       const deviceData = deviceDetector.parse(userAgent);
       console.log("Parsed Device Data:", deviceData);
 
       // Fallback to manual detection if model is not detected
-      const model = deviceData.device.model || getDeviceModelManually(userAgent);
+      const model = deviceData.device?.model || getDeviceModelManually(userAgent);
 
       setDeviceInfo({
-        type: deviceData.device.type || 'Unknown',
-        brand: deviceData.device.brand || 'Unknown',
+        type: deviceData.device?.type || 'Unknown',
+        brand: deviceData.device?.brand || 'Unknown',
         model: model,
-        os: deviceData.os.name || 'Unknown',
-        browser: deviceData.client.name || 'Unknown',
+        os: deviceData.os?.name || 'Unknown',
+        browser: deviceData.client?.name || 'Unknown',
         userAgent: userAgent, // Adding userAgent to display for debugging
       });
     } catch (error) {
