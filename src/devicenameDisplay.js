@@ -3,8 +3,6 @@ import DeviceDetector from 'device-detector-js';
 
 // Helper function for manual detection
 const getDeviceModelManually = (userAgent) => {
-  // if (!userAgent) return 'Unknown Device';
-
   const ua = userAgent.toLowerCase();
 
   if (/pixel 3/.test(ua)) {
@@ -16,7 +14,7 @@ const getDeviceModelManually = (userAgent) => {
   if (/iphone/.test(ua) && /iphone os 13/.test(ua)) {
     return 'iPhone 8';
   }
-  if (/RMX1851/.test(ua)) {
+  if (/rmx1851/.test(ua)) {
     return 'Realme 3 Pro';
   }
   return 'Unknown Device';
@@ -37,14 +35,15 @@ const DeviceInfo = () => {
       console.log("Parsed Device Data:", deviceData);
 
       // Fallback to manual detection if model is not detected
-      // const model = deviceData.device.model || getDeviceModelManually(userAgent);
+      const model = deviceData.device.model || getDeviceModelManually(userAgent);
 
       setDeviceInfo({
         type: deviceData.device.type || 'Unknown',
         brand: deviceData.device.brand || 'Unknown',
-        model: deviceData.device.model || 'Unknown',
+        model: model,
         os: deviceData.os.name || 'Unknown',
         browser: deviceData.client.name || 'Unknown',
+        userAgent: userAgent, // Adding userAgent to display for debugging
       });
     } catch (error) {
       console.error("Error detecting device information:", error);
@@ -54,6 +53,7 @@ const DeviceInfo = () => {
         model: 'Unknown Device',
         os: 'Unknown',
         browser: 'Unknown',
+        userAgent: navigator.userAgent || 'Unknown',
       });
     }
   }, []);
