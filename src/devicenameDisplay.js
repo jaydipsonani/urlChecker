@@ -3,7 +3,7 @@ import DeviceDetector from 'device-detector-js';
 
 // Helper function for manual detection
 const getDeviceModelManually = (userAgent) => {
-  if (!userAgent) return 'Unknown Device';
+  // if (!userAgent) return 'Unknown Device';
 
   const ua = userAgent.toLowerCase();
 
