@@ -5,7 +5,6 @@ import DeviceDetector from 'device-detector-js';
 const getDeviceModelManually = (userAgent) => {
   const ua = userAgent.toLowerCase();
 
-  // Add or update patterns based on real user-agent strings
   if (/pixel 3/.test(ua)) {
     return 'Google Pixel 3';
   }
@@ -15,10 +14,10 @@ const getDeviceModelManually = (userAgent) => {
   if (/iphone.*os 13/.test(ua)) {
     return 'iPhone 8';
   }
-  if (/rmx1851/.test(ua)) {
+  if (/realme 3 pro/.test(ua)) {  // Added this pattern to check for Realme 3 Pro
     return 'Realme 3 Pro';
   }
-  // Add more device patterns as needed
+  // Add more patterns based on actual user-agent strings
   return 'Unknown Device';
 };
 
@@ -70,7 +69,6 @@ const DeviceInfo = () => {
       <p>Browser: {deviceInfo.browser}</p>
       <p>UserAgent: {deviceInfo.userAgent}</p>
 
-      {/* Show the install button if the device type is a smartphone */}
       {(deviceInfo.type?.toLowerCase() === 'smartphone') ? (
         <button>Install eSIM</button>
       ) : (
