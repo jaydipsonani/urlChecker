@@ -10,7 +10,6 @@ const DeviceInfo = () => {
       const userAgent = navigator.userAgent || '';
 
       console.log("User-Agent:", userAgent);
-
       const deviceData = deviceDetector.parse(userAgent);
       console.log("Parsed Device Data:", deviceData);
 
